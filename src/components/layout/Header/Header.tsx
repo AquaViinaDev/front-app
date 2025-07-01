@@ -5,7 +5,7 @@ import styles from "./Header.module.scss";
 import { RoutesEnum } from "@/types";
 import { Navbar, NavLink } from "./components/NavBar";
 import Social, { SocialData } from "./components/Social/Social";
-import Local from "./components/Local/Local";
+import Local from "./components/Local";
 
 const navLinks: NavLink[] = [
   { label: "Товары", href: RoutesEnum.Products },
