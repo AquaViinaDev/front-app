@@ -1,0 +1,18 @@
+$mobile-min: 320px;
+$mobile-max: 819px;
+
+$tablet-min: 768px;
+$tablet-max: 1180px;
+
+// mixin
+@mixin mobile {
+  @media (max-width: #{$mobile-max}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}) {
+    @content;
+  }
+}

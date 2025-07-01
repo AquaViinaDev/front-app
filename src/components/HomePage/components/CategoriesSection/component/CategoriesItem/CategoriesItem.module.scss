@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // 👈 обязательно
+  background-color: $bg-white;
+  max-width: 260px;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  flex: 1;
+}
+
+.description {
+  font-size: $font-md;
+  font-weight: $font-sm;
+  line-height: 1.5;
+}
+
+.title {
+  font-size: $font-lg;
+  font-weight: $font-bold;
+  line-height: 1.35;
+}
+
+.button {
+  margin-top: auto;
+}

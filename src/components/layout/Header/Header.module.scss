@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+
+.logo {
+  font-weight: $font-boldMax;
+  font-size: $font-5xl;
+  color: $bg-blue;
+}
+
+.additionalWrapper {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+//.nav {
+//  @include mobile {
+//    display: none;
+//  }
+//
+//  @include tablet {
+//    display: none;
+//  }
+//}

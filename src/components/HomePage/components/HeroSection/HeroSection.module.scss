@@ -1,0 +1,45 @@
+.root {
+  padding: 0 40px 40px;
+}
+
+.wrapper {
+  position: relative;
+  height: 584px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+
+.overlay {
+  position: relative;
+  z-index: 2;
+  color: $text-white;
+  height: 100%;
+  display: flex;
+  gap: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.title {
+  font-size: $font-6xl;
+  font-weight: $font-semi-bold;
+  line-height: 1;
+  max-width: 590px;
+}
+
+.subtitle {
+  margin-top: 16px;
+  font-size: $font-2xl;
+  font-weight: $font-light;
+  line-height: 1.55;
+}

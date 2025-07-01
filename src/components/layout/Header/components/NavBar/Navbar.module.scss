@@ -1,0 +1,11 @@
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: $text-black;
+  font-size: $font-xl;
+  font-weight: $font-regular;
+}
