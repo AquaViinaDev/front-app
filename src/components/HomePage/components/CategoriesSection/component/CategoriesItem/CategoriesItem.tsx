@@ -1,33 +1,30 @@
 "use client";
 
-import { memo } from "react";
+import { memo, ReactNode } from "react";
 
 import styles from "./CategoriesItem.module.scss";
 import Image from "next/image";
-import { Button } from "@/components/common/Button";
 
 export type CategoriesItemType = {
   image: string;
   title: string;
-  subtitle: string;
-  btnText: string;
+  description: string;
 };
 
 export type CategoriesItemProps = {
   categoriesData: CategoriesItemType;
+  children: ReactNode;
 };
 
-const CategoriesItem = memo(({ categoriesData }: CategoriesItemProps) => {
-  const { image, title, subtitle, btnText } = categoriesData;
+const CategoriesItem = memo(({ categoriesData, children }: CategoriesItemProps) => {
+  const { image, title, description } = categoriesData;
   return (
     <div className={styles.root}>
-      <Image src={image} alt={title} width={260} height={286} />
+      <Image src={image} alt={title} width={260} height={286} layout="responsive" />
       <div className={styles.infoBlock}>
         <p className={styles.title}>{title}</p>
-        <p className={styles.description}>{subtitle}</p>
-        <Button className={styles.button} buttonType={"smallButton"}>
-          {btnText}
-        </Button>
+        <p className={styles.description}>{description}</p>
+        {children}
       </div>
     </div>
   );

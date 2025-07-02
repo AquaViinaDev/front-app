@@ -7,6 +7,8 @@ import { Navbar, NavLink } from "./components/NavBar";
 import Social, { SocialData } from "./components/Social/Social";
 import { Local } from "./components/Local";
 import { SearchForm } from "@/components/common/SearchForm";
+import { useState } from "react";
+import Image from "next/image";
 
 const navLinks: NavLink[] = [
   { label: "Товары", href: RoutesEnum.Products },
@@ -21,17 +23,26 @@ const socialLinks: SocialData[] = [
 ];
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
         <Link href={RoutesEnum.Main}>AQUA VIINA</Link>
       </div>
-      <div className={styles.additionalWrapper}>
-        <SearchForm />
-        <Navbar className={styles.nav} links={navLinks} />
-        <Social links={socialLinks} />
+      <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
+        {/*<SearchForm />*/}
+        <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
+        <Social links={socialLinks} onAction={() => setIsOpen(false)} />
         <Local />
       </div>
+      <button
+        className={styles.burger}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Открыть меню"
+      >
+        <Image src={isOpen ? "/close.svg" : "/burger.svg"} alt={"Bureger"} width={30} height={30} />
+      </button>
     </header>
   );
 };

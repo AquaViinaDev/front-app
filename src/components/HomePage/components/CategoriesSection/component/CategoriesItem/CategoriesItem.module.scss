@@ -1,7 +1,9 @@
 .root {
   display: flex;
   flex-direction: column;
-  height: 100%; // 👈 обязательно
+  margin: 0 10px;
+  min-height: 550px;
+  height: 100%;
   background-color: $bg-white;
   max-width: 260px;
 }
@@ -14,18 +16,36 @@
   flex: 1;
 }
 
-.description {
-  font-size: $font-md;
-  font-weight: $font-sm;
-  line-height: 1.5;
-}
-
 .title {
   font-size: $font-lg;
   font-weight: $font-bold;
   line-height: 1.35;
 }
 
-.button {
-  margin-top: auto;
+.description {
+  font-size: $font-md;
+  font-weight: $font-sm;
+  line-height: 1.5;
+}
+@media (max-width: $laptopScreen) {
+  .root {
+    max-width: 220px;
+    min-height: 500px;
+  }
+}
+
+@media (max-width: $mobileScreen) {
+  .root {
+    min-width: 100%;
+    margin: 0;
+  }
+
+  .title {
+    font-size: $font-md;
+  }
+
+  .description {
+    font-size: $font-md;
+    font-weight: $font-light;
+  }
 }

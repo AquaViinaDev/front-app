@@ -1,6 +1,7 @@
 import Image from "next/image";
-import styles from "./HeroSection.module.scss";
 import { Button } from "@/components/common/Button";
+
+import styles from "./HeroSection.module.scss";
 
 const HeroSection = () => {
   return (
@@ -18,7 +19,7 @@ const HeroSection = () => {
           <p className={styles.subtitle}>
             Установка, гарантия, вечное обслуживание по лучшей цене.
           </p>
-          <Button onClick={() => console.log("Бесплатная консультация")}>
+          <Button className={styles.button} onClick={() => console.log("Бесплатная консультация")}>
             Бесплатная консультация
           </Button>
         </div>

@@ -15,13 +15,14 @@ export type SocialData = {
 type SocialProps = {
   links: SocialData[];
   className?: string;
+  onAction?: () => void;
 };
 
-const Social = memo(({ links, className }: SocialProps) => {
+const Social = memo(({ links, className, onAction }: SocialProps) => {
   return (
     <nav className={classNames(className, styles.nav)}>
       {links.map(({ image, label, href }) => (
-        <Link key={label} href={href}>
+        <Link key={label} href={href} onClick={() => (onAction ? onAction() : null)}>
           <Image src={image} alt={"label"} width={30} height={30} />
         </Link>
       ))}

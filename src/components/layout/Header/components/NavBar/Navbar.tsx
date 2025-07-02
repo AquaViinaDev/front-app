@@ -13,13 +13,14 @@ export type NavLink = {
 type NavbarProps = {
   links: NavLink[];
   className?: string;
+  onAction?: () => void;
 };
 
-const Navbar = memo(({ links, className }: NavbarProps) => {
+const Navbar = memo(({ links, onAction, className }: NavbarProps) => {
   return (
     <nav className={classNames(className, styles.nav)}>
       {links.map(({ label, href }) => (
-        <Link key={href} href={href}>
+        <Link key={href} href={href} onClick={() => (onAction ? onAction() : null)}>
           {label}
         </Link>
       ))}
