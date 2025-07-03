@@ -45,6 +45,10 @@
 }
 
 @media (max-width: $mobileScreen) {
+  .root {
+    padding: 10px 10px 40px;
+  }
+
   .title {
     font-size: 30px;
   }
