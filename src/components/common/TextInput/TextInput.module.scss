@@ -1,0 +1,19 @@
+.wrapper {
+  flex: 1 1 250px;
+}
+
+.container {
+  width: 100%;
+}
+
+.input {
+  width: 100% !important;
+  border-radius: 9999px;
+  padding: 1rem !important;
+  font-size: 1rem;
+  border: none;
+}
+
+.button {
+  border-radius: 9999px 0 0 9999px;
+}
