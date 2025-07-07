@@ -1,8 +1,23 @@
 .root {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 615px;
+}
+
+.stepNumber {
+  display: flex;
   align-items: center;
-  gap: 30px;
+  justify-content: center;
+  color: #1f5bff;
+  border: 2px solid #1f5bff;
+  min-width: 45px;
+  min-height: 45px;
+  background-color: #fff;
+  border-radius: 50%;
+  font-size: $font-2xl;
+  font-weight: $font-semi-bold;
 }
 
 .content {
@@ -10,4 +25,15 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
+}
+
+.title {
+  font-size: $font-xl;
+  font-weight: $font-semi-bold;
+}
+
+.description {
+  font-size: $font-lg;
+  font-weight: $font-light;
+  line-height: 1.55;
 }

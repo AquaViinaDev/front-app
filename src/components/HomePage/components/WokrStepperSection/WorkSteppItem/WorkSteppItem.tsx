@@ -14,7 +14,7 @@ const WorkSteppItem = memo(({ children, stepNumber, description }: WorkSteppItem
     <li className={styles.root}>
       <div className={styles.stepNumber}>{stepNumber}</div>
       <div className={styles.content}>
-        {children}
+        <p className={styles.title}>{children}</p>
         <p className={styles.description}>{description}</p>
       </div>
     </li>
