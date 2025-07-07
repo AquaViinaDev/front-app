@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.button {
+  width: 100%;
+}
+
+@media (max-width: $tabletScreen) {
+  .form {
+    flex-direction: column;
+  }
+}

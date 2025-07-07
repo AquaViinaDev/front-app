@@ -1,3 +1,3 @@
-import WorkStepperSection from "./WorkStepperSection";
+import CommunicationSection from "./CommunicationSection";
 
-export { WorkStepperSection };
+export { CommunicationSection };
