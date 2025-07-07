@@ -3,7 +3,7 @@
 import {
   HeroSection,
   CategoriesSection,
-  // WorkStepperSection,
+  WorkStepperSection,
   CommunicationSection,
 } from "./components";
 
@@ -14,7 +14,7 @@ const HomePage = () => {
     <div className={styles.root}>
       <HeroSection />
       <CategoriesSection />
-      {/*<WorkStepperSection />*/}
+      <WorkStepperSection />
       <CommunicationSection />
     </div>
   );
