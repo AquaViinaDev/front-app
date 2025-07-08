@@ -6,7 +6,7 @@ import styles from "./WorkStepperSection.module.scss";
 
 const WorkStepperSection = () => {
   return (
-    <div className={styles.root}>
+    <section className={styles.root}>
       <div className={styles.descriptionWrapper}>
         <h3 className={styles.title}>🔧 Как мы работаем</h3>
         <h4 className={styles.subtitle}>5 простых шагов</h4>
@@ -18,7 +18,7 @@ const WorkStepperSection = () => {
             "Указываете только имя и номер телефона — заявка занимает не больше 15 секунд."
           }
         >
-          <p>📩 Оставляете заявку ниже</p>
+          📩 Оставляете заявку ниже
         </WorkSteppItem>
         <WorkSteppItem
           stepNumber={2}
@@ -51,7 +51,7 @@ const WorkStepperSection = () => {
           🔁 Напоминаем и обслуживаем
         </WorkSteppItem>
       </ul>
-    </div>
+    </section>
   );
 };
 

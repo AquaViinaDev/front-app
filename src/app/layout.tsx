@@ -2,7 +2,7 @@ import React from "react";
 import "./globals.css";
 import { Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/Header";
-// import { Footer } from "@/components/layout/Footer";
+import { Footer } from "@/components/layout/Footer";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Header />
         <main>{children}</main>
-        {/*<Footer />*/}
+        <Footer />
       </body>
     </html>
   );

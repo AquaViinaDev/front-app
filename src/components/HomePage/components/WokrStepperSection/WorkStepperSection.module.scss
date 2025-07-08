@@ -4,7 +4,7 @@
   justify-content: center;
   gap: 90px;
   align-items: center;
-  padding: 150px 0;
+  padding: 150px 10px;
 }
 
 .descriptionWrapper {
@@ -30,4 +30,23 @@
   flex-direction: column;
   justify-content: center;
   gap: 50px;
+}
+
+@media (max-width: $mobileScreen) {
+  .root {
+    padding: 80px 10px;
+    gap: 50px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .subtitle {
+    font-size: $font-2xl;
+  }
+
+  .stepWrapper {
+    gap: 30px;
+  }
 }

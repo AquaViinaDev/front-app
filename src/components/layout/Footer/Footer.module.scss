@@ -1,5 +1,47 @@
-.footer {
-  padding: 10px;
-  text-align: center;
-  border-top: 1px solid #ccc;
+.root {
+  background-color: #1f1f1f;
+  padding: 40px 20px;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-size: $font-md;
+  font-weight: $font-semi-bold;
+  text-transform: uppercase;
+  color: #525252;
+  margin-bottom: 8px;
+}
+
+.link {
+  font-size: $font-sm;
+  color: $text-white;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+@media (max-width: $mobileScreen) {
+  .title {
+    font-size: $font-sm;
+  }
+
+  .wrapper {
+    gap: 20px;
+  }
+
+  .column {
+    gap: 7px;
+  }
 }
