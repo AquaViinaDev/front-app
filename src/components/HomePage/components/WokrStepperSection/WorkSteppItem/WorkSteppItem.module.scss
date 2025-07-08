@@ -30,12 +30,14 @@
 .title {
   font-size: $font-xl;
   font-weight: $font-semi-bold;
+  color: $text-black;
 }
 
 .description {
   font-size: $font-lg;
   font-weight: $font-light;
   line-height: 1.55;
+  color: $text-black;
 }
 
 @media (max-width: $mobileScreen) {

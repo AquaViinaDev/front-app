@@ -5,8 +5,8 @@ import { PhoneInput, TextInput, Button } from "@/components/common";
 import { useCallback, useState } from "react";
 
 const CommunicationForm = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState<string | null>("");
+  const [phone, setPhone] = useState<string | null>("");
 
   const handleNameChange = useCallback((value: string | null) => {
     setName(value ?? "");
@@ -21,8 +21,10 @@ const CommunicationForm = () => {
       className={styles.form}
       onSubmit={(e) => {
         e.preventDefault();
-        if (phone.length <= 10) return;
+        if (phone && phone.length <= 10) return;
         console.log({ name: name, phone: phone });
+        setName(null);
+        setPhone(null);
       }}
     >
       <TextInput required value={name} onChange={handleNameChange} />

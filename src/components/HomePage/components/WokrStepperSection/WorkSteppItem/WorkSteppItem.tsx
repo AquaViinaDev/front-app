@@ -1,7 +1,8 @@
 "use client";
 
-import styles from "./WorkSteppItem.module.scss";
 import React, { memo, ReactNode } from "react";
+
+import styles from "./WorkSteppItem.module.scss";
 
 export type WorkSteppItem = {
   stepNumber: number;

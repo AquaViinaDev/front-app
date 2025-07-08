@@ -27,7 +27,7 @@ const PhoneInput = memo(({ value, onChange, ...props }: PhoneInputProps) => {
   return (
     <BasePhoneInput
       country="md"
-      value={value || ""}
+      value={value || "+373"}
       onChange={wrappedOnChange}
       inputProps={{
         name: "phone",
