@@ -1,8 +1,9 @@
 import { CategoriesList } from "./component/CategoriesList";
 import { CategoriesItem } from "./component/CategoriesItem";
-import { Button } from "@/components/common/Button";
+import { Button, CustomLink } from "@/components/common";
 
 import styles from "./CategoriesSection.module.scss";
+import { RoutesEnum } from "@/types";
 
 const CategoriesSection = () => {
   return (
@@ -19,13 +20,12 @@ const CategoriesSection = () => {
                 "Если пьёте мало воды, часто переезжаете или арендуете жильё. Компактный и недорогой. Требует более частой замены картриджей, но прост в установке и удобен в поездках.",
             }}
           >
-            <Button
-              className={styles.button}
-              buttonType={"smallButton"}
+            <CustomLink
+              className={styles.link}
+              link={RoutesEnum.Products}
+              linkName={"Перейти к кувшинам"}
               onClick={() => console.log("Кувшины")}
-            >
-              Перейти к кувшинам
-            </Button>
+            />
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
@@ -35,13 +35,12 @@ const CategoriesSection = () => {
                 "Подходит для семьи из 2–4 человек. Устанавливается под мойку или прямо на кран. Эффективно очищает воду от основных загрязнений. Хороший выбор по соотношению цены и качества.",
             }}
           >
-            <Button
-              className={styles.button}
-              buttonType={"smallButton"}
-              onClick={() => console.log("Проточный фильтр")}
-            >
-              Перейти к проточным
-            </Button>
+            <CustomLink
+              className={styles.link}
+              link={RoutesEnum.Products}
+              linkName={"Перейти к проточным"}
+              onClick={() => console.log("Перейти к проточны")}
+            />
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
@@ -51,13 +50,12 @@ const CategoriesSection = () => {
                 "Идеален для семей с детьми, аллергиков и всех, кто хочет идеально чистую воду. Удаляет примеси, запахи, тяжёлые металлы и бактерии. Даёт вкусную и безопасную питьевую воду.",
             }}
           >
-            <Button
-              className={styles.button}
-              buttonType={"smallButton"}
-              onClick={() => console.log("Обратный осмос")}
-            >
-              Перейти к осмосам
-            </Button>
+            <CustomLink
+              className={styles.link}
+              link={RoutesEnum.Products}
+              linkName={"Перейти к осмосам"}
+              onClick={() => console.log("Перейти к осмосам")}
+            />
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
@@ -67,13 +65,12 @@ const CategoriesSection = () => {
                 "Устанавливается на входе воды в дом или перед техникой — бойлером, стиральной или посудомоечной машиной. Очищает воду для бытовых нужд, но не предназначен для питья.",
             }}
           >
-            <Button
-              className={styles.button}
-              buttonType={"smallButton"}
-              onClick={() => console.log("Предфильтра")}
-            >
-              Перейти к предфильтрам
-            </Button>
+            <CustomLink
+              className={styles.link}
+              link={RoutesEnum.Products}
+              linkName={"Перейти к предфильтрам"}
+              onClick={() => console.log("Перейти к предфильтрам")}
+            />
           </CategoriesItem>
         </CategoriesList>
       </div>
