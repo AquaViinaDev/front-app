@@ -1,4 +1,4 @@
-import { AboutPage } from "../../components/AboutPage";
+import { AboutPage } from "../../../components/AboutPage";
 
 export const metadata = {
   title: "Aqua Viina About",

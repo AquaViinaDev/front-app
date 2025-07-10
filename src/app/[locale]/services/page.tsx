@@ -1,4 +1,4 @@
-import { ServicesPage } from "../../components/ServicesPage";
+import { ServicesPage } from "../../../components/ServicesPage";
 
 export const metadata = {
   title: "Aqua Viina Consultation",
