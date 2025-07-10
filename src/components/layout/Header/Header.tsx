@@ -10,13 +10,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import styles from "./Header.module.scss";
+import { useLocale, useTranslations } from "use-intl";
+import { getNavLinks } from "@/components/layout/Header/utils";
 
-const navLinks: NavLink[] = [
-  { label: "Товары", href: RoutesEnum.Products },
-  { label: "Услуги", href: RoutesEnum.Services },
-  { label: "Контакты", href: RoutesEnum.Contacts },
-  { label: "О нас", href: RoutesEnum.About },
-];
+// const navLinks: NavLink[] = [
+//   { label: "Товары", href: RoutesEnum.Products },
+//   { label: "Услуги", href: RoutesEnum.Services },
+//   { label: "Контакты", href: RoutesEnum.Contacts },
+//   { label: "О нас", href: RoutesEnum.About },
+// ];
 
 const socialLinks: SocialData[] = [
   { image: "./telegram.svg", label: "Telegram", href: RoutesEnum.Products },
@@ -25,6 +27,9 @@ const socialLinks: SocialData[] = [
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations();
+  const locale = useLocale();
+  const navLinks = getNavLinks(t, locale);
 
   useEffect(() => {
     if (isOpen) {

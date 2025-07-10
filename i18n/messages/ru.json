@@ -1,6 +1,8 @@
 {
   "Header": {
-    "title": "Главная",
-    "products": "Товары"
+    "products": "Товары",
+    "services": "Услуги",
+    "contacts": "Контакты",
+    "about": "О нас"
   }
 }

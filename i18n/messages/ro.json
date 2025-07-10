@@ -1,6 +1,8 @@
 {
   "Header": {
-    "title": "Pagina principală",
-    "products": "Produse"
+    "products": "Produse",
+    "services": "Servicii",
+    "contacts": "Contacte",
+    "about": "Despre noi"
   }
 }
