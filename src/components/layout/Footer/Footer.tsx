@@ -2,26 +2,28 @@
 
 import Link from "next/link";
 import styles from "./Footer.module.scss";
+import { useTranslations } from "use-intl";
 
 const Footer = () => {
+  const t = useTranslations("Footer");
   return (
     <footer className={styles.root}>
       <div className={styles.wrapper}>
         <div className={styles.column}>
-          <div className={styles.title}>ГЛАВНЫЕ СТРАНИЦЫ</div>
+          <div className={styles.title}>{t("advancedPages.title")}</div>
           <Link className={styles.link} href="/">
-            Главная
+            {t("advancedPages.main")}{" "}
           </Link>
           <Link className={styles.link} href="/simple">
-            Простые решения
+            {t("advancedPages.simpleSolutions")}
           </Link>
           <Link className={styles.link} href="/advanced">
-            Продвинутые решения
+            {t("advancedPages.advancedSolutions")}
           </Link>
         </div>
 
         <div className={styles.column}>
-          <div className={styles.title}>ПРОСТЫЕ РЕШЕНИЯ</div>
+          <div className={styles.title}>{t("simpleSolutions.title")}</div>
           <Link className={styles.link} href="/products/dafi-pitchers">
             DAFI (кувшины)
           </Link>
@@ -37,7 +39,7 @@ const Footer = () => {
         </div>
 
         <div className={styles.column}>
-          <div className={styles.title}>ПРОДВИНУТЫЕ РЕШЕНИЯ</div>
+          <div className={styles.title}>{t("advancedSolutions.title")}</div>
           <Link className={styles.link} href="/products/esli-filters">
             ESLI (фильтры)
           </Link>

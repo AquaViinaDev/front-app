@@ -70,6 +70,21 @@
     "description": "Lasă-ne numărul tău de telefon și te vom suna cât mai curând posibil și îți vom spune ce filtru ți se potrivește!",
     "labelInput": "Numele dvs",
     "textButton": "Trimite"
+  },
+
+  "Footer": {
+    "advancedPages": {
+      "title": "Pagini principale",
+      "main": "Acasă",
+      "simpleSolutions": "Soluții simple",
+      "advancedSolutions": "Soluții avansate"
+    },
+    "simpleSolutions": {
+      "title": "Soluții simple"
+    },
+    "advancedSolutions": {
+      "title": "Soluții avansate"
+    }
   }
 
 }
