@@ -2,6 +2,8 @@
 
 import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, memo, useCallback } from "react";
 
+import { useTranslations } from "use-intl";
+
 import styles from "./TextInput.module.scss";
 
 type NativeInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "value">;
@@ -12,6 +14,7 @@ export type TextInputProps = NativeInputProps & {
 };
 
 const TextInput = memo(({ value, onChange, ...props }: TextInputProps) => {
+  const t = useTranslations("CommunicationSection");
   const wrappedOnChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => onChange?.(e?.target?.value || null, e),
     [onChange]
@@ -20,7 +23,7 @@ const TextInput = memo(({ value, onChange, ...props }: TextInputProps) => {
   return (
     <div className={styles.root}>
       <label className={styles.label} htmlFor="textInput">
-        Ваше имя
+        {t("labelInput")}
       </label>
       <input
         type="text"

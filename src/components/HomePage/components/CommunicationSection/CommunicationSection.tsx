@@ -4,9 +4,12 @@ import { forwardRef } from "react";
 import Image from "next/image";
 import { CommunicationForm } from "./CommunicationForm";
 
+import { useTranslations } from "use-intl";
 import styles from "./CommunicationSection.module.scss";
 
 const CommunicationSection = forwardRef<HTMLElement>((_, ref) => {
+  const t = useTranslations("CommunicationSection");
+
   return (
     <section ref={ref} className={styles.root}>
       <Image
@@ -18,11 +21,8 @@ const CommunicationSection = forwardRef<HTMLElement>((_, ref) => {
       />
 
       <div className={styles.content}>
-        <h2 className={styles.title}>Итак, 1 шаг</h2>
-        <p className={styles.subtitle}>
-          Оставь свой номер телефона и мы позвоним в самое короткое время и подскажем какой фильтр
-          подойдет для тебя!
-        </p>
+        <h2 className={styles.title}>{t("title")}</h2>
+        <p className={styles.subtitle}>{t("description")}</p>
         <CommunicationForm />
       </div>
     </section>

@@ -1,8 +1,75 @@
 {
+
   "Header": {
     "products": "Produse",
     "services": "Servicii",
     "contacts": "Contacte",
     "about": "Despre noi"
+  },
+
+  "MainSection": {
+    "title": "Filtre de apă în Moldova",
+    "subtitle": "Instalare, garanție, întreținere pe viață la cel mai bun preț.",
+    "textButton": "Consultație gratuită"
+  },
+
+  "CategoriesSection": {
+    "title": "Ce filtru să alegi?",
+    "subtitle": "Pentru confortul tău, le-am împărțit în 4 categorii.",
+    "items": {
+      "jug":{
+        "name": "Cani filtrante",
+        "description": "Pentru cei care beau puțină apă, se mută frecvent sau închiriază locuințe. Compact și accesibil. Necesită înlocuirea frecventă a cartușului, dar este ușor de folosit și comod în călătorii.",
+        "buttonText": "Vezi canile filtrante"
+      },
+      "flowFilter": {
+        "name": "Filtru de flux",
+        "description": "Potrivit pentru familii de 2–4 persoane. Se instalează sub chiuvetă sau direct pe robinet. Curăță eficient apa de impuritățile principale. O alegere bună din punct de vedere al prețului și calității.",
+        "buttonText": "Vezi filtrele de flux"
+      },
+      "reverseOsmosis": {
+        "name": "Osmosis inversă",
+        "description": "Ideal pentru familii cu copii, persoane alergice și pentru cei care vor apă perfect curată. Elimină impurități, mirosuri, metale grele și bacterii. Oferă apă gustoasă și sigură pentru băut.",
+        "buttonText": "Vezi osmoza inversă"
+      },
+      "prefilter": {
+        "name": "Prefiltre",
+        "description": "Se instalează la intrarea apei în locuință sau înaintea echipamentelor — boiler, mașină de spălat rufe sau vase. Curăță apa pentru uz casnic, dar nu este destinat consumului.",
+        "buttonText": "Vezi prefiltrele"
+      }
+    }
+  },
+
+  "WorkStepperSection": {
+    "title": "Cum lucrăm",
+    "subtitle": "5 pași simpli",
+    "firstStep": {
+      "title": "Lași o solicitare mai jos",
+      "description": "Indici doar numele și numărul de telefon — solicitarea nu ia mai mult de 15 secunde."
+    },
+    "secondStep": {
+      "title": "Te sunăm înapoi",
+      "description": "Te contactăm rapid pentru a te ajuta să alegi cel mai bun filtru — pentru casa ta, familia ta și nevoile tale."
+    },
+    "thirdStep": {
+      "title": "Livrăm cu garanție",
+      "description": "Livrăm filtrul la ora convenabilă și oferim garanție oficială."
+    },
+    "fourthStep": {
+      "title": "Instalăm și verificăm",
+      "description": "Meșterul nostru instalează filtrul și verifică atent funcționarea acestuia — totul pe loc, fără bătăi de cap."
+    },
+    "fifthStep": {
+      "title": "Reamintim și deservim",
+      "description": "O dată la șase luni te contactăm și venim într-o zi convenabilă pentru a înlocui cartușele și a menține apa curată."
+    }
+  },
+
+  "CommunicationSection": {
+    "title": "Deci, pasul 1",
+    "description": "Lasă-ne numărul tău de telefon și te vom suna cât mai curând posibil și îți vom spune ce filtru ți se potrivește!",
+    "labelInput": "Numele dvs",
+    "textButton": "Trimite"
   }
+
 }

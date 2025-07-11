@@ -25,7 +25,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const { locale, messages } = await getRequestConfig({
     requestLocale: Promise.resolve(localeFromUrl),
   });
-  console.log(locale, messages);
+
   if (!messages) notFound();
 
   return (

@@ -1,74 +1,73 @@
 import { CategoriesList } from "./component/CategoriesList";
 import { CategoriesItem } from "./component/CategoriesItem";
-import { Button, CustomLink } from "@/components/common";
+import { CustomLink } from "@/components/common";
+import { RoutesEnum } from "@/types";
+import { useTranslations } from "use-intl";
 
 import styles from "./CategoriesSection.module.scss";
-import { RoutesEnum } from "@/types";
 
 const CategoriesSection = () => {
+  const t = useTranslations("CategoriesSection");
+
   return (
     <section className={styles.root}>
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Какой фильтр выбрать?</h2>
-        <p className={styles.subtitle}>Для твоего удобства мы разделили их на 4 категории.</p>
+        <h2 className={styles.title}>{t("title")}</h2>
+        <p className={styles.subtitle}>{t("subtitle")}</p>
         <CategoriesList>
           <CategoriesItem
             categoriesData={{
               image: "/images/cuvshin.png",
-              title: "Кувшины",
-              description:
-                "Если пьёте мало воды, часто переезжаете или арендуете жильё. Компактный и недорогой. Требует более частой замены картриджей, но прост в установке и удобен в поездках.",
+              title: t("items.jug.name"),
+              description: t("items.jug.description"),
             }}
           >
             <CustomLink
               className={styles.link}
               link={RoutesEnum.Products}
-              linkName={"Перейти к кувшинам"}
+              linkName={t("items.jug.buttonText")}
               onClick={() => console.log("Кувшины")}
             />
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
               image: "/images/protochniy.png",
-              title: "Проточный фильтр",
-              description:
-                "Подходит для семьи из 2–4 человек. Устанавливается под мойку или прямо на кран. Эффективно очищает воду от основных загрязнений. Хороший выбор по соотношению цены и качества.",
+              title: t("items.flowFilter.name"),
+              description: t("items.flowFilter.description"),
             }}
           >
             <CustomLink
               className={styles.link}
               link={RoutesEnum.Products}
-              linkName={"Перейти к проточным"}
+              linkName={t("items.flowFilter.buttonText")}
               onClick={() => console.log("Перейти к проточны")}
             />
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
               image: "/images/osmos.png",
-              title: "Обратный осмос",
-              description:
-                "Идеален для семей с детьми, аллергиков и всех, кто хочет идеально чистую воду. Удаляет примеси, запахи, тяжёлые металлы и бактерии. Даёт вкусную и безопасную питьевую воду.",
+              title: t("items.reverseOsmosis.name"),
+              description: t("items.reverseOsmosis.description"),
             }}
           >
             <CustomLink
               className={styles.link}
               link={RoutesEnum.Products}
-              linkName={"Перейти к осмосам"}
+              linkName={t("items.reverseOsmosis.buttonText")}
               onClick={() => console.log("Перейти к осмосам")}
             />
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
               image: "/images/predfilters.png",
-              title: "Предфильтра",
-              description:
-                "Устанавливается на входе воды в дом или перед техникой — бойлером, стиральной или посудомоечной машиной. Очищает воду для бытовых нужд, но не предназначен для питья.",
+              title: t("items.prefilter.name"),
+              description: t("items.prefilter.description"),
             }}
           >
             <CustomLink
               className={styles.link}
               link={RoutesEnum.Products}
-              linkName={"Перейти к предфильтрам"}
+              linkName={t("items.prefilter.buttonText")}
               onClick={() => console.log("Перейти к предфильтрам")}
             />
           </CategoriesItem>

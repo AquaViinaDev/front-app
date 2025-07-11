@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { RoutesEnum } from "@/types";
-import { Navbar, NavLink } from "./components/NavBar";
+import { Navbar } from "./components/NavBar";
 import Social, { SocialData } from "./components/Social/Social";
 import { Local } from "./components/Local";
 // import { SearchForm } from "@/components/common/SearchForm";
@@ -12,13 +12,6 @@ import Image from "next/image";
 import styles from "./Header.module.scss";
 import { useLocale, useTranslations } from "use-intl";
 import { getNavLinks } from "@/components/layout/Header/utils";
-
-// const navLinks: NavLink[] = [
-//   { label: "Товары", href: RoutesEnum.Products },
-//   { label: "Услуги", href: RoutesEnum.Services },
-//   { label: "Контакты", href: RoutesEnum.Contacts },
-//   { label: "О нас", href: RoutesEnum.About },
-// ];
 
 const socialLinks: SocialData[] = [
   { image: "./telegram.svg", label: "Telegram", href: RoutesEnum.Products },
