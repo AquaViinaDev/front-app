@@ -32,6 +32,7 @@ const Local = () => {
     <div className={styles.root}>
       <Select
         instanceId="language-select"
+        isSearchable={false}
         value={selectedOption}
         onChange={handleChange}
         options={options}
