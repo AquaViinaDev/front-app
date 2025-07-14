@@ -14,8 +14,8 @@ import { useLocale, useTranslations } from "use-intl";
 import { getNavLinks } from "@/components/layout/Header/utils";
 
 const socialLinks: SocialData[] = [
-  { image: "./telegram.svg", label: "Telegram", href: RoutesEnum.Products },
-  { image: "./instagram.svg", label: "Instagram", href: RoutesEnum.Services },
+  { image: "/telegram.svg", label: "Telegram", href: RoutesEnum.Main },
+  { image: "/instagram.svg", label: "Instagram", href: RoutesEnum.Main },
 ];
 
 const Header = () => {
