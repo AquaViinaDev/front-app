@@ -1,0 +1,47 @@
+.root {
+  width: 100%;
+}
+
+.wrapper {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 20px 15px;
+}
+
+.barBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.brendBlock, .priceBlock, .chapterBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.brendTitle, .priceTitle, .chapterTitle {
+  margin-bottom: 10px;
+}
+
+.actionsWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.headerPage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: $font-3xl;
+  font-weight: $font-bold;
+}
+
+@media (max-width: $tabletScreen) {
+  .barBlock {
+    display: none;
+  }
+}

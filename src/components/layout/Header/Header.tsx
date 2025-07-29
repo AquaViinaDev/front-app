@@ -8,10 +8,10 @@ import { Local } from "./components/Local";
 // import { SearchForm } from "@/components/common/SearchForm";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
-import styles from "./Header.module.scss";
 import { useLocale, useTranslations } from "use-intl";
 import { getNavLinks } from "@/components/layout/Header/utils";
+
+import styles from "./Header.module.scss";
 
 const socialLinks: SocialData[] = [
   { image: "/telegram.svg", label: "Telegram", href: RoutesEnum.Main },
@@ -38,20 +38,27 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
-        <Link href={RoutesEnum.Main} onClick={() => setIsOpen(false)}>
-          AQUA VIINA
-        </Link>
+      <div className={styles.wrapper}>
+        <div className={styles.logo}>
+          <Link href={RoutesEnum.Main} onClick={() => setIsOpen(false)}>
+            AQUA VIINA
+          </Link>
+        </div>
+        <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
+          {/*<SearchForm />*/}
+          <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
+          <Social links={socialLinks} onAction={() => setIsOpen(false)} />
+          <Local />
+        </div>
+        <button className={styles.burger} onClick={() => setIsOpen(!isOpen)} aria-label="Menu open">
+          <Image
+            src={isOpen ? "/close.svg" : "/burger.svg"}
+            alt={"Burger"}
+            width={30}
+            height={30}
+          />
+        </button>
       </div>
-      <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
-        {/*<SearchForm />*/}
-        <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
-        <Social links={socialLinks} onAction={() => setIsOpen(false)} />
-        <Local />
-      </div>
-      <button className={styles.burger} onClick={() => setIsOpen(!isOpen)} aria-label="Menu open">
-        <Image src={isOpen ? "/close.svg" : "/burger.svg"} alt={"Burger"} width={30} height={30} />
-      </button>
     </header>
   );
 };

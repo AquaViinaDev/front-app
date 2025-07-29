@@ -1,0 +1,58 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  background-color: $bg-white;
+  padding: 15px;
+  border-radius: 16px;
+  width: 24.5%;
+}
+
+.itemImage {
+  display: flex;
+  margin: 0 auto;
+}
+
+.bottomBlockWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.stockInfo {
+  font-size: $font-sm;
+  font-weight: $font-semi-bold;
+}
+
+.inStock {
+  color: #52998b;
+}
+
+.noStock {
+  color: tomato;
+}
+
+.priceInfo {
+  font-size: $font-xl;
+  font-weight: $font-semi-bold;
+}
+
+@media (max-width: 1150px) {
+  .root {
+    width: 32.7%;
+  }
+}
+
+@media (max-width: 750px) {
+  .root {
+    width: 49%;
+  }
+}
+
+@media (max-width: 525px) {
+  .root {
+    width: 100%;
+  }
+}
