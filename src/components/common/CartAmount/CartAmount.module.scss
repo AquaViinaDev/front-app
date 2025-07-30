@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.incrementAmount, .decrementAmount {
+  font-size: $font-xl;
+  width: 25%;
+  padding: 16px 0;
+  cursor: pointer;
+}
+
+.inputAmount {
+  width: 50%;
+  text-align: center;
+  outline: none;
+}
