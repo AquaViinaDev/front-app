@@ -13,8 +13,9 @@ export type ProductPageTypeProps = {
 };
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
-  const product = await getProductById(params.id);
-  console.log(product.characteristics);
+  const { id } = await params;
+  const product = await getProductById(id);
+
   if (!product) {
     notFound();
   }

@@ -1,3 +1,6 @@
+@use "variables" as *;
+@use "media" as *;
+
 .header {
   background-color: $bg-white;
   position: sticky;

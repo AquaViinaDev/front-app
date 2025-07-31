@@ -20,7 +20,13 @@ const CategoriesItem = memo(({ categoriesData, children }: CategoriesItemProps) 
   const { image, title, description } = categoriesData;
   return (
     <div className={styles.root}>
-      <Image src={image} alt={title} width={260} height={286} layout="responsive" />
+      <Image
+        src={image}
+        alt={title}
+        width={260}
+        height={286}
+        style={{ width: "100%", height: "auto", objectFit: "cover" }}
+      />
       <div className={styles.infoBlock}>
         <p className={styles.title}>{title}</p>
         <p className={styles.description}>{description}</p>

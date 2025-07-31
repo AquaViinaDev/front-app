@@ -8,8 +8,7 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
     prependData: `
-    @import "variables.module.scss";
-    @import "media.scss";
+    @use "global-styles" as *;
   `,
   },
 

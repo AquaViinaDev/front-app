@@ -1,3 +1,6 @@
+@use "variables" as *;
+@use "media" as *;
+
 .root {
   display: flex;
   align-items: flex-start;

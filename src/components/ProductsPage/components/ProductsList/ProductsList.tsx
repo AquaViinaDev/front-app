@@ -11,10 +11,9 @@ const ProductsList = () => {
     queryKey: ["getAllProducts"],
     queryFn: getAllProducts,
   });
-  console.log(products);
+
   return (
     <ul className={styles.root}>
-      {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
       {products.map((filter: any) => (
         <PreviewProductItem
           key={filter.id}
