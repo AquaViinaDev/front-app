@@ -1,9 +1,11 @@
 "use client";
 
-import styles from "./MobileMenu.module.scss";
 import Link from "next/link";
 import { NavLink } from "../NavBar";
 import { SocialData } from "../Social/Social";
+import Image from "next/image";
+
+import styles from "./MobileMenu.module.scss";
 
 type Props = {
   links: NavLink[];
@@ -25,7 +27,7 @@ const MobileMenu = ({ links, social, onClose }: Props) => {
         <div className={styles.social}>
           {social.map(({ label, image, href }) => (
             <Link key={href} href={href} onClick={onClose}>
-              <img src={image} alt={label} />
+              <Image src={image} alt={label} />
             </Link>
           ))}
         </div>

@@ -11,7 +11,7 @@ export type PreviewProductItemTypeProps = HTMLAttributes<HTMLLIElement> & {
   image: string;
   title: string;
   isInStock?: boolean;
-  price?: number;
+  price?: string;
   buttonName: string;
   link: string;
 };

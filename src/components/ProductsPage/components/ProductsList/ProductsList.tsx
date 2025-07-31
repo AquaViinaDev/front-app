@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "@/lib/api";
 import { PreviewProductItem } from "../PreviewProductItem";
+import { Product } from "@/types";
 
 import styles from "./ProductsList.module.scss";
 
@@ -11,10 +12,11 @@ const ProductsList = () => {
     queryKey: ["getAllProducts"],
     queryFn: getAllProducts,
   });
+  console.log(products);
 
   return (
     <ul className={styles.root}>
-      {products.map((filter: any) => (
+      {products.map((filter: Product) => (
         <PreviewProductItem
           key={filter.id}
           image={filter.image}
