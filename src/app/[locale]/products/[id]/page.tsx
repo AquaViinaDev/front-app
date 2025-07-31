@@ -14,13 +14,17 @@ export type ProductPageTypeProps = {
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const product = await getProductById(params.id);
-
+  console.log(product.characteristics);
   if (!product) {
     notFound();
   }
 
   return (
-    <PageLayout className={styles.pageLayout} title={product.name}>
+    <PageLayout
+      className={styles.pageLayout}
+      contentClassName={styles.content}
+      title={product.name}
+    >
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>
           <Image
@@ -37,6 +41,25 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
           inStock={product.inStock}
           description={product.description}
         />
+      </div>
+      <div className={styles.additionalInfoBlock}>
+        <div className={styles.characteristics}>
+          <h3 className={styles.characteristicsTitle}>Технические характеристики:</h3>
+          <ul className={styles.characteristicsInformation}>
+            {Object.entries(product.characteristics as Record<string, string>).map(
+              ([key, value]) => (
+                <li className={styles.characteristicsItem} key={key}>
+                  <span className={styles.key}>{key}</span>
+                  <span className={styles.value}>{value}</span>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+        <div className={styles.description}>
+          <h3 className={styles.descriptionTitle}>Описание:</h3>
+          <div className={styles.descriptionInformation}>{product.description}</div>
+        </div>
       </div>
     </PageLayout>
   );

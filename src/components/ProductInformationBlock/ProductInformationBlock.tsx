@@ -5,6 +5,7 @@ import { Button, CartAmount } from "@/components/common";
 import classNames from "classnames";
 
 import styles from "./ProductInformationBlock.module.scss";
+import Image from "next/image";
 
 export type ProductInformationBlockProps = {
   productId: string;
@@ -17,7 +18,6 @@ export const ProductInformationBlock = ({
   // productId,
   price,
   inStock,
-  description,
 }: ProductInformationBlockProps) => {
   const [cartAmount, setCartAmount] = useState(1);
 
@@ -33,7 +33,7 @@ export const ProductInformationBlock = ({
 
   return (
     <div className={styles.infoWrapper}>
-      <div className={styles.additionalContent}>
+      <div className={styles.orderBlock}>
         <p className={styles.priceInfo}>{price} лей/шт.</p>
         <p
           className={classNames(styles.stockInfo, {
@@ -45,15 +45,17 @@ export const ProductInformationBlock = ({
         </p>
         <CartAmount value={cartAmount} onChange={setCartAmount} />
         <Button
-          buttonType={"smallButton"}
+          buttonType={"bigButton"}
           // onClick={handleAddToCart}
         >
           В корзину
         </Button>
       </div>
-      <div className={styles.descriptionWrapper}>
-        <p className={styles.title}>Описание:</p>
-        <p className={styles.description}>{description}</p>
+      <div className={styles.additionalContent}>
+        <div className={styles.deliveryBlock}>
+          <Image src={"/delivery-truck.svg"} alt={"Delivery truck"} width={36} height={36} />
+          <span className={styles.textDelivery}>Условия доставки*</span>
+        </div>
       </div>
     </div>
   );

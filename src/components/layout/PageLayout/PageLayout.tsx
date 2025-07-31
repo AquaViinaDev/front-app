@@ -10,11 +10,20 @@ export type PageLayoutTypeProps = HtmlHTMLAttributes<HTMLDivElement> & {
   isLoading?: boolean;
   className?: string;
   wrapperClassName?: string;
+  contentClassName?: string;
   title?: string;
 };
 
 const PageLayout = memo(
-  ({ wrapperClassName, className, title, children, isLoading, ...props }: PageLayoutTypeProps) => {
+  ({
+    wrapperClassName,
+    contentClassName,
+    className,
+    title,
+    children,
+    isLoading,
+    ...props
+  }: PageLayoutTypeProps) => {
     return (
       <div className={classNames(className, styles.root)} {...props}>
         <div className={classNames(wrapperClassName, styles.wrapper)}>
@@ -55,7 +64,9 @@ const PageLayout = memo(
             {/*    <button>Проточные фильтры</button>*/}
             {/*  </div>*/}
             {/*</div>*/}
-            <div className={styles.content}>{isLoading ? "Loading..." : children}</div>
+            <div className={classNames(contentClassName, styles.content)}>
+              {isLoading ? "Loading..." : children}
+            </div>
           </div>
         </div>
       </div>

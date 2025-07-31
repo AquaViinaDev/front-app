@@ -1,5 +1,12 @@
 .pageLayout {
+  width: 100%;
   background-color: $bg-gray;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .contentWrapper {
@@ -10,10 +17,58 @@
 .imageWrapper {
   background-color: $bg-white;
   border-radius: 16px;
-  width: 40.7%;
+  width: 59%;
 }
 
 .image {
   display: flex;
   margin: 0 auto;
+}
+
+.additionalInfoBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
+.characteristics, .description {
+  width: 49%;
+}
+
+.characteristicsTitle, .descriptionTitle {
+  font-size: $font-2xl;
+  font-weight: $font-bold;
+  margin-bottom: 15px;
+}
+
+.characteristicsInformation, .descriptionInformation {
+  background-color: $bg-white;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.characteristicsInformation {
+  display: flex;
+  flex-direction: column;
+}
+
+.characteristicsItem {
+  display: flex;
+  border-bottom: 1px solid $bg-gray;
+  padding: 10px;
+  &:hover {
+    background-color: $bg-gray;
+  }
+}
+
+.key, .value {
+  width: 50%;
+}
+
+.key, .descriptionInformation {
+  font-size: $font-md;
+}
+
+.value {
+  font-size: $font-md;
+  font-weight: $font-semi-bold;
 }

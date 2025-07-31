@@ -1,16 +1,16 @@
 .infoWrapper {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   background-color: $bg-white;
   border-radius: 16px;
-  width: 57.65%;
+  width: 39%;
   padding: 35px;
 }
 
-.additionalContent {
-  width: 40%;
-  border-right: 1px solid $bg-gray;
-  padding-right: 16px;
+.orderBlock {
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -30,8 +30,8 @@
 }
 
 .priceInfo {
-  font-size: $font-xl;
-  font-weight: $font-boldMax;
+  font-size: 35px;
+  font-weight: $font-bold;
 }
 
 .descriptionWrapper {
@@ -48,8 +48,19 @@
 
 .description {
   font-size: $font-md;
-
   height: 280px;
   overflow-y: auto;
   white-space: pre-wrap;
+}
+
+.deliveryBlock {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.textDelivery {
+  font-size: $font-md;
+  font-weight: $font-regular;
 }
