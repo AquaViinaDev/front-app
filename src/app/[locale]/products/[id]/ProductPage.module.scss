@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "media" as *;
 
 .pageLayout {
   width: 100%;
@@ -20,6 +21,8 @@
   background-color: $bg-white;
   border-radius: 16px;
   width: 59%;
+  //position: relative;
+  //aspect-ratio: 1 / 1;
 }
 
 .image {
@@ -73,4 +76,22 @@
 .value {
   font-size: $font-md;
   font-weight: $font-semi-bold;
+}
+
+@media (max-width: $tabletScreen) {
+  .contentWrapper, .additionalInfoBlock {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .imageWrapper, .characteristics, .description{
+    width: 100%;
+  }
+
+  .imageWrapper {
+    img {
+      max-width: 300px;
+      max-height: 300px;
+    }
+  }
 }

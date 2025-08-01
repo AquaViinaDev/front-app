@@ -6,6 +6,7 @@
 }
 
 .wrapper {
+  margin: 0 auto;
   max-width: $max-width;
   padding: 20px 15px;
 }
@@ -45,5 +46,10 @@
 @media (max-width: $tabletScreen) {
   .barBlock {
     display: none;
+  }
+
+  .title {
+    font-size: $font-2xl;
+    font-weight: $font-bold;
   }
 }

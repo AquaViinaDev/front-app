@@ -34,6 +34,9 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
             className={styles.image}
             width={400}
             height={400}
+            // fill
+            // style={{ objectFit: "contain" }}
+            // sizes="(max-width: 525px) 300px, 400px"
           />
         </div>
         <ProductInformationBlock

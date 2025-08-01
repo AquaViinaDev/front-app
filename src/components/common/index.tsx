@@ -4,5 +4,6 @@ import { SearchForm } from "@/components/common/SearchForm";
 import { Button } from "@/components/common/Button";
 import { CustomLink } from "@/components/common/CustomLink";
 import { CartAmount } from "@/components/common/CartAmount";
+import { Modal } from "@/components/common/Modal";
 
-export { TextInput, PhoneInput, SearchForm, Button, CustomLink, CartAmount };
+export { TextInput, PhoneInput, SearchForm, Button, CustomLink, CartAmount, Modal };
