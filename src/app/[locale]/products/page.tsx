@@ -1,8 +1,9 @@
 import { ProductsPage } from "../../../components/ProductsPage";
 
 export const metadata = {
-  title: "Aqua Viina Products",
-  description: "Aqua Viina Products",
+  title: "Каталог фильтров для воды — AquaViina",
+  description:
+    "Обзор всех фильтров для воды: кувшины, картриджи, обратный осмос. Сравнение, наличие и доставка по Молдове.",
 };
 
 const Products = () => {

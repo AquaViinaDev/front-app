@@ -5,11 +5,9 @@ import type { NextConfig } from "next";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  // Отключаем падение билда из-за ESLint-ошибок
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Отключаем падение билда из-за ошибок типизации
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -23,8 +21,7 @@ const nextConfig: NextConfig = {
 
   webpack(config) {
     const fileLoaderRule = config.module.rules.find(
-      (rule) =>
-        rule.test instanceof RegExp && rule.test.test(".svg")
+      (rule) => rule.test instanceof RegExp && rule.test.test(".svg")
     );
     if (fileLoaderRule) {
       config.module.rules.push(

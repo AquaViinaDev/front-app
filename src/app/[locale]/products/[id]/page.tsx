@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageLayout } from "@/components/layout/PageLayout";
 import Image from "next/image";
 import { ProductInformationBlock } from "@/components/ProductInformationBlock";
+import { Metadata } from "next";
 
 import styles from "./ProductPage.module.scss";
 
@@ -11,6 +12,32 @@ export type ProductPageTypeProps = {
     id: string;
   };
 };
+
+export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductById(id);
+  if (!product) {
+    return {
+      title: "Товар не найден",
+      description: "Запрошенный фильтр не найден.",
+    };
+  }
+
+  const title = `${product.name} — фильтр для воды`;
+  let desc = product.description.trim();
+  if (desc.length > 140) {
+    desc = desc.slice(0, 140);
+    const lastSpace = desc.lastIndexOf(" ");
+    if (lastSpace > 0) desc = desc.slice(0, lastSpace);
+    desc += "...";
+  }
+  const description = `Купить ${product.name} с доставкой в Кишинёве. ${desc}`;
+
+  return {
+    title,
+    description,
+  };
+}
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const { id } = await params;

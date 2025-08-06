@@ -8,7 +8,6 @@ import styles from "./ProductsPage.module.scss";
 const ProductsPage = async () => {
   const queryClient = new QueryClient();
 
-  // Предзапрашиваем данные
   await queryClient.prefetchQuery({
     queryKey: ["getAllProducts"],
     queryFn: getAllProducts,
@@ -18,7 +17,7 @@ const ProductsPage = async () => {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PageLayout className={styles.pageLayout} title={"Товары"}>
+      <PageLayout className={styles.pageLayout} title={"Каталог фильтров для воды"}>
         <ProductsList />
       </PageLayout>
     </HydrationBoundary>
