@@ -6,16 +6,25 @@ export enum RoutesEnum {
   Contacts = "/contacts",
 }
 
+export type Locale = "ru" | "ro";
+
+export type LocalizedString = {
+  ru: string;
+  ro: string;
+};
+
 export type Product = {
   id: string;
-  name: string;
-  brand: string | null;
-  description: string;
+  name: LocalizedString;
+  brand: LocalizedString | null;
+  description: LocalizedString;
   image: string;
   price: string;
   inStock: boolean;
   stockQty: number;
   deliveryAvailable: boolean;
-  characteristics: Record<string, string>;
+  characteristics:
+    | Record<string, string | null>
+    | { ru: Record<string, string | null>; ro: Record<string, string | null> };
   categorieIds: string[];
 };

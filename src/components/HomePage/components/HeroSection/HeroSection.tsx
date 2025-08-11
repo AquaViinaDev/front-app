@@ -1,9 +1,8 @@
-import Image from "next/image";
-import { Button } from "@/components/common/Button";
-
 import styles from "./HeroSection.module.scss";
 import { memo } from "react";
 import { useTranslations } from "use-intl";
+import Image from "next/image";
+import { Button } from "@/components/common/Button";
 
 type HeroSectionProps = {
   onConsultClick: () => void;

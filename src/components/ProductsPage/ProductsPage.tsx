@@ -1,9 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { getAllProducts } from "@/lib/api";
-import { PageLayout } from "../layout/PageLayout";
-import { ProductsList } from "./components/ProductsList";
 
-import styles from "./ProductsPage.module.scss";
+import { ProductsListWrapper } from "./components/ProductsListWrapper";
 
 const ProductsPage = async () => {
   const queryClient = new QueryClient();
@@ -17,9 +15,7 @@ const ProductsPage = async () => {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PageLayout className={styles.pageLayout} title={"Каталог фильтров для воды"}>
-        <ProductsList />
-      </PageLayout>
+      <ProductsListWrapper />
     </HydrationBoundary>
   );
 };

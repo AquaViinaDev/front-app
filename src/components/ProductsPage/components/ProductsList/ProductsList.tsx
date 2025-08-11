@@ -3,28 +3,29 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "@/lib/api";
 import { PreviewProductItem } from "../PreviewProductItem";
-import { Product } from "@/types";
+import { Locale, Product } from "@/types";
+import { useLocale } from "use-intl";
 
 import styles from "./ProductsList.module.scss";
 
 const ProductsList = () => {
-  const { data: products = [] } = useQuery({
+  const { data: products = [] } = useQuery<Product[]>({
     queryKey: ["getAllProducts"],
     queryFn: getAllProducts,
   });
-  console.log(products);
+
+  const locale = useLocale() as Locale;
 
   return (
     <ul className={styles.root}>
-      {products.map((filter: Product) => (
+      {products.map((product) => (
         <PreviewProductItem
-          key={filter.id}
-          image={filter.image}
-          title={filter.name}
-          price={filter.price}
-          isInStock={filter.inStock}
-          buttonName="В корзину"
-          link={`/products/${filter.id}`}
+          key={product.id}
+          image={product.image}
+          title={product.name?.[locale]}
+          price={product.price}
+          isInStock={product.inStock}
+          link={`/products/${product.id}`}
         />
       ))}
     </ul>

@@ -84,5 +84,14 @@
     "advancedSolutions": {
       "title": "Продвинутые решения"
     }
+  },
+
+  "ProductsPageInformation": {
+    "title": "Каталог фильтров для воды",
+    "isInStock": "В наличии",
+    "isn'tInStock": "Нет в наличии",
+    "cartButton": "В корзину",
+    "price": "лей"
   }
+
 }

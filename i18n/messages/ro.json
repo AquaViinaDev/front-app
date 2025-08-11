@@ -85,6 +85,14 @@
     "advancedSolutions": {
       "title": "Soluții avansate"
     }
+  },
+
+  "ProductsPageInformation": {
+    "title": "Catalog de filtre de apă",
+    "isInStock": "În stoc",
+    "isn'tInStock": "Nu este disponibil",
+    "cartButton": "Adaugă in coş",
+    "price": "lei"
   }
 
 }

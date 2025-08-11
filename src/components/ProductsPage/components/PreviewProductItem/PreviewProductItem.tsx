@@ -2,7 +2,7 @@ import { HTMLAttributes, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/common";
-import { useLocale } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import classNames from "classnames";
 
 import styles from "./PreviewProductItem.module.scss";
@@ -12,13 +12,13 @@ export type PreviewProductItemTypeProps = HTMLAttributes<HTMLLIElement> & {
   title: string;
   isInStock?: boolean;
   price?: string;
-  buttonName: string;
   link: string;
 };
 
 const PreviewProductItem = memo(
-  ({ title, link, buttonName, price, isInStock, ...props }: PreviewProductItemTypeProps) => {
+  ({ title, link, price, isInStock, ...props }: PreviewProductItemTypeProps) => {
     const locale = useLocale();
+    const t = useTranslations();
 
     return (
       <li className={styles.root} {...props}>
@@ -39,10 +39,14 @@ const PreviewProductItem = memo(
               [styles.noStock]: !isInStock,
             })}
           >
-            {isInStock ? "В наличии" : "Нет в наличии"}
+            {isInStock
+              ? `${t("ProductsPageInformation.isInStock")}`
+              : `${t("ProductsPageInformation.isn'tStock")}`}
           </p>
-          <p className={styles.priceInfo}>{price} лей</p>
-          <Button buttonType={"smallButton"}>{buttonName}</Button>
+          <p className={styles.priceInfo}>
+            {price} {t("ProductsPageInformation.price")}
+          </p>
+          <Button buttonType={"smallButton"}>{t("ProductsPageInformation.cartButton")}</Button>
         </div>
       </li>
     );
