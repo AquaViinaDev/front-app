@@ -20,7 +20,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 5px;
+  gap: 10px;
+}
+
+.title {
+  font-size: $font-lg;
+  font-weight: $font-regular;
 }
 
 .stockInfo {

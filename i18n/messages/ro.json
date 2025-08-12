@@ -92,7 +92,24 @@
     "isInStock": "În stoc",
     "isn'tInStock": "Nu este disponibil",
     "cartButton": "Adaugă in coş",
-    "price": "lei"
+    "price": "lei/bucată"
+  },
+
+  "ProductPage": {
+    "meta": {
+      "failedTitle": "Produs negăsit.",
+      "failedDescription": "Filtrul solicitat nu a fost găsit.",
+      "title": "filtru de apă",
+      "description": "Cumpără cu livrare în Chișinău"
+    },
+    "modalInfo": {
+      "title": "Termeni de livrare",
+      "firstCondition": "Livrare în Chișinău",
+      "secondCondition": "În toată Moldova",
+      "price": "lei",
+      "delivery": "Am nevoie de livrare",
+      "confirm": "Confirma"
+    }
   }
 
 }
