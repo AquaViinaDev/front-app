@@ -1,28 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import SearchIcon from "@/assets/icons/search-icon.svg";
 
 import styles from "./SearchForm.module.scss";
 
-const SearchForm = () => {
-  const [value, setValue] = useState("");
+export type SearchFormProps = {
+  value: string;
+  onSearch: (query: string) => void;
+};
+
+const SearchForm = ({ onSearch, value }: SearchFormProps) => {
   return (
     <form
       className={styles.searchForm}
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(value);
+        onSearch(value);
       }}
     >
       <input
         className={styles.searchInput}
         type="text"
         placeholder="Search..."
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
+        onChange={(e) => onSearch(e.target.value)}
         value={value}
       />
       {/*<Button className={styles.searchButton} buttonType={"smallButton"} type="submit">*/}

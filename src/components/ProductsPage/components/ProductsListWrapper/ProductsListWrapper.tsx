@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
@@ -19,6 +19,8 @@ const ProductsListWrapper = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [range, setRange] = useState<number[]>([0, 0]);
   const [debouncedRange, setDebouncedRange] = useState<number[] | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(""); // для запроса
 
   const {
     data: filters = {
@@ -39,20 +41,37 @@ const ProductsListWrapper = () => {
     return () => clearTimeout(handler);
   }, [range]);
 
+  useEffect(() => {
+    if (selectedBrand || selectedType) {
+      setSearchQuery("");
+      setDebouncedSearchQuery("");
+    }
+  }, [selectedBrand, selectedType]);
+
   const {
     data: products = [],
     isLoading: isProductsLoading,
     isFetched,
   } = useQuery({
-    queryKey: ["filteredProducts", selectedBrand, selectedType, debouncedRange],
+    queryKey: [
+      "filteredProducts",
+      selectedBrand,
+      selectedType,
+      debouncedRange,
+      debouncedSearchQuery,
+    ],
     queryFn: () =>
-      getFilteredProducts({
-        brand: selectedBrand ?? "",
-        type: selectedType ?? "",
-        minPrice: debouncedRange?.[0] ?? filters.price.low,
-        maxPrice: debouncedRange?.[1] ?? filters.price.more,
-      }),
-    enabled: !!selectedBrand || !!selectedType || !!debouncedRange,
+      debouncedSearchQuery
+        ? fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(debouncedSearchQuery)}`
+          ).then((res) => res.json())
+        : getFilteredProducts({
+            brand: selectedBrand ?? "",
+            type: selectedType ?? "",
+            minPrice: debouncedRange?.[0] ?? filters.price.low,
+            maxPrice: debouncedRange?.[1] ?? filters.price.more,
+          }),
+    enabled: !!filters,
     placeholderData: keepPreviousData,
   });
 
@@ -64,11 +83,16 @@ const ProductsListWrapper = () => {
     }
   }, [filters]);
 
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedSearchQuery(searchQuery), 1000);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
   return (
     <PageLayout className={styles.pageLayout} title={t("ProductsPageInformation.title")}>
       <div className={styles.wrapper}>
         <div className={styles.searchSortWrapper}>
-          <SearchForm />
+          <SearchForm value={searchQuery} onSearch={setSearchQuery} />
           <Sort />
         </div>
         <div className={styles.contentFilterWrapper}>
