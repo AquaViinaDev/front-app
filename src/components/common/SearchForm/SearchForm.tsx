@@ -8,13 +8,12 @@ import styles from "./SearchForm.module.scss";
 
 const SearchForm = () => {
   const [value, setValue] = useState("");
-
   return (
     <form
       className={styles.searchForm}
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(e.target);
+        console.log(value);
       }}
     >
       <input
@@ -22,14 +21,13 @@ const SearchForm = () => {
         type="text"
         placeholder="Search..."
         onChange={(e) => {
-          // e.preventDefault();
           setValue(e.target.value);
         }}
         value={value}
       />
-      <Button className={styles.searchButton} buttonType={"smallButton"} type="button">
-        <SearchIcon className={styles.searchIcon} />
-      </Button>
+      {/*<Button className={styles.searchButton} buttonType={"smallButton"} type="submit">*/}
+      {/*  <SearchIcon className={styles.searchIcon} />*/}
+      {/*</Button>*/}
     </form>
   );
 };

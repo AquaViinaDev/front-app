@@ -51,6 +51,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   if (!product) {
     notFound();
   }
+
   return (
     <PageLayout
       className={styles.pageLayout}

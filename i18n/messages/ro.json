@@ -92,7 +92,15 @@
     "isInStock": "În stoc",
     "isn'tInStock": "Nu este disponibil",
     "cartButton": "Adaugă in coş",
-    "price": "lei/bucată"
+    "price": "lei/bucată",
+    "filterAndSort": {
+      "brand": "Marca",
+      "price": "Preţ",
+      "chapter": "Сapitol",
+      "sortDefault": "Sortare implicită",
+      "sortDesc": "După preț: de la scump",
+      "sortAsc": "După preț: de la ieftin"
+    }
   },
 
   "ProductPage": {

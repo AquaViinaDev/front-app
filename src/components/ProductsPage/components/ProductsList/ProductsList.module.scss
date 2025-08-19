@@ -1,5 +1,28 @@
+@use "variables" as *;
+
 .root {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  width: 80%;
+}
+
+.noContentBlock {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & span {
+    border-color: $bg-blue !important;
+    border-bottom-color: transparent !important;
+  }
+}
+
+.noFound {
+  display: flex;
+  width: 80%;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
 }

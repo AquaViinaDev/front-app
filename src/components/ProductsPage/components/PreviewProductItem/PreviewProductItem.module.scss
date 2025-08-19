@@ -1,6 +1,7 @@
 @use "variables" as *;
 
 .root {
+  max-height: 385px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

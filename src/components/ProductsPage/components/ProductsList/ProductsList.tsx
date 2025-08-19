@@ -1,24 +1,39 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "@/lib/api";
 import { PreviewProductItem } from "../PreviewProductItem";
 import { Locale, Product } from "@/types";
 import { useLocale } from "use-intl";
+import { ClipLoader } from "react-spinners";
 
 import styles from "./ProductsList.module.scss";
 
-const ProductsList = () => {
-  const { data: products = [] } = useQuery<Product[]>({
-    queryKey: ["getAllProducts"],
-    queryFn: getAllProducts,
-  });
+export type ProductsListProps = {
+  data: Product[];
+  isLoading: boolean;
+  isFetched: boolean;
+};
 
+const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
   const locale = useLocale() as Locale;
+
+  if (isLoading || !isFetched) {
+    return (
+      <div className={styles.noContentBlock}>
+        <ClipLoader
+          loading={isLoading}
+          size={50}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
+  }
+
+  if (!data || !data.length) return <p className={styles.noFound}>No products found</p>;
 
   return (
     <ul className={styles.root}>
-      {products.map((product) => (
+      {data?.map((product: Product) => (
         <PreviewProductItem
           key={product.id}
           image={product.image}

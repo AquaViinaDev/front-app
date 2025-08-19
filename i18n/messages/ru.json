@@ -91,7 +91,15 @@
     "isInStock": "В наличии",
     "isn'tInStock": "Нет в наличии",
     "cartButton": "В корзину",
-    "price": "лей/шт."
+    "price": "лей/шт.",
+    "filterAndSort": {
+      "brand": "Бренд",
+      "price": "Цена",
+      "chapter": "Раздел",
+      "sortDefault": "Сортировка по умолчанию",
+      "sortDesc": "По цене: от дорогих",
+      "sortAsc": "По цене: от дешёвых"
+    }
   },
 
   "ProductPage": {
