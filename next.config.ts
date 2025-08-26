@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
     `,
   },
 
+  images: {
+    domains: ["localhost"],
+  },
+
   webpack(config) {
     const fileLoaderRule = config.module.rules.find(
       (rule) => rule.test instanceof RegExp && rule.test.test(".svg")

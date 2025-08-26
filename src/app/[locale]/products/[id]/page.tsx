@@ -61,7 +61,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>
           <Image
-            src={"/images/cuvshinExample.png"}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${product.images[0]}`}
             alt={localizedProduct.name}
             className={styles.image}
             width={400}
@@ -71,7 +71,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
         <ProductInformationBlock
           productId={localizedProduct.id}
           price={localizedProduct.price}
-          inStock={localizedProduct.inStock}
+          inStock={localizedProduct.stockQty}
         />
       </div>
       <div className={styles.additionalInfoBlock}>

@@ -16,7 +16,7 @@ export type PreviewProductItemTypeProps = HTMLAttributes<HTMLLIElement> & {
 };
 
 const PreviewProductItem = memo(
-  ({ title, link, price, isInStock, ...props }: PreviewProductItemTypeProps) => {
+  ({ title, link, price, image, isInStock, ...props }: PreviewProductItemTypeProps) => {
     const locale = useLocale();
     const t = useTranslations();
 
@@ -24,7 +24,7 @@ const PreviewProductItem = memo(
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={"/images/cuvshinExample.png"}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${image}`}
             alt={title}
             width={180}
             height={180}
@@ -41,7 +41,7 @@ const PreviewProductItem = memo(
           >
             {isInStock
               ? `${t("ProductsPageInformation.isInStock")}`
-              : `${t("ProductsPageInformation.isn'tStock")}`}
+              : `${t("ProductsPageInformation.isn'tInStock")}`}
           </p>
           <p className={styles.priceInfo}>
             {price} {t("ProductsPageInformation.price")}

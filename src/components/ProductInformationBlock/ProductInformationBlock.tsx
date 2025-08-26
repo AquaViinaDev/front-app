@@ -28,7 +28,6 @@ export const ProductInformationBlock = ({
   const toggleDelivery = useCallback(() => setWithDelivery((v) => !v), []);
 
   const t = useTranslations();
-
   // const handleAddToCart = async () => {
   //   await fetch("/api/cart", {
   //     method: "POST",
@@ -54,7 +53,7 @@ export const ProductInformationBlock = ({
           >
             {inStock
               ? `${t("ProductsPageInformation.isInStock")}`
-              : `${t("ProductsPageInformation.isn'tStock")}`}
+              : `${t("ProductsPageInformation.isn'tInStock")}`}
           </p>
           <CartAmount value={cartAmount} onChange={setCartAmount} />
           <Button

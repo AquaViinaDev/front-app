@@ -36,10 +36,10 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
       {data?.map((product: Product) => (
         <PreviewProductItem
           key={product.id}
-          image={product.image}
+          image={product.images[0]}
           title={product.name?.[locale]}
           price={product.price}
-          isInStock={product.inStock}
+          isInStock={product.stockQty >= 1}
           link={`/products/${product.id}`}
         />
       ))}
