@@ -20,11 +20,16 @@ export const ProductInformationBlock = ({
   inStock,
 }: ProductInformationBlockProps) => {
   const [cartAmount, setCartAmount] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
+  const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
   const [withDelivery, setWithDelivery] = useState(false);
 
-  const openModal = useCallback(() => setIsModalOpen(true), []);
-  const closeModal = useCallback(() => setIsModalOpen(false), []);
+  const openDeliveryModal = useCallback(() => setIsDeliveryModalOpen(true), []);
+  const closeDeliveryModal = useCallback(() => setIsDeliveryModalOpen(false), []);
+
+  const openConditionsModal = useCallback(() => setIsConditionsModalOpen(true), []);
+  const closeConditionsModal = useCallback(() => setIsConditionsModalOpen(false), []);
+
   const toggleDelivery = useCallback(() => setWithDelivery((v) => !v), []);
 
   const t = useTranslations();
@@ -41,10 +46,7 @@ export const ProductInformationBlock = ({
   return (
     <>
       <div className={styles.root}>
-        <div className={styles.orderBlock}>
-          <p className={styles.priceInfo}>
-            {price} {t("ProductsPageInformation.price")}
-          </p>
+        <div className={styles.leftBlock}>
           <p
             className={classNames(styles.stockInfo, {
               [styles.inStock]: inStock,
@@ -56,45 +58,108 @@ export const ProductInformationBlock = ({
               : `${t("ProductsPageInformation.isn'tInStock")}`}
           </p>
           <CartAmount value={cartAmount} onChange={setCartAmount} />
+          <div className={styles.additionalContent}>
+            <div
+              className={styles.deliveryBlock}
+              onClick={openDeliveryModal}
+              role="button"
+              tabIndex={0}
+            >
+              <Image src={"/delivery-truck.svg"} alt={"Delivery truck"} width={36} height={36} />
+              <span className={styles.textDelivery}>
+                {t("ProductPage.modalDeliveryInfo.title")}*
+              </span>
+            </div>
+            <div
+              className={styles.conditionBlock}
+              onClick={openConditionsModal}
+              role="button"
+              tabIndex={0}
+            >
+              <Image src={"/service-icon.svg"} alt={"Service"} width={36} height={36} />
+              <span className={styles.textDelivery}>
+                {t("ProductPage.modalConditionsInfo.title")}
+              </span>
+            </div>
+            <div className={styles.returnBlock}>
+              <Image src={"/return-icon.svg"} alt={"Delivery truck"} width={36} height={36} />
+              <span className={styles.textDelivery}>
+                {t("ProductPage.modalGuaranteeInfo.title")}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className={styles.rightBlock}>
+          <div className={styles.priceBlock}>
+            <p className={styles.saleInfo}>
+              {price} {t("ProductsPageInformation.price")}
+            </p>
+            <p className={styles.priceInfo}>
+              {price} {t("ProductsPageInformation.price")}
+            </p>
+          </div>
           <Button
             buttonType={"bigButton"}
             // onClick={handleAddToCart}
           >
             {t("ProductsPageInformation.cartButton")}
           </Button>
-        </div>
-        <div className={styles.additionalContent}>
-          <div className={styles.deliveryBlock} onClick={openModal} role="button" tabIndex={0}>
-            <Image src={"/delivery-truck.svg"} alt={"Delivery truck"} width={36} height={36} />
-            <span className={styles.textDelivery}>{t("ProductPage.modalInfo.title")}*</span>
-          </div>
+          <Button
+            buttonType={"bigButton"}
+            // onClick={handleAddToCart}
+          >
+            {t("ProductsPageInformation.quickPurchaseButton")}
+          </Button>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={t("ProductPage.modalInfo.title")}>
+      <Modal
+        isOpen={isDeliveryModalOpen}
+        onClose={closeDeliveryModal}
+        title={t("ProductPage.modalDeliveryInfo.title")}
+      >
         <p className={styles.deliveryText}>
-          {t("ProductPage.modalInfo.firstCondition")} —{" "}
-          <span>300 {t("ProductPage.modalInfo.price")}</span>
+          {t("ProductPage.modalDeliveryInfo.firstCondition")} —{" "}
+          <span>300 {t("ProductPage.modalDeliveryInfo.price")}</span>
         </p>
         <p className={styles.deliveryText}>
-          {t("ProductPage.modalInfo.secondCondition")} —{" "}
-          <span>1000 {t("ProductPage.modalInfo.price")}</span>
+          {t("ProductPage.modalDeliveryInfo.secondCondition")} —{" "}
+          <span>1000 {t("ProductPage.modalDeliveryInfo.price")}</span>
         </p>
         <div className={styles.deliveryOption}>
           <label className={styles.checkboxLabel}>
             <input type="checkbox" checked={withDelivery} onChange={toggleDelivery} />
-            <span>{t("ProductPage.modalInfo.delivery")}</span>
+            <span>{t("ProductPage.modalDeliveryInfo.delivery")}</span>
           </label>
           <div className={styles.actions}>
             <Button
               onClick={() => {
                 console.log("доставка выбрана:", withDelivery);
-                closeModal();
+                closeDeliveryModal();
               }}
               buttonType="smallButton"
             >
-              {t("ProductPage.modalInfo.confirm")}
+              {t("ProductPage.modalDeliveryInfo.confirm")}
             </Button>
           </div>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={isConditionsModalOpen}
+        onClose={closeConditionsModal}
+        title={t("ProductPage.modalDeliveryInfo.title")}
+      >
+        <p className={styles.conditionsDescription}>
+          {t("ProductPage.modalConditionsInfo.description")}
+        </p>
+        <div className={styles.actions}>
+          <Button
+            onClick={() => {
+              closeConditionsModal();
+            }}
+            buttonType="smallButton"
+          >
+            {t("ProductPage.modalConditionsInfo.confirm")}
+          </Button>
         </div>
       </Modal>
     </>

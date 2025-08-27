@@ -91,6 +91,7 @@
     "isInStock": "В наличии",
     "isn'tInStock": "Нет в наличии",
     "cartButton": "В корзину",
+    "quickPurchaseButton": "Быстрая покупка",
     "price": "лей/шт.",
     "filterAndSort": {
       "brand": "Бренд",
@@ -109,13 +110,21 @@
       "title": "фильтр для воды",
       "description": "Купить с доставкой в Кишинёве"
     },
-    "modalInfo": {
+    "modalDeliveryInfo": {
       "title": "Условия доставки",
       "firstCondition": "По Кишиневу доставка",
       "secondCondition": "По Молдове",
       "price": "лей",
       "delivery": "Мне нужна доставка",
       "confirm": "Подтвердить"
+    },
+    "modalConditionsInfo": {
+      "title": "Обслуживание",
+      "description": "Lorem ipsum",
+      "confirm": "Понятно"
+    },
+    "modalGuaranteeInfo": {
+      "title": "Гарантия и возврат до 14 дней"
     }
   }
 }
