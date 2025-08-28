@@ -4,6 +4,7 @@ export enum RoutesEnum {
   About = "/about",
   Services = "/services",
   Contacts = "/contacts",
+  Cart = "/cart",
 }
 
 export type Locale = "ru" | "ro";

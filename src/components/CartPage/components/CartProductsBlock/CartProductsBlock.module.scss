@@ -1,0 +1,13 @@
+@use "variables" as *;
+
+.root {
+  background-color: $bg-white;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: $font-2xl;
+  font-weight: $font-bold;
+}

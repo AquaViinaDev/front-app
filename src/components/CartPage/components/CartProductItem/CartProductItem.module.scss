@@ -1,0 +1,45 @@
+@use "variables" as *;
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: $font-md;
+  font-weight: $font-semi-bold;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.cartAmount {
+  max-height: 53px;
+}
+
+.totalPrice {
+  font-size: $font-xl;
+  font-weight: $font-semi-bold;
+}
+
+.removeBtn {
+  background-color: transparent;
+  border: none;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+
+  svg {
+    fill: tomato;
+  }
+}

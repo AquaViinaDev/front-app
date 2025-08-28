@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";

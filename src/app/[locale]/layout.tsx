@@ -20,7 +20,7 @@ type RootLayoutProps = {
 };
 
 export default async function RootLayout({ children, params }: RootLayoutProps) {
-  const { locale: localeFromUrl } = await params; // <-- вот тут await
+  const { locale: localeFromUrl } = await params;
 
   const { locale, messages } = await getRequestConfig({
     requestLocale: Promise.resolve(localeFromUrl),
