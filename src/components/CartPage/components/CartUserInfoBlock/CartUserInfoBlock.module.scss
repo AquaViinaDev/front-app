@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: $bg-white;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: $font-2xl;
+  font-weight: $font-bold;
+}
+
+.userForm, .deliveryInputsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  > div {
+    width: 48%;
+  }
+}
+
+.emailInput, .userNameInput, .companyInput {
+  background-color: $bg-gray;
+}

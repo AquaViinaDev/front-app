@@ -6,5 +6,16 @@ import { CustomLink } from "@/components/common/CustomLink";
 import { CartAmount } from "@/components/common/CartAmount";
 import { Modal } from "@/components/common/Modal";
 import { Sort } from "@/components/common/Sort";
+import { ToggleGroup } from "@/components/common/ToggleGroup";
 
-export { TextInput, PhoneInput, SearchForm, Button, CustomLink, CartAmount, Modal, Sort };
+export {
+  TextInput,
+  PhoneInput,
+  SearchForm,
+  Button,
+  CustomLink,
+  CartAmount,
+  Modal,
+  Sort,
+  ToggleGroup,
+};

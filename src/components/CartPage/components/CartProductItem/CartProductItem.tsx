@@ -10,7 +10,7 @@ const CartProductItem = () => {
     <div className={styles.root}>
       <Link className={styles.link} href={"/products"}>
         <Image
-          src={"/images/cuvshin.png"}
+          src={"/images/cuvshinExample.png"}
           alt={"title"}
           width={81}
           height={81}

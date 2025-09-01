@@ -3,6 +3,7 @@
 import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, memo, useCallback } from "react";
 
 import { useTranslations } from "use-intl";
+import classNames from "classnames";
 
 import styles from "./TextInput.module.scss";
 
@@ -11,31 +12,37 @@ type NativeInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" |
 export type TextInputProps = NativeInputProps & {
   onChange?: (value: string | null, e?: ChangeEvent<HTMLInputElement> | null) => void;
   value?: string | null;
+  isLabel?: boolean;
+  textInputClassName?: string;
 };
 
-const TextInput = memo(({ value, onChange, ...props }: TextInputProps) => {
-  const t = useTranslations("CommunicationSection");
-  const wrappedOnChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (e) => onChange?.(e?.target?.value || null, e),
-    [onChange]
-  );
+const TextInput = memo(
+  ({ textInputClassName, value, onChange, isLabel = true, ...props }: TextInputProps) => {
+    const t = useTranslations("CommunicationSection");
+    const wrappedOnChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+      (e) => onChange?.(e?.target?.value || null, e),
+      [onChange]
+    );
 
-  return (
-    <div className={styles.root}>
-      <label className={styles.label} htmlFor="textInput">
-        {t("labelInput")}
-      </label>
-      <input
-        type="text"
-        id="textInput"
-        className={styles.textInput}
-        value={value || ""}
-        {...props}
-        onChange={wrappedOnChange}
-      />
-    </div>
-  );
-});
+    return (
+      <div className={styles.root}>
+        {isLabel ? (
+          <label className={styles.label} htmlFor="textInput">
+            {t("labelInput")}
+          </label>
+        ) : null}
+        <input
+          type="text"
+          id="textInput"
+          className={classNames(textInputClassName, styles.textInput)}
+          value={value || ""}
+          {...props}
+          onChange={wrappedOnChange}
+        />
+      </div>
+    );
+  }
+);
 
 TextInput.displayName = "TextInput";
 

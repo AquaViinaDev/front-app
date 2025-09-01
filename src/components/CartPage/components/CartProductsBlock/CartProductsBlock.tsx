@@ -1,4 +1,5 @@
 "use client";
+
 import { CartProductItem } from "../CartProductItem";
 
 import styles from "./CartProductsBlock.module.scss";

@@ -1,0 +1,22 @@
+@use "variables" as *;
+
+.root {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.button {
+  padding: 14px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: $bg-white;
+  color: $text-black;
+  cursor: pointer;
+}
+
+.active {
+  background-color: $bg-blue;
+  color: $text-white;
+  border: none;
+}
