@@ -1,7 +1,28 @@
+"use client";
+
+import { Button } from "@/components/common";
+
 import styles from "./CartGeneralBlock.module.scss";
 
 const CartGeneralBlock = () => {
-  return <div className={styles.root}>CartGeneralBlock</div>;
+  return (
+    <div className={styles.root}>
+      <h3 className={styles.title}>Итого</h3>
+      <div className={styles.amountWrapper}>
+        <span className={styles.amountText}>Стоимость товаров </span>
+        <span className={styles.amountText}>28 259 лей</span>
+      </div>
+      <div className={styles.deliveryAmountWrapper}>
+        <span className={styles.deliveryAmountText}>Доставка </span>
+        <span className={styles.deliveryAmountText}>300 лей</span>
+      </div>
+      <div className={styles.totalAmountWrapper}>
+        <span className={styles.totalAmountText}>Итого </span>
+        <span className={styles.totalAmountText}>28 259 лей</span>
+      </div>
+      <Button buttonType={"bigButton"}>Купить</Button>
+    </div>
+  );
 };
 
 export default CartGeneralBlock;

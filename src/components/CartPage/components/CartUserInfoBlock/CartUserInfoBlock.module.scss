@@ -27,3 +27,16 @@
 .emailInput, .userNameInput, .companyInput {
   background-color: $bg-gray;
 }
+
+.userDescription {
+  outline: none;
+  resize: none;
+  border: none;
+  width: 100%;
+  padding: 17px 20px;
+  background: $bg-gray;
+  border-radius: 4px;
+  height: 88px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+}

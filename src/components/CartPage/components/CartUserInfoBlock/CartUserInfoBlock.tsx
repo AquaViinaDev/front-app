@@ -6,7 +6,6 @@ import styles from "./CartUserInfoBlock.module.scss";
 
 const CartUserInfoBlock = () => {
   const [delivery, setDelivery] = useState("delivery");
-  // const [payment, setPayment] = useState("cash");
 
   return (
     <div className={styles.root}>
@@ -60,6 +59,10 @@ const CartUserInfoBlock = () => {
       <div className={styles.paymentMethodWrapper}>
         <h3 className={styles.title}>Метод оплаты</h3>
         <p className={styles.paymentText}>Оплатить можно курьеру при доставке!</p>
+      </div>
+      <div className={styles.userDescriptionWrapper}>
+        <h3 className={styles.title}>Завершение</h3>
+        <textarea className={styles.userDescription} placeholder={"Заметки по твоему заказу"} />
       </div>
     </div>
   );

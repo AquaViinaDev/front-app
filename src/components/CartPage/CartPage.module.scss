@@ -3,3 +3,23 @@
 .pageLayout {
   background-color: $bg-gray;
 }
+
+.contentWrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.topWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 66.12%;
+}
+
+.bottomWrapper {
+  position: sticky;
+  top: 110px;
+  align-self: flex-start;
+  width: 32.2%;
+}
