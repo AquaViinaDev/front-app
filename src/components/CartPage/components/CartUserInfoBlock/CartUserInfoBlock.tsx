@@ -3,9 +3,11 @@ import { useState } from "react";
 import { PhoneInput, TextInput, ToggleGroup } from "@/components/common";
 
 import styles from "./CartUserInfoBlock.module.scss";
+import { useOrder } from "@/components/CartPage/CartContext";
 
 const CartUserInfoBlock = () => {
   const [delivery, setDelivery] = useState("delivery");
+  const { setUserInfo } = useOrder();
 
   return (
     <div className={styles.root}>
@@ -17,6 +19,7 @@ const CartUserInfoBlock = () => {
             type={"email"}
             placeholder={"E-mail"}
             isLabel={false}
+            onChange={(value) => console.log(value)}
           />
           <TextInput
             textInputClassName={styles.userNameInput}

@@ -9,6 +9,22 @@
 //   return res.json();
 // };
 
+export const getCartProducts = async (ids: string[]) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/by-ids`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch cart products");
+  }
+
+  return res.json();
+};
+
 export const getProductById = async (id: string) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {

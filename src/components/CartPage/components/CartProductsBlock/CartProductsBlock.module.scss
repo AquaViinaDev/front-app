@@ -6,8 +6,12 @@
   padding: 16px;
 }
 
-.title {
+.title, .cartEmpty {
   margin-bottom: 24px;
   font-size: $font-2xl;
   font-weight: $font-bold;
+}
+
+.cartEmpty {
+  text-align: center;
 }

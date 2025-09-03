@@ -12,12 +12,14 @@
 }
 
 .link {
+  width: 40%;
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
 .counter {
+  width: 48%;
   display: flex;
   align-items: center;
   gap: 25px;
@@ -25,14 +27,23 @@
 
 .cartAmount {
   max-height: 53px;
+  width: 49%;
+}
+
+.onePrice {
+  width: 24%;
+  text-align: center;
 }
 
 .totalPrice {
+  width: 24%;
+  text-align: center;
   font-size: $font-xl;
   font-weight: $font-semi-bold;
 }
 
 .removeBtn {
+  max-width: 9%;
   background-color: transparent;
   border: none;
   width: 24px;
