@@ -44,7 +44,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
     return [];
   });
-  console.log(products);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     name: "",

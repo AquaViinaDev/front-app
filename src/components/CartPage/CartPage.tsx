@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CartProductsBlock, CartUserInfoBlock, CartGeneralBlock } from "../CartPage/components";
 import { CartProvider, useOrder } from "../CartPage/CartContext";
@@ -19,7 +19,7 @@ const CartContent = () => {
     enabled: ids.length > 0,
   });
 
-  const { products, setProducts } = useOrder();
+  const { products, setProducts, userInfo, totalAmount } = useOrder();
 
   useEffect(() => {
     if (data) {
@@ -32,6 +32,21 @@ const CartContent = () => {
     }
   }, [data, setProducts]);
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    const orderData = {
+      products,
+      userInfo,
+      totalAmount,
+    };
+
+    console.log("Отправка заказа на бэкенд:", orderData);
+
+    // здесь потом сделаешь fetch/axios post
+    // await fetch("/api/order", { method: "POST", body: JSON.stringify(orderData) })
+  };
+
   if (error) return <p>Ошибка загрузки</p>;
 
   return (
@@ -41,13 +56,15 @@ const CartContent = () => {
       title={"В вашей корзине"}
       isLoading={isLoading}
     >
-      <div className={styles.topWrapper}>
-        <CartProductsBlock items={products} />
-        <CartUserInfoBlock />
-      </div>
-      <div className={styles.bottomWrapper}>
-        <CartGeneralBlock />
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.topWrapper}>
+          <CartProductsBlock items={products} />
+          <CartUserInfoBlock />
+        </div>
+        <div className={styles.bottomWrapper}>
+          <CartGeneralBlock />
+        </div>
+      </form>
     </PageLayout>
   );
 };

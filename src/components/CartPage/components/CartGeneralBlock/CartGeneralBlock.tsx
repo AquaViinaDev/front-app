@@ -20,7 +20,9 @@ const CartGeneralBlock = () => {
         <span className={styles.totalAmountText}>Итого </span>
         <span className={styles.totalAmountText}>{totalAmount + 300} лей</span>
       </div>
-      <Button buttonType={"bigButton"}>Купить</Button>
+      <Button type={"submit"} buttonType={"bigButton"}>
+        Купить
+      </Button>
     </div>
   );
 };
