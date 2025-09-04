@@ -3,8 +3,13 @@ import { useOrder } from "@/components/CartPage/CartContext";
 
 import styles from "./CartGeneralBlock.module.scss";
 
-const CartGeneralBlock = () => {
+type CartGeneralBlockProps = {
+  onBuy: () => void;
+};
+
+const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
   const { totalAmount } = useOrder();
+
   return (
     <div className={styles.root}>
       <h3 className={styles.title}>Итого</h3>
@@ -20,7 +25,7 @@ const CartGeneralBlock = () => {
         <span className={styles.totalAmountText}>Итого </span>
         <span className={styles.totalAmountText}>{totalAmount + 300} лей</span>
       </div>
-      <Button type={"submit"} buttonType={"bigButton"}>
+      <Button buttonType="bigButton" onClick={onBuy}>
         Купить
       </Button>
     </div>

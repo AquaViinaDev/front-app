@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { NextIntlClientProvider } from "next-intl";
 import getRequestConfig from "../../../i18n/request";
 import { notFound } from "next/navigation";
+import { CartProvider } from "@/components/CartPage/CartContext";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -32,9 +33,11 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     <html lang={locale} className={montserrat.variable}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <CartProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -3,11 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/common";
 import { useLocale, useTranslations } from "use-intl";
+import { useOrder } from "@/components/CartPage/CartContext";
 import classNames from "classnames";
 
 import styles from "./PreviewProductItem.module.scss";
 
 export type PreviewProductItemTypeProps = HTMLAttributes<HTMLLIElement> & {
+  id: string;
   image: string;
   title: string;
   isInStock?: boolean;
@@ -16,9 +18,21 @@ export type PreviewProductItemTypeProps = HTMLAttributes<HTMLLIElement> & {
 };
 
 const PreviewProductItem = memo(
-  ({ title, link, price, image, isInStock, ...props }: PreviewProductItemTypeProps) => {
+  ({ id, title, link, price, image, isInStock, ...props }: PreviewProductItemTypeProps) => {
     const locale = useLocale();
     const t = useTranslations();
+    const { addProduct } = useOrder();
+
+    const handleAddToCart = () => {
+      if (!isInStock) return;
+
+      addProduct({
+        id,
+        name: { ro: title, ru: title },
+        image,
+        price: Number(price),
+      });
+    };
 
     return (
       <li className={styles.root} {...props}>
@@ -46,7 +60,9 @@ const PreviewProductItem = memo(
           <p className={styles.priceInfo}>
             {price} {t("ProductsPageInformation.price")}
           </p>
-          <Button buttonType={"smallButton"}>{t("ProductsPageInformation.cartButton")}</Button>
+          <Button buttonType={"smallButton"} onClick={handleAddToCart}>
+            {t("ProductsPageInformation.cartButton")}
+          </Button>
         </div>
       </li>
     );

@@ -35,6 +35,7 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
     <ul className={styles.root}>
       {data?.map((product: Product) => (
         <PreviewProductItem
+          id={product.id}
           key={product.id}
           image={product.images[0]}
           title={product.name?.[locale]}

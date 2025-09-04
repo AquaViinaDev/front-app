@@ -30,13 +30,13 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
     <div className={styles.root}>
       <Link className={styles.link} href={"/products"}>
         <Image
-          src={`${process.env.NEXT_PUBLIC_API_URL}${image}`}
-          alt={name.ro}
+          src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.svg"}
+          alt={name?.ro ?? "Product Image"}
           width={81}
           height={81}
           className={styles.itemImage}
         />
-        <h3 className={styles.title}>{name.ru}</h3>
+        <h3 className={styles.title}>{name?.ru ?? "Без имени"}</h3>
       </Link>
       <div className={styles.counter}>
         <CartAmount
