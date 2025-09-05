@@ -14,9 +14,10 @@ type ModifiedPhoneInputProps = Omit<BasePhoneInputProps, "onChange" | "value">;
 export type PhoneInputProps = {
   onChange?: (value: string | null, e?: ChangeEvent<HTMLInputElement> | null) => void;
   value?: string | null;
+  error?: boolean;
 } & ModifiedPhoneInputProps;
 
-const PhoneInput = memo(({ value, onChange, ...props }: PhoneInputProps) => {
+const PhoneInput = memo(({ error = false, value, onChange, ...props }: PhoneInputProps) => {
   const wrappedOnChange = useCallback(
     (value: string, event: ChangeEvent<HTMLInputElement>) => {
       onChange?.(value || null, event || null);
@@ -38,7 +39,7 @@ const PhoneInput = memo(({ value, onChange, ...props }: PhoneInputProps) => {
         textAlign: "left",
       }}
       containerClass={styles.container}
-      inputClass={styles.input}
+      inputClass={`${styles.input} ${error ? styles.error : ""}`}
       buttonClass={styles.button}
       {...props}
     />

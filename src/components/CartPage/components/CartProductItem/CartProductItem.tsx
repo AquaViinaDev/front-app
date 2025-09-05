@@ -24,7 +24,9 @@ export type CartProductItemProps = {
 
 const CartProductItem = ({ item }: CartProductItemProps) => {
   const { id, name, image, price, qty, totalPrice } = item;
-  const { updateProductQty, removeProduct } = useOrder();
+  const { updateProductQty, removeProduct, items } = useOrder();
+  // const cartItem = items.find((cartItem) => cartItem.id === id);
+  // const qty = cartItem?.qty ?? 0;
 
   return (
     <div className={styles.root}>

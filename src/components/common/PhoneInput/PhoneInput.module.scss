@@ -51,8 +51,12 @@
   padding: 29px 29px 29px 48px;
   border-radius: 30px !important;
   color: $text-black;
-}
 
+  &.error {
+    outline: 1px solid tomato !important;
+  }
+
+}
 .button {
   border: none !important;
   background: transparent !important;

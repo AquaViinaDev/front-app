@@ -5,6 +5,7 @@ import { Button, CartAmount, Modal } from "@/components/common";
 import classNames from "classnames";
 import Image from "next/image";
 import { useTranslations } from "use-intl";
+import { useOrder } from "@/components/CartPage/CartContext";
 
 import styles from "./ProductInformationBlock.module.scss";
 
@@ -15,7 +16,7 @@ export type ProductInformationBlockProps = {
 };
 
 export const ProductInformationBlock = ({
-  // productId,
+  productId,
   price,
   inStock,
 }: ProductInformationBlockProps) => {
@@ -23,14 +24,17 @@ export const ProductInformationBlock = ({
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
   const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
   const [withDelivery, setWithDelivery] = useState(false);
-
   const openDeliveryModal = useCallback(() => setIsDeliveryModalOpen(true), []);
   const closeDeliveryModal = useCallback(() => setIsDeliveryModalOpen(false), []);
+  const { items, addProduct, updateProductQty } = useOrder();
 
   const openConditionsModal = useCallback(() => setIsConditionsModalOpen(true), []);
   const closeConditionsModal = useCallback(() => setIsConditionsModalOpen(false), []);
 
   const toggleDelivery = useCallback(() => setWithDelivery((v) => !v), []);
+
+  const currentItem = items.find((i) => i.id === productId);
+  const qty = currentItem?.qty ?? 1;
 
   const t = useTranslations();
   // const handleAddToCart = async () => {
@@ -42,7 +46,7 @@ export const ProductInformationBlock = ({
   //     },
   //   });
   // };
-
+  console.log(productId, cartAmount);
   return (
     <>
       <div className={styles.root}>
@@ -57,7 +61,13 @@ export const ProductInformationBlock = ({
               ? `${t("ProductsPageInformation.isInStock")}`
               : `${t("ProductsPageInformation.isn'tInStock")}`}
           </p>
-          <CartAmount value={cartAmount} onChange={setCartAmount} />
+          <CartAmount
+            value={qty}
+            onChange={(value) => {
+              updateProductQty(productId, value);
+              setCartAmount(value);
+            }}
+          />
           <div className={styles.additionalContent}>
             <div
               className={styles.deliveryBlock}
@@ -98,10 +108,7 @@ export const ProductInformationBlock = ({
               {price} {t("ProductsPageInformation.price")}
             </p>
           </div>
-          <Button
-            buttonType={"bigButton"}
-            // onClick={handleAddToCart}
-          >
+          <Button buttonType={"bigButton"} onClick={() => addProduct(productId)}>
             {t("ProductsPageInformation.cartButton")}
           </Button>
           <Button

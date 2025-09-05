@@ -5,6 +5,7 @@ import { Button } from "@/components/common";
 import { useLocale, useTranslations } from "use-intl";
 import { useOrder } from "@/components/CartPage/CartContext";
 import classNames from "classnames";
+import { toast } from "react-toastify";
 
 import styles from "./PreviewProductItem.module.scss";
 
@@ -26,12 +27,8 @@ const PreviewProductItem = memo(
     const handleAddToCart = () => {
       if (!isInStock) return;
 
-      addProduct({
-        id,
-        name: { ro: title, ru: title },
-        image,
-        price: Number(price),
-      });
+      addProduct(id);
+      toast.success(`Товар успешно добавлен!`);
     };
 
     return (

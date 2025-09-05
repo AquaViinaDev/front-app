@@ -3,23 +3,34 @@
 import { useEffect, useState } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CartProductsBlock, CartUserInfoBlock, CartGeneralBlock } from "../CartPage/components";
-import { useOrder } from "../CartPage/CartContext";
+import { CartItem, useOrder } from "../CartPage/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
 import { getCartProducts } from "@/lib/api";
+import { toast } from "react-toastify";
 
 import styles from "./CartPage.module.scss";
 
 const CartPage = () => {
   const [ids, setIds] = useState<string[] | null>(null); // null пока не загрузились
-  const { products, setProducts, userInfo, totalAmount } = useOrder();
+  const { userInfo, setItems, products, totalAmount, setProducts } = useOrder();
+  const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
 
-  // Загрузка ids из localStorage только на клиенте
+  const validate = () => {
+    const newErrors = {
+      name: !userInfo.name?.trim(),
+      phone: !userInfo.phone?.trim(),
+      address: !userInfo.address?.trim(),
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
   useEffect(() => {
     const saved = localStorage.getItem("aquaCart");
     if (saved) {
       try {
         const parsed: { id: string; qty: number }[] = JSON.parse(saved);
+        console.log(parsed);
         setIds(parsed.map((item) => item.id));
       } catch (e) {
         console.error("Ошибка парсинга aquaCart:", e);
@@ -30,37 +41,55 @@ const CartPage = () => {
     }
   }, []);
 
-  // Запрос только если ids уже загружены
   const { data, isLoading, error } = useQuery({
     queryKey: ["cartProducts", ids],
     queryFn: () => getCartProducts(ids!),
     enabled: ids !== null && ids.length > 0,
   });
 
-  // Обновляем состояние продуктов в контексте
   useEffect(() => {
     if (data) {
-      const productsWithQty = data.map((item: CartProductItemType) => ({
-        ...item,
-        qty: 1,
-        totalPrice: item.price,
-      }));
+      const saved = localStorage.getItem("aquaCart");
+      const parsed: { id: string; qty: number }[] = saved ? JSON.parse(saved) : [];
+
+      const productsWithQty = data.map((item: CartProductItemType) => {
+        const found = parsed.find((i) => i.id === item.id);
+        const qty = found?.qty ?? item.qty ?? 1;
+
+        return {
+          ...item,
+          qty,
+          totalPrice: item.price * qty,
+        };
+      });
+
       setProducts(productsWithQty);
+
+      setItems(productsWithQty.map((p: CartItem) => ({ id: p.id, qty: p.qty })));
     }
-  }, [data, setProducts]);
+  }, [data, setProducts, setItems]);
 
   const handleBuy = () => {
+    if (!validate()) {
+      toast.error("Пожалуйста, заполните все обязательные поля: Имя, Телефон и Адрес.");
+      return;
+    }
+
     const orderData = {
-      products,
+      products: products.map((item) => ({
+        name: item.name.ru,
+        price: item.price,
+        qty: item.qty,
+        totalPrice: item.price * item.qty,
+      })),
       userInfo,
       totalAmount,
     };
+
     console.log("Отправка заказа на бэкенд:", orderData);
-    // fetch/axios post можно добавить здесь
   };
 
   if (ids === null) {
-    // пока нет данных о корзине, показываем лоадер
     return <PageLayout className={styles.pageLayout} title="В вашей корзине" isLoading={true} />;
   }
 
@@ -75,7 +104,7 @@ const CartPage = () => {
     >
       <div className={styles.topWrapper}>
         <CartProductsBlock items={products} />
-        <CartUserInfoBlock />
+        <CartUserInfoBlock errors={errors} />
       </div>
       <div className={styles.bottomWrapper}>
         <CartGeneralBlock onBuy={handleBuy} />

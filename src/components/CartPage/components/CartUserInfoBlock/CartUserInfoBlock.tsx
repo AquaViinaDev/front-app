@@ -1,11 +1,16 @@
 "use client";
+
 import { useState } from "react";
 import { PhoneInput, TextInput, ToggleGroup } from "@/components/common";
 import { useOrder } from "@/components/CartPage/CartContext";
 
 import styles from "./CartUserInfoBlock.module.scss";
 
-const CartUserInfoBlock = () => {
+export type CartUserInfoBlockProps = {
+  errors: { name?: boolean; phone?: boolean; address?: boolean };
+};
+
+const CartUserInfoBlock = ({ errors }: CartUserInfoBlockProps) => {
   const [delivery, setDelivery] = useState("delivery");
   const [region, setRegion] = useState("");
   const [suburb, setSuburb] = useState("");
@@ -38,6 +43,7 @@ const CartUserInfoBlock = () => {
             onChange={(value) => handleChange("email", value)}
           />
           <TextInput
+            error={errors.name}
             textInputClassName={styles.userNameInput}
             placeholder={"Имя Фамилия"}
             isLabel={false}
@@ -51,7 +57,11 @@ const CartUserInfoBlock = () => {
             value={userInfo.companyName}
             onChange={(value) => handleChange("companyName", value)}
           />
-          <PhoneInput value={"373"} onChange={(value) => handleChange("phone", value)} />
+          <PhoneInput
+            value={"373"}
+            error={errors.phone}
+            onChange={(value) => handleChange("phone", value)}
+          />
         </div>
       </div>
       <div className={styles.deliveryInfoWrapper}>
@@ -63,6 +73,7 @@ const CartUserInfoBlock = () => {
         />
         <div className={styles.deliveryInputsWrapper}>
           <TextInput
+            error={errors.address}
             textInputClassName={styles.companyInput}
             placeholder={"Муниципалитет / Район"}
             isLabel={false}

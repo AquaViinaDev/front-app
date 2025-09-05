@@ -8,10 +8,11 @@ export type CartProductsBlockProps = {
 };
 
 const CartProductsBlock = ({ items }: CartProductsBlockProps) => {
+  console.log(items);
   return (
     <div className={styles.root}>
       <h3 className={styles.title}>{items?.length} товаров</h3>
-      {items.length >= 1 ? (
+      {items?.length >= 1 ? (
         <ul className={styles.itemsWrapper}>
           {items?.map((item) => (
             <CartProductItem key={item.id} item={item} />

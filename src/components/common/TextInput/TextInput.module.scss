@@ -20,6 +20,10 @@
   outline: none;
   background-color: $bg-white;
   color: $text-black;
+
+  &.error {
+    outline: 1px solid tomato;
+  }
 }
 
 .label {

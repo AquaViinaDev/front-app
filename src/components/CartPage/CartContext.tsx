@@ -1,25 +1,14 @@
 "use client";
-
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 
-export type AddProductInput = {
+export type CartItem = {
+  id: string;
+  qty: number;
+};
+
+export type CartProduct = {
   id: string;
   name: { ro: string; ru: string };
-  image: string;
-  price: number;
-};
-
-export type CartProduct = AddProductInput & {
-  qty: number;
-  totalPrice: number;
-};
-
-export type Product = {
-  id: string;
-  name: {
-    ro: string;
-    ru: string;
-  };
   image: string;
   price: number;
   qty: number;
@@ -36,12 +25,14 @@ type UserInfo = {
 };
 
 type CartContextType = {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  items: CartItem[];
+  setItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  products: CartProduct[];
+  setProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>;
+  addProduct: (id: string, qty?: number) => void;
   updateProductQty: (id: string, qty: number) => void;
   removeProduct: (id: string) => void;
   clearCart: () => void;
-  addProduct: (product: AddProductInput) => void;
   userInfo: UserInfo;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
   totalAmount: number;
@@ -50,13 +41,15 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [products, setProducts] = useState<Product[]>(() => {
+  const [items, setItems] = useState<CartItem[]>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("aquaCart");
       return saved ? JSON.parse(saved) : [];
     }
     return [];
   });
+
+  const [products, setProducts] = useState<CartProduct[]>([]);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     name: "",
@@ -68,47 +61,49 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useEffect(() => {
-    const minimal = products.map((p) => ({ id: p.id, qty: p.qty }));
-    localStorage.setItem("aquaCart", JSON.stringify(minimal));
-  }, [products]);
+    localStorage.setItem("aquaCart", JSON.stringify(items));
+  }, [items]);
+
+  const addProduct = (id: string, qty: number = 1) => {
+    setItems((prev) => {
+      const existing = prev.find((item) => item.id === id);
+      if (existing) {
+        return prev.map((item) => (item.id === id ? { ...item, qty: item.qty + qty } : item));
+      }
+      return [...prev, { id, qty }];
+    });
+  };
 
   const updateProductQty = (id: string, qty: number) => {
+    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, qty } : item)));
     setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, qty, totalPrice: qty * p.price } : p))
+      prev.map((p) => (p.id === id ? { ...p, qty, totalPrice: p.price * qty } : p))
     );
   };
 
   const removeProduct = (id: string) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
     setProducts((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const addProduct = (product: AddProductInput): void => {
-    setProducts((prev: CartProduct[]) => {
-      const existing = prev.find((p) => p.id === product.id);
-      if (existing) {
-        return prev.map((p) =>
-          p.id === product.id ? { ...p, qty: p.qty + 1, totalPrice: (p.qty + 1) * p.price } : p
-        );
-      }
-      return [...prev, { ...product, qty: 1, totalPrice: product.price }];
-    });
+  const clearCart = () => {
+    setItems([]);
+    setProducts([]);
   };
 
-  const clearCart = () => setProducts([]);
-
-  const totalAmount = useMemo(() => {
-    return products.reduce((acc, p) => acc + p.totalPrice, 0);
-  }, [products]);
+  const totalAmount = useMemo(() => products.reduce((acc, p) => acc + p.totalPrice, 0), [products]);
 
   return (
     <CartContext.Provider
       value={{
+        items,
+        setItems,
         products,
         setProducts,
+        addProduct,
         updateProductQty,
         removeProduct,
         clearCart,
-        addProduct,
         userInfo,
         setUserInfo,
         totalAmount,

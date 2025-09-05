@@ -14,10 +14,18 @@ export type TextInputProps = NativeInputProps & {
   value?: string | null;
   isLabel?: boolean;
   textInputClassName?: string;
+  error?: boolean;
 };
 
 const TextInput = memo(
-  ({ textInputClassName, value, onChange, isLabel = true, ...props }: TextInputProps) => {
+  ({
+    error = false,
+    textInputClassName,
+    value,
+    onChange,
+    isLabel = true,
+    ...props
+  }: TextInputProps) => {
     const t = useTranslations("CommunicationSection");
     const wrappedOnChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
       (e) => onChange?.(e?.target?.value || null, e),
@@ -34,7 +42,9 @@ const TextInput = memo(
         <input
           type="text"
           id="textInput"
-          className={classNames(textInputClassName, styles.textInput)}
+          className={classNames(textInputClassName, styles.textInput, {
+            [styles.error]: error,
+          })}
           value={value || ""}
           {...props}
           onChange={wrappedOnChange}

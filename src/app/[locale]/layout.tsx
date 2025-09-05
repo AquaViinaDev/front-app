@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import getRequestConfig from "../../../i18n/request";
 import { notFound } from "next/navigation";
 import { CartProvider } from "@/components/CartPage/CartContext";
+import { ToastProvider } from "@/app/[locale]/ToastProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -33,6 +34,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     <html lang={locale} className={montserrat.variable}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <ToastProvider />
           <CartProvider>
             <Header />
             <main>{children}</main>
