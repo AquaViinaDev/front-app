@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import styles from "./CartPage.module.scss";
 
 const CartPage = () => {
-  const [ids, setIds] = useState<string[] | null>(null); // null пока не загрузились
+  const [ids, setIds] = useState<string[] | null>(null);
   const { userInfo, setItems, products, totalAmount, setProducts } = useOrder();
   const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
 
@@ -30,7 +30,6 @@ const CartPage = () => {
     if (saved) {
       try {
         const parsed: { id: string; qty: number }[] = JSON.parse(saved);
-        console.log(parsed);
         setIds(parsed.map((item) => item.id));
       } catch (e) {
         console.error("Ошибка парсинга aquaCart:", e);
@@ -70,6 +69,10 @@ const CartPage = () => {
   }, [data, setProducts, setItems]);
 
   const handleBuy = () => {
+    if (products.length === 0) {
+      toast.error("Корзина пустая, выберите товар.");
+      return;
+    }
     if (!validate()) {
       toast.error("Пожалуйста, заполните все обязательные поля: Имя, Телефон и Адрес.");
       return;
@@ -103,7 +106,7 @@ const CartPage = () => {
       isLoading={isLoading}
     >
       <div className={styles.topWrapper}>
-        <CartProductsBlock items={products} />
+        <CartProductsBlock productItems={products} />
         <CartUserInfoBlock errors={errors} />
       </div>
       <div className={styles.bottomWrapper}>

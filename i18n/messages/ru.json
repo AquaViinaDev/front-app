@@ -3,7 +3,8 @@
     "products": "Товары",
     "services": "Услуги",
     "contacts": "Контакты",
-    "about": "О нас"
+    "about": "О нас",
+    "cart": "Корзина"
   },
 
   "MainSection": {

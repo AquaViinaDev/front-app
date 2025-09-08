@@ -46,7 +46,6 @@ export const ProductInformationBlock = ({
   //     },
   //   });
   // };
-  console.log(productId, cartAmount);
   return (
     <>
       <div className={styles.root}>

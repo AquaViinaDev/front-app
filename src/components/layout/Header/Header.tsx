@@ -5,13 +5,13 @@ import { RoutesEnum } from "@/types";
 import { Navbar } from "./components/NavBar";
 import Social, { SocialData } from "./components/Social/Social";
 import { Local } from "./components/Local";
-// import { SearchForm } from "@/components/common/SearchForm";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "use-intl";
 import { getNavLinks } from "@/components/layout/Header/utils";
 
 import styles from "./Header.module.scss";
+import Cart from "@/components/layout/Header/components/Cart/Cart";
 
 const socialLinks: SocialData[] = [
   { image: "/telegram.svg", label: "Telegram", href: RoutesEnum.Main },
@@ -45,9 +45,9 @@ const Header = () => {
           </Link>
         </div>
         <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
-          {/*<SearchForm />*/}
           <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
           <Social links={socialLinks} onAction={() => setIsOpen(false)} />
+          <Cart />
           <Local />
         </div>
         <button className={styles.burger} onClick={() => setIsOpen(!isOpen)} aria-label="Menu open">

@@ -1,20 +1,21 @@
 import { CartProductItem } from "../CartProductItem";
 import { CartProductItemType } from "../CartProductItem/CartProductItem";
+import { getTotalQty } from "@/components/utils";
 
 import styles from "./CartProductsBlock.module.scss";
 
 export type CartProductsBlockProps = {
-  items: CartProductItemType[];
+  productItems: CartProductItemType[];
 };
 
-const CartProductsBlock = ({ items }: CartProductsBlockProps) => {
-  console.log(items);
+const CartProductsBlock = ({ productItems }: CartProductsBlockProps) => {
+  const totalQty = getTotalQty(productItems);
   return (
     <div className={styles.root}>
-      <h3 className={styles.title}>{items?.length} товаров</h3>
-      {items?.length >= 1 ? (
+      <h3 className={styles.title}>{totalQty} товаров</h3>
+      {productItems?.length >= 1 ? (
         <ul className={styles.itemsWrapper}>
-          {items?.map((item) => (
+          {productItems?.map((item) => (
             <CartProductItem key={item.id} item={item} />
           ))}
         </ul>

@@ -115,6 +115,7 @@ const CartUserInfoBlock = ({ errors }: CartUserInfoBlockProps) => {
           className={styles.userDescription}
           placeholder={"Заметки по твоему заказу"}
           value={userInfo.description}
+          maxLength={250}
           onChange={(e) => setUserInfo((prev) => ({ ...prev, description: e.target.value }))}
         />
       </div>

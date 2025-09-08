@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CartAmount } from "@/components/common";
 import RemoveIcon from "@/assets/icons/remove-icon.svg";
 import { useOrder } from "../../CartContext";
+import { useLocale } from "use-intl";
 
 import styles from "./CartProductItem.module.scss";
 
@@ -24,13 +25,14 @@ export type CartProductItemProps = {
 
 const CartProductItem = ({ item }: CartProductItemProps) => {
   const { id, name, image, price, qty, totalPrice } = item;
-  const { updateProductQty, removeProduct, items } = useOrder();
-  // const cartItem = items.find((cartItem) => cartItem.id === id);
-  // const qty = cartItem?.qty ?? 0;
+  const locale = useLocale();
+  const { updateProductQty, removeProduct } = useOrder();
+
+  const link = `/products/${id}`;
 
   return (
     <div className={styles.root}>
-      <Link className={styles.link} href={"/products"}>
+      <Link className={styles.link} href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
         <Image
           src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.svg"}
           alt={name?.ro ?? "Product Image"}
