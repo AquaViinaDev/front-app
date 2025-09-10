@@ -9,6 +9,8 @@
 //   return res.json();
 // };
 
+import { CartProduct } from "@/components/CartPage/CartContext";
+
 export const getCartProducts = async (ids: string[]) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/by-ids`, {
     method: "POST",
@@ -74,6 +76,22 @@ export const getFilteredProducts = async (filters: {
 
   if (!res.ok) {
     throw new Error("Failed to fetch filtered products");
+  }
+
+  return res.json();
+};
+
+export const sendOrder = async (orderData: any) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderData),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to send order");
   }
 
   return res.json();

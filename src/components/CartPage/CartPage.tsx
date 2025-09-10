@@ -6,14 +6,14 @@ import { CartProductsBlock, CartUserInfoBlock, CartGeneralBlock } from "../CartP
 import { CartItem, useOrder } from "../CartPage/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
-import { getCartProducts } from "@/lib/api";
+import { getCartProducts, sendOrder } from "@/lib/api";
 import { toast } from "react-toastify";
 
 import styles from "./CartPage.module.scss";
 
 const CartPage = () => {
   const [ids, setIds] = useState<string[] | null>(null);
-  const { userInfo, setItems, products, totalAmount, setProducts } = useOrder();
+  const { clearCart, userInfo, setItems, products, totalAmount, setProducts } = useOrder();
   const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
 
   const validate = () => {
@@ -68,33 +68,42 @@ const CartPage = () => {
     }
   }, [data, setProducts, setItems]);
 
-  const handleBuy = () => {
+  const handleBuy = async () => {
     if (products.length === 0) {
-      toast.error("Корзина пустая, выберите товар.");
+      toast.error("Корзина пуста!");
       return;
     }
     if (!validate()) {
-      toast.error("Пожалуйста, заполните все обязательные поля: Имя, Телефон и Адрес.");
+      toast.error("Заполните обязательные поля!");
       return;
     }
 
     const orderData = {
       products: products.map((item) => ({
         name: item.name.ru,
-        price: item.price,
-        qty: item.qty,
-        totalPrice: item.price * item.qty,
+        price: Number(item.price),
+        qty: Number(item.qty),
+        totalPrice: Number(item.price * item.qty),
       })),
-      userInfo,
-      totalAmount,
+      userInfo: {
+        name: userInfo.name,
+        phone: userInfo.phone,
+        email: userInfo.email || null,
+        address: userInfo.address,
+        companyName: userInfo.companyName || null,
+        description: userInfo.description || null,
+      },
+      totalAmount: Number(totalAmount),
     };
 
-    console.log("Отправка заказа на бэкенд:", orderData);
+    try {
+      await sendOrder(orderData);
+      toast.success("Заказ успешно отправлен!");
+      clearCart();
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
-
-  if (ids === null) {
-    return <PageLayout className={styles.pageLayout} title="В вашей корзине" isLoading={true} />;
-  }
 
   if (error) return <p>Ошибка загрузки</p>;
 
@@ -103,7 +112,7 @@ const CartPage = () => {
       className={styles.pageLayout}
       contentClassName={styles.contentWrapper}
       title="В вашей корзине"
-      isLoading={isLoading}
+      isLoading={ids === null}
     >
       <div className={styles.topWrapper}>
         <CartProductsBlock productItems={products} />

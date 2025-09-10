@@ -188,3 +188,19 @@
     font-weight: $font-semi-bold;
   }
 }
+
+@media (max-width: 650px) {
+  .root {
+    flex-direction: column;
+  }
+
+  .leftBlock {
+    order: 2;
+    width: 100%;
+  }
+
+  .rightBlock {
+    order: 1;
+    width: 100%;
+  }
+}

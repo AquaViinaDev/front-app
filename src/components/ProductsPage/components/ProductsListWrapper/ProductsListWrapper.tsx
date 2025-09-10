@@ -106,6 +106,7 @@ const ProductsListWrapper = () => {
             setSelectedType={setSelectedType}
             range={range}
             setRange={setRange}
+            className={styles.filter}
           />
           <ProductsList data={products} isFetched={isFetched} isLoading={isProductsLoading} />
         </div>

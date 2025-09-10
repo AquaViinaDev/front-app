@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "media" as *;
 
 .pageLayout {
   background-color: $bg-gray;
@@ -15,4 +16,10 @@
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 10px;
+}
+
+@media (max-width: $tabletScreen) {
+  .filter {
+    display: none;
+  }
 }

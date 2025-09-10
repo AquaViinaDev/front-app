@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "media" as *;
 
 .root {
   display: flex;
@@ -52,5 +53,37 @@
 
   svg {
     fill: tomato;
+  }
+}
+
+@media (max-width: $mobileScreen) {
+  .root {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .link {
+    width: 100%;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .counter {
+    width: 100%;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .removeBtn {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: end;
+    max-width: none;
+    width: 24px;
+    height: 24px;
   }
 }

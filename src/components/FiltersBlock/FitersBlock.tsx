@@ -6,6 +6,7 @@ import { ClipLoader } from "react-spinners";
 import { Button } from "@/components/common";
 
 import styles from "./FiltersBlock.module.scss";
+import classNames from "classnames";
 
 const override: CSSProperties = {
   display: "block",
@@ -37,6 +38,7 @@ export type FiltersBlockProps = {
   setSelectedType: (val: string | null) => void;
   range: number[];
   setRange: (val: number[]) => void;
+  className?: string;
 };
 
 const FiltersBlock = ({
@@ -49,6 +51,7 @@ const FiltersBlock = ({
   setSelectedType,
   range,
   setRange,
+  className,
 }: FiltersBlockProps) => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");
   const locale = useLocale();
@@ -75,7 +78,7 @@ const FiltersBlock = ({
   }
 
   return (
-    <div className={styles.root}>
+    <div className={classNames(className, styles.root)}>
       <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("brand")}</h3>
         {isLoading ? (
