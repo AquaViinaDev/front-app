@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
-import { SearchForm, Sort } from "@/components/common";
+import { Button, SearchForm, Sort } from "@/components/common";
 import { getFilteredProducts, getFilters } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FiltersResponse } from "@/components/FiltersBlock/FitersBlock";
 import { FiltersBlock } from "@/components/FiltersBlock";
+import Image from "next/image";
 
 import styles from "./ProductsListWrapper.module.scss";
 
@@ -20,7 +21,11 @@ const ProductsListWrapper = () => {
   const [range, setRange] = useState<number[]>([0, 0]);
   const [debouncedRange, setDebouncedRange] = useState<number[] | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(""); // для запроса
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
+  const openFilters = () => setIsMobileFiltersOpen(true);
+  const closeFilters = () => setIsMobileFiltersOpen(false);
 
   const {
     data: filters = {
@@ -91,9 +96,21 @@ const ProductsListWrapper = () => {
   return (
     <PageLayout className={styles.pageLayout} title={t("ProductsPageInformation.title")}>
       <div className={styles.wrapper}>
-        <div className={styles.searchSortWrapper}>
-          <SearchForm value={searchQuery} onSearch={setSearchQuery} />
-          <Sort />
+        <div className={styles.filtersWrapper}>
+          <div className={styles.mobileFilter}>
+            <Button
+              buttonType={"smallButton"}
+              className={styles.filtersButton}
+              onClick={openFilters}
+            >
+              <span className={styles.buttonTitle}>Фильтры</span>
+              <Image src={"/filters-icon.svg"} alt={"Filter Icon"} width={20} height={20} />
+            </Button>
+          </div>
+          <div className={styles.sortWrapper}>
+            <SearchForm value={searchQuery} onSearch={setSearchQuery} />
+            <Sort />
+          </div>
         </div>
         <div className={styles.contentFilterWrapper}>
           <FiltersBlock
@@ -111,6 +128,27 @@ const ProductsListWrapper = () => {
           <ProductsList data={products} isFetched={isFetched} isLoading={isProductsLoading} />
         </div>
       </div>
+      {isMobileFiltersOpen && (
+        <div className={styles.mobileFiltersOverlay} onClick={closeFilters}>
+          <div className={styles.mobileFiltersContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.closeButton} onClick={closeFilters}>
+              <Image src={"/close.svg"} alt={"Close Button"} width={30} height={30} />
+            </button>
+            <FiltersBlock
+              filtersData={filters}
+              isLoading={isLoading}
+              error={error}
+              selectedBrand={selectedBrand}
+              setSelectedBrand={setSelectedBrand}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              range={range}
+              setRange={setRange}
+              className={styles.filtersModal}
+            />
+          </div>
+        </div>
+      )}
     </PageLayout>
   );
 };
