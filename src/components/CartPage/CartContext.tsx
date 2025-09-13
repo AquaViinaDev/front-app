@@ -36,6 +36,16 @@ type CartContextType = {
   userInfo: UserInfo;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
   totalAmount: number;
+  resetUserInfo: () => void;
+};
+
+const initialUserInfo: UserInfo = {
+  name: "",
+  phone: "",
+  email: "",
+  address: "",
+  companyName: "",
+  description: "",
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -51,14 +61,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [products, setProducts] = useState<CartProduct[]>([]);
 
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-    companyName: "",
-    description: "",
-  });
+  const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
+
+  const resetUserInfo = () => setUserInfo(initialUserInfo);
 
   useEffect(() => {
     localStorage.setItem("aquaCart", JSON.stringify(items));
@@ -107,6 +112,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         userInfo,
         setUserInfo,
         totalAmount,
+        resetUserInfo,
       }}
     >
       {children}

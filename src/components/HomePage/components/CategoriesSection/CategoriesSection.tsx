@@ -2,12 +2,25 @@ import { CategoriesList } from "./component/CategoriesList";
 import { CategoriesItem } from "./component/CategoriesItem";
 import { CustomLink } from "@/components/common";
 import { RoutesEnum } from "@/types";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 
 import styles from "./CategoriesSection.module.scss";
 
+const categoryFilters: Record<string, string> = {
+  jug: "Carafe",
+  flowFilter: "Filtru de trecere",
+  reverseOsmosis: "Osmos",
+  prefilter: "Prefiltru",
+};
+
 const CategoriesSection = () => {
   const t = useTranslations("CategoriesSection");
+  const locale = useLocale();
+
+  const jugUrl = `/${locale}${RoutesEnum.Products}?type=${encodeURIComponent(categoryFilters.jug)}`;
+  const flowFilterUrl = `/${locale}${RoutesEnum.Products}?type=${encodeURIComponent(categoryFilters.flowFilter)}`;
+  const reverseOsmosisUrl = `/${locale}${RoutesEnum.Products}?type=${encodeURIComponent(categoryFilters.reverseOsmosis)}`;
+  const prefilterUrl = `/${locale}${RoutesEnum.Products}?type=${encodeURIComponent(categoryFilters.prefilter)}`;
 
   return (
     <section className={styles.root}>
@@ -24,9 +37,8 @@ const CategoriesSection = () => {
           >
             <CustomLink
               className={styles.link}
-              link={RoutesEnum.Products}
+              link={jugUrl}
               linkName={t("items.jug.buttonText")}
-              onClick={() => console.log("Кувшины")}
             />
           </CategoriesItem>
           <CategoriesItem
@@ -38,9 +50,8 @@ const CategoriesSection = () => {
           >
             <CustomLink
               className={styles.link}
-              link={RoutesEnum.Products}
+              link={flowFilterUrl}
               linkName={t("items.flowFilter.buttonText")}
-              onClick={() => console.log("Перейти к проточны")}
             />
           </CategoriesItem>
           <CategoriesItem
@@ -52,9 +63,8 @@ const CategoriesSection = () => {
           >
             <CustomLink
               className={styles.link}
-              link={RoutesEnum.Products}
+              link={reverseOsmosisUrl}
               linkName={t("items.reverseOsmosis.buttonText")}
-              onClick={() => console.log("Перейти к осмосам")}
             />
           </CategoriesItem>
           <CategoriesItem
@@ -66,9 +76,8 @@ const CategoriesSection = () => {
           >
             <CustomLink
               className={styles.link}
-              link={RoutesEnum.Products}
+              link={prefilterUrl}
               linkName={t("items.prefilter.buttonText")}
-              onClick={() => console.log("Перейти к предфильтрам")}
             />
           </CategoriesItem>
         </CategoriesList>

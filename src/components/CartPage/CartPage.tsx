@@ -13,9 +13,10 @@ import styles from "./CartPage.module.scss";
 
 const CartPage = () => {
   const [ids, setIds] = useState<string[] | null>(null);
-  const { clearCart, userInfo, setItems, products, totalAmount, setProducts } = useOrder();
+  const { clearCart, userInfo, resetUserInfo, setItems, products, totalAmount, setProducts } =
+    useOrder();
   const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
-
+  const [resetFields, setResetFields] = useState(false);
   const validate = () => {
     const newErrors = {
       name: !userInfo.name?.trim(),
@@ -100,6 +101,8 @@ const CartPage = () => {
       await sendOrder(orderData);
       toast.success("Заказ успешно отправлен!");
       clearCart();
+      resetUserInfo();
+      setResetFields(true);
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -116,7 +119,7 @@ const CartPage = () => {
     >
       <div className={styles.topWrapper}>
         <CartProductsBlock productItems={products} />
-        <CartUserInfoBlock errors={errors} />
+        <CartUserInfoBlock errors={errors} resetKey={resetFields} />
       </div>
       <div className={styles.bottomWrapper}>
         <CartGeneralBlock onBuy={handleBuy} />

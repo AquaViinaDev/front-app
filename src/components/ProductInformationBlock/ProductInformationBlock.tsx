@@ -4,8 +4,9 @@ import { useState, useCallback } from "react";
 import { Button, CartAmount, Modal } from "@/components/common";
 import classNames from "classnames";
 import Image from "next/image";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import { useOrder } from "@/components/CartPage/CartContext";
+import { useRouter } from "next/navigation";
 
 import styles from "./ProductInformationBlock.module.scss";
 
@@ -27,6 +28,8 @@ export const ProductInformationBlock = ({
   const openDeliveryModal = useCallback(() => setIsDeliveryModalOpen(true), []);
   const closeDeliveryModal = useCallback(() => setIsDeliveryModalOpen(false), []);
   const { items, addProduct, updateProductQty } = useOrder();
+  const router = useRouter();
+  const locale = useLocale();
 
   const openConditionsModal = useCallback(() => setIsConditionsModalOpen(true), []);
   const closeConditionsModal = useCallback(() => setIsConditionsModalOpen(false), []);
@@ -34,18 +37,19 @@ export const ProductInformationBlock = ({
   const toggleDelivery = useCallback(() => setWithDelivery((v) => !v), []);
 
   const currentItem = items.find((i) => i.id === productId);
-  const qty = currentItem?.qty ?? 1;
 
   const t = useTranslations();
-  // const handleAddToCart = async () => {
-  //   await fetch("/api/cart", {
-  //     method: "POST",
-  //     body: JSON.stringify({ productId, quantity: cartAmount }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  // };
+
+  const handleQuickPurchase = () => {
+    const currentItem = items.find((i) => i.id === productId);
+
+    if (!currentItem) {
+      addProduct(productId, cartAmount);
+    }
+
+    router.push(`/${locale}/cart`);
+  };
+
   return (
     <>
       <div className={styles.root}>
@@ -61,10 +65,13 @@ export const ProductInformationBlock = ({
               : `${t("ProductsPageInformation.isn'tInStock")}`}
           </p>
           <CartAmount
-            value={qty}
+            value={currentItem ? currentItem.qty : cartAmount}
             onChange={(value) => {
-              updateProductQty(productId, value);
-              setCartAmount(value);
+              if (currentItem) {
+                updateProductQty(productId, value);
+              } else {
+                setCartAmount(value);
+              }
             }}
           />
           <div className={styles.additionalContent}>
@@ -107,13 +114,10 @@ export const ProductInformationBlock = ({
               {price} {t("ProductsPageInformation.price")}
             </p>
           </div>
-          <Button buttonType={"bigButton"} onClick={() => addProduct(productId)}>
+          <Button buttonType={"bigButton"} onClick={() => addProduct(productId, cartAmount)}>
             {t("ProductsPageInformation.cartButton")}
           </Button>
-          <Button
-            buttonType={"bigButton"}
-            // onClick={handleAddToCart}
-          >
+          <Button buttonType={"bigButton"} onClick={handleQuickPurchase}>
             {t("ProductsPageInformation.quickPurchaseButton")}
           </Button>
         </div>

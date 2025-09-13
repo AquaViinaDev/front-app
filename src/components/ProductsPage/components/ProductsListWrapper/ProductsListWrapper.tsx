@@ -10,14 +10,17 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FiltersResponse } from "@/components/FiltersBlock/FitersBlock";
 import { FiltersBlock } from "@/components/FiltersBlock";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./ProductsListWrapper.module.scss";
 
 const ProductsListWrapper = () => {
   const t = useTranslations();
+  const searchParams = useSearchParams();
+  const typeFromQuery = searchParams.get("type");
 
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string | null>(typeFromQuery);
   const [range, setRange] = useState<number[]>([0, 0]);
   const [debouncedRange, setDebouncedRange] = useState<number[] | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -92,6 +95,12 @@ const ProductsListWrapper = () => {
     const handler = setTimeout(() => setDebouncedSearchQuery(searchQuery), 1000);
     return () => clearTimeout(handler);
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (typeFromQuery) {
+      setSelectedType(typeFromQuery);
+    }
+  }, [typeFromQuery]);
 
   return (
     <PageLayout className={styles.pageLayout} title={t("ProductsPageInformation.title")}>

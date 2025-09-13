@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PhoneInput, TextInput, ToggleGroup } from "@/components/common";
 import { useOrder } from "@/components/CartPage/CartContext";
 
@@ -8,9 +8,10 @@ import styles from "./CartUserInfoBlock.module.scss";
 
 export type CartUserInfoBlockProps = {
   errors: { name?: boolean; phone?: boolean; address?: boolean };
+  resetKey?: boolean;
 };
 
-const CartUserInfoBlock = ({ errors }: CartUserInfoBlockProps) => {
+const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   const [delivery, setDelivery] = useState("delivery");
   const [region, setRegion] = useState("");
   const [suburb, setSuburb] = useState("");
@@ -28,6 +29,15 @@ const CartUserInfoBlock = ({ errors }: CartUserInfoBlockProps) => {
       [field]: value,
     }));
   };
+
+  useEffect(() => {
+    if (resetKey) {
+      setDelivery("delivery");
+      setRegion("");
+      setSuburb("");
+      setStreet("");
+    }
+  }, [resetKey]);
 
   return (
     <div className={styles.root}>
