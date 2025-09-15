@@ -128,6 +128,32 @@
     "modalGuaranteeInfo": {
       "title": "Garanție și returnare în termen de 14 zile"
     }
+  },
+
+  "CartPage": {
+    "mainTitle": "În coșul dvs.",
+    "CartProductsBlock": {
+      "title": "bunuri",
+      "current": "lei"
+    },
+    "CartUserInfoBlock": {
+      "title": "Introduceți datele dumneavoastră pentru a plasa comanda",
+      "name": "Nume Nume de familie",
+      "company": "Companie",
+      "deliveryTitle": "Livrare",
+      "municipality": "Municipalitate/District",
+      "suburb": "Suburbie",
+      "address" : "Adresă (stradă, număr casă etc.)",
+      "paymentMethod": "Modalitate de plată",
+      "deliveryPlaceholder": "Puteți plăti curierul la livrare!",
+      "finalityTitle": "Finalizare",
+      "finalityPlaceholder": "Note despre comanda dvs."
+    },
+    "TotalBlock": {
+      "title": "Total",
+      "costOfGoods": "Costul bunurilor",
+      "delivery": "Livrare"
+    }
   }
 
 }

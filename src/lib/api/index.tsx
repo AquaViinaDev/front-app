@@ -9,8 +9,6 @@
 //   return res.json();
 // };
 
-import { CartProduct } from "@/components/CartPage/CartContext";
-
 export const getCartProducts = async (ids: string[]) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/by-ids`, {
     method: "POST",
@@ -92,6 +90,22 @@ export const sendOrder = async (orderData: any) => {
 
   if (!res.ok) {
     throw new Error("Failed to send order");
+  }
+
+  return res.json();
+};
+
+export const sendConsultation = async (consultationData: { name: string; phone: string }) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/consultations`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(consultationData),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to send consultation");
   }
 
   return res.json();
