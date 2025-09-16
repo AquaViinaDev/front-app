@@ -134,7 +134,8 @@
     "mainTitle": "În coșul dvs.",
     "CartProductsBlock": {
       "title": "bunuri",
-      "current": "lei"
+      "current": "lei",
+      "emptyCart": "Coșul este gol!"
     },
     "CartUserInfoBlock": {
       "title": "Introduceți datele dumneavoastră pentru a plasa comanda",
@@ -152,7 +153,15 @@
     "TotalBlock": {
       "title": "Total",
       "costOfGoods": "Costul bunurilor",
-      "delivery": "Livrare"
+      "delivery": "Livrare",
+      "current": "lei",
+      "buy": "Cumpăra"
+    },
+    "Notification": {
+      "emptyCart": "Coșul este gol!",
+      "requiredFields": "Vă rugăm să completați câmpurile obligatorii!",
+      "successOrder": "Comanda a fost trimisă cu succes!",
+      "loadingError": "Eroare la încărcare"
     }
   }
 

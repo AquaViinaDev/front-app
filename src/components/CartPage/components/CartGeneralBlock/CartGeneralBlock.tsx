@@ -2,6 +2,7 @@ import { Button } from "@/components/common";
 import { useOrder } from "@/components/CartPage/CartContext";
 
 import styles from "./CartGeneralBlock.module.scss";
+import { useTranslations } from "use-intl";
 
 type CartGeneralBlockProps = {
   onBuy: () => void;
@@ -9,24 +10,29 @@ type CartGeneralBlockProps = {
 
 const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
   const { totalAmount } = useOrder();
+  const t = useTranslations("CartPage.TotalBlock");
 
   return (
     <div className={styles.root}>
-      <h3 className={styles.title}>Итого</h3>
+      <h3 className={styles.title}>{t("title")}</h3>
       <div className={styles.amountWrapper}>
-        <span className={styles.amountText}>Стоимость товаров </span>
-        <span className={styles.amountText}>{totalAmount} лей</span>
+        <span className={styles.amountText}>{t("costOfGoods")} </span>
+        <span className={styles.amountText}>
+          {totalAmount} {t("current")}
+        </span>
       </div>
       <div className={styles.deliveryAmountWrapper}>
-        <span className={styles.deliveryAmountText}>Доставка </span>
-        <span className={styles.deliveryAmountText}>300 лей</span>
+        <span className={styles.deliveryAmountText}>{t("delivery")} </span>
+        <span className={styles.deliveryAmountText}>300 {t("current")}</span>
       </div>
       <div className={styles.totalAmountWrapper}>
-        <span className={styles.totalAmountText}>Итого </span>
-        <span className={styles.totalAmountText}>{totalAmount + 300} лей</span>
+        <span className={styles.totalAmountText}>{t("title")} </span>
+        <span className={styles.totalAmountText}>
+          {totalAmount + 300} {t("current")}
+        </span>
       </div>
       <Button buttonType="bigButton" onClick={onBuy}>
-        Купить
+        {t("buy")}
       </Button>
     </div>
   );

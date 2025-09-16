@@ -5,6 +5,7 @@ import { PhoneInput, TextInput, ToggleGroup } from "@/components/common";
 import { useOrder } from "@/components/CartPage/CartContext";
 
 import styles from "./CartUserInfoBlock.module.scss";
+import { useTranslations } from "use-intl";
 
 export type CartUserInfoBlockProps = {
   errors: { name?: boolean; phone?: boolean; address?: boolean };
@@ -12,6 +13,8 @@ export type CartUserInfoBlockProps = {
 };
 
 const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
+  const t = useTranslations("CartPage.CartUserInfoBlock");
+
   const [delivery, setDelivery] = useState("delivery");
   const [region, setRegion] = useState("");
   const [suburb, setSuburb] = useState("");
@@ -42,7 +45,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   return (
     <div className={styles.root}>
       <div className={styles.userInfoWrapper}>
-        <h3 className={styles.title}>Введите данные для оформления заказа</h3>
+        <h3 className={styles.title}>{t("title")}</h3>
         <div className={styles.userForm}>
           <TextInput
             textInputClassName={styles.emailInput}
@@ -55,14 +58,14 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           <TextInput
             error={errors.name}
             textInputClassName={styles.userNameInput}
-            placeholder={"Имя Фамилия"}
+            placeholder={t("name")}
             isLabel={false}
             value={userInfo.name}
             onChange={(value) => handleChange("name", value)}
           />
           <TextInput
             textInputClassName={styles.companyInput}
-            placeholder={"Компания"}
+            placeholder={t("company")}
             isLabel={false}
             value={userInfo.companyName}
             onChange={(value) => handleChange("companyName", value)}
@@ -75,9 +78,9 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         </div>
       </div>
       <div className={styles.deliveryInfoWrapper}>
-        <h3 className={styles.title}>Доставка</h3>
+        <h3 className={styles.title}>{t("deliveryTitle")}</h3>
         <ToggleGroup
-          options={[{ value: "delivery", label: "Доставка" }]}
+          options={[{ value: "delivery", label: t("deliveryTitle") }]}
           value={delivery}
           onChange={setDelivery}
         />
@@ -85,7 +88,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           <TextInput
             error={errors.address}
             textInputClassName={styles.companyInput}
-            placeholder={"Муниципалитет / Район"}
+            placeholder={t("municipality")}
             isLabel={false}
             value={region}
             onChange={(value) => {
@@ -95,7 +98,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           />
           <TextInput
             textInputClassName={styles.companyInput}
-            placeholder={"Пригород"}
+            placeholder={t("suburb")}
             isLabel={false}
             value={suburb}
             onChange={(value) => {
@@ -105,7 +108,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           />
           <TextInput
             textInputClassName={styles.companyInput}
-            placeholder={"Адрес (улица, номер дома и т. д.)"}
+            placeholder={t("address")}
             isLabel={false}
             value={street}
             onChange={(value) => {
@@ -116,14 +119,14 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         </div>
       </div>
       <div className={styles.paymentMethodWrapper}>
-        <h3 className={styles.title}>Метод оплаты</h3>
-        <p className={styles.paymentText}>Оплатить можно курьеру при доставке!</p>
+        <h3 className={styles.title}>{t("paymentMethod")}</h3>
+        <p className={styles.paymentText}>{t("deliveryPlaceholder")}</p>
       </div>
       <div className={styles.userDescriptionWrapper}>
-        <h3 className={styles.title}>Завершение</h3>
+        <h3 className={styles.title}>{t("finalityTitle")}</h3>
         <textarea
           className={styles.userDescription}
-          placeholder={"Заметки по твоему заказу"}
+          placeholder={t("finalityPlaceholder")}
           value={userInfo.description}
           maxLength={250}
           onChange={(e) => setUserInfo((prev) => ({ ...prev, description: e.target.value }))}

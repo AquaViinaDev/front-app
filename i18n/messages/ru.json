@@ -133,7 +133,8 @@
     "mainTitle": "В вашей корзине",
     "CartProductsBlock": {
       "title": "товаров",
-      "current": "лей"
+      "current": "лей",
+      "emptyCart": "Корзина пустая!"
     },
     "CartUserInfoBlock": {
       "title": "Введите данные для оформления заказа",
@@ -146,12 +147,20 @@
       "paymentMethod": "Метод оплаты",
       "deliveryPlaceholder": "Оплатить можно курьеру при доставке!",
       "finalityTitle": "Завершение",
-      "finalityPlaceholder": "Завершение"
+      "finalityPlaceholder": "Заметки по твоему заказу"
     },
     "TotalBlock": {
       "title": "Итого",
       "costOfGoods": "Стоимость товаров",
-      "delivery": "Доставка"
+      "delivery": "Доставка",
+      "current": "лей",
+      "buy": "Купить"
+    },
+    "Notification": {
+      "emptyCart": "Корзина пустая!",
+      "requiredFields": "Заполните обязательные поля!",
+      "successOrder": "Заказ успешно отправлен!",
+      "loadingError": "Ошибка загрузки"
     }
   }
 }

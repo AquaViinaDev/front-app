@@ -8,10 +8,13 @@ import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
 import { getCartProducts, sendOrder } from "@/lib/api";
 import { toast } from "react-toastify";
+import { useTranslations } from "use-intl";
 
 import styles from "./CartPage.module.scss";
 
 const CartPage = () => {
+  const t = useTranslations("CartPage");
+
   const [ids, setIds] = useState<string[] | null>(null);
   const { clearCart, userInfo, resetUserInfo, setItems, products, totalAmount, setProducts } =
     useOrder();
@@ -71,11 +74,11 @@ const CartPage = () => {
 
   const handleBuy = async () => {
     if (products.length === 0) {
-      toast.error("Корзина пуста!");
+      toast.error(t("Notification.emptyCart"));
       return;
     }
     if (!validate()) {
-      toast.error("Заполните обязательные поля!");
+      toast.error(t("Notification.requiredFields"));
       return;
     }
 
@@ -99,7 +102,7 @@ const CartPage = () => {
 
     try {
       await sendOrder(orderData);
-      toast.success("Заказ успешно отправлен!");
+      toast.success(t("Notification.successOrder"));
       clearCart();
       resetUserInfo();
       setResetFields(true);
@@ -108,13 +111,13 @@ const CartPage = () => {
     }
   };
 
-  if (error) return <p>Ошибка загрузки</p>;
+  if (error) return <p>{t("Notification.loadingError")}</p>;
 
   return (
     <PageLayout
       className={styles.pageLayout}
       contentClassName={styles.contentWrapper}
-      title="В вашей корзине"
+      title={t("mainTitle")}
       isLoading={ids === null}
     >
       <div className={styles.topWrapper}>

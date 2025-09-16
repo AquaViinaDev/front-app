@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import styles from "./Footer.module.scss";
 import { useTranslations } from "use-intl";
+import Link from "next/link";
+
+import styles from "./Footer.module.scss";
 
 const Footer = () => {
   const t = useTranslations("Footer");
