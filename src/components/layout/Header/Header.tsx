@@ -14,8 +14,12 @@ import styles from "./Header.module.scss";
 import Cart from "@/components/layout/Header/components/Cart/Cart";
 
 const socialLinks: SocialData[] = [
-  { image: "/telegram.svg", label: "Telegram", href: RoutesEnum.Main },
-  { image: "/instagram.svg", label: "Instagram", href: RoutesEnum.Main },
+  // { image: "/telegram.svg", label: "Telegram", href: RoutesEnum.Main },
+  {
+    image: "/instagram.svg",
+    label: "Instagram",
+    href: "https://www.instagram.com/aqua_viina/?next=%2F",
+  },
 ];
 
 const Header = () => {
@@ -40,7 +44,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.wrapper}>
         <div className={styles.logo}>
-          <Link href={RoutesEnum.Main} onClick={() => setIsOpen(false)}>
+          <Link href={`/${locale}${RoutesEnum.Main}`} onClick={() => setIsOpen(false)}>
             AQUA VIINA
           </Link>
         </div>
