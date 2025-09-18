@@ -47,8 +47,6 @@ const ProductsListWrapper = () => {
   const hasFilters =
     !!params.brand || !!params.type || !!params.minPrice || !!params.maxPrice || !!params.query;
 
-  console.log(params);
-
   const {
     data: filters = {
       brand: [],
