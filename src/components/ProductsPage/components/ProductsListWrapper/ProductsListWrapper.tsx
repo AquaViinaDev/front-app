@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
@@ -24,10 +24,6 @@ const ProductsListWrapper = () => {
   const [selectedType, setSelectedType] = useState<string | null>(typeFromQuery);
   const [range, setRange] = useState<number[]>([0, 0]);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
-
-  const openFilters = () => setIsMobileFiltersOpen(true);
-  const closeFilters = () => setIsMobileFiltersOpen(false);
-
   const params = useMemo(() => {
     const brand = searchParams.get("brand");
     const type = searchParams.get("type");
@@ -43,6 +39,29 @@ const ProductsListWrapper = () => {
       query,
     };
   }, [searchParams]);
+
+  const [searchValue, setSearchValue] = useState(params.query ?? "");
+
+  const openFilters = () => setIsMobileFiltersOpen(true);
+  const closeFilters = () => setIsMobileFiltersOpen(false);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const newParams = new URLSearchParams();
+
+      if (searchValue) {
+        newParams.set("q", searchValue);
+      }
+
+      window.history.replaceState(
+        null,
+        "",
+        `/${locale}${RoutesEnum.Products}?${newParams.toString()}`
+      );
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [searchValue, locale]);
 
   const hasFilters =
     !!params.brand || !!params.type || !!params.minPrice || !!params.maxPrice || !!params.query;
@@ -102,20 +121,8 @@ const ProductsListWrapper = () => {
           </div>
           <div className={styles.sortWrapper}>
             <SearchForm
-              value={params.query ?? ""}
-              onSearch={(val) => {
-                const newParams = new URLSearchParams();
-
-                if (val) {
-                  newParams.set("q", val);
-                }
-
-                window.history.replaceState(
-                  null,
-                  "",
-                  `/${locale}${RoutesEnum.Products}?${newParams.toString()}`
-                );
-              }}
+              value={searchValue}
+              onSearch={(val) => setSearchValue(val)} // меняем локальный стейт
             />
             <Sort />
           </div>
