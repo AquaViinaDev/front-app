@@ -37,6 +37,8 @@ type CartContextType = {
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
   totalAmount: number;
   resetUserInfo: () => void;
+  deliveryPrice: number;
+  setDeliveryPrice: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const initialUserInfo: UserInfo = {
@@ -58,9 +60,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
     return [];
   });
-
+  const [deliveryPrice, setDeliveryPrice] = useState<number>(50);
   const [products, setProducts] = useState<CartProduct[]>([]);
-
   const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
 
   const resetUserInfo = () => setUserInfo(initialUserInfo);
@@ -96,7 +97,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setProducts([]);
   };
 
-  const totalAmount = useMemo(() => products.reduce((acc, p) => acc + p.totalPrice, 0), [products]);
+  const totalAmount = useMemo(
+    () => products.reduce((acc, p) => acc + p.totalPrice, 0) + deliveryPrice,
+    [products, deliveryPrice]
+  );
 
   return (
     <CartContext.Provider
@@ -113,6 +117,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         setUserInfo,
         totalAmount,
         resetUserInfo,
+        deliveryPrice,
+        setDeliveryPrice,
       }}
     >
       {children}

@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useTranslations } from "use-intl";
+import { useMemo, useState } from "react";
+import { useLocale, useTranslations } from "use-intl";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
 import { Button, SearchForm, Sort } from "@/components/common";
-import { getFilteredProducts, getFilters } from "@/lib/api";
+import { getAllProducts, getFilteredProducts, getFilters, getSearchedProducts } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FiltersResponse } from "@/components/FiltersBlock/FitersBlock";
 import { FiltersBlock } from "@/components/FiltersBlock";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { RoutesEnum } from "@/types";
 
 import styles from "./ProductsListWrapper.module.scss";
 
@@ -18,17 +19,35 @@ const ProductsListWrapper = () => {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const typeFromQuery = searchParams.get("type");
-
+  const locale = useLocale();
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(typeFromQuery);
   const [range, setRange] = useState<number[]>([0, 0]);
-  const [debouncedRange, setDebouncedRange] = useState<number[] | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   const openFilters = () => setIsMobileFiltersOpen(true);
   const closeFilters = () => setIsMobileFiltersOpen(false);
+
+  const params = useMemo(() => {
+    const brand = searchParams.get("brand");
+    const type = searchParams.get("type");
+    const minPrice = searchParams.get("minPrice");
+    const maxPrice = searchParams.get("maxPrice");
+    const query = searchParams.get("q");
+
+    return {
+      brand,
+      type,
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+      query,
+    };
+  }, [searchParams]);
+
+  const hasFilters =
+    !!params.brand || !!params.type || !!params.minPrice || !!params.maxPrice || !!params.query;
+
+  console.log(params);
 
   const {
     data: filters = {
@@ -43,64 +62,31 @@ const ProductsListWrapper = () => {
     queryFn: getFilters,
   });
 
-  useEffect(() => {
-    if (!range) return;
-    const handler = setTimeout(() => setDebouncedRange(range), 500);
-    return () => clearTimeout(handler);
-  }, [range]);
-
-  useEffect(() => {
-    if (selectedBrand || selectedType) {
-      setSearchQuery("");
-      setDebouncedSearchQuery("");
-    }
-  }, [selectedBrand, selectedType]);
-
   const {
     data: products = [],
     isLoading: isProductsLoading,
     isFetched,
   } = useQuery({
-    queryKey: [
-      "filteredProducts",
-      selectedBrand,
-      selectedType,
-      debouncedRange,
-      debouncedSearchQuery,
-    ],
-    queryFn: () =>
-      debouncedSearchQuery
-        ? fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(debouncedSearchQuery)}`
-          ).then((res) => res.json())
-        : getFilteredProducts({
-            brand: selectedBrand ?? "",
-            type: selectedType ?? "",
-            minPrice: debouncedRange?.[0] ?? filters.price.low,
-            maxPrice: debouncedRange?.[1] ?? filters.price.more,
-          }),
+    queryKey: ["products", params],
+    queryFn: () => {
+      if (params.query) {
+        return getSearchedProducts(params.query);
+      }
+
+      if (hasFilters) {
+        return getFilteredProducts({
+          brand: params.brand ?? "",
+          type: params.type ?? "",
+          minPrice: params.minPrice ?? filters.price.low,
+          maxPrice: params.maxPrice ?? filters.price.more,
+        });
+      }
+
+      return getAllProducts();
+    },
     enabled: !!filters,
     placeholderData: keepPreviousData,
   });
-
-  useEffect(() => {
-    if (filters?.price) {
-      const initialRange = [filters.price.low, filters.price.more];
-      setRange(initialRange);
-      setDebouncedRange(initialRange);
-    }
-  }, [filters]);
-
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedSearchQuery(searchQuery), 1000);
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (typeFromQuery) {
-      setSelectedType(typeFromQuery);
-    }
-  }, [typeFromQuery]);
 
   return (
     <PageLayout className={styles.pageLayout} title={t("ProductsPageInformation.title")}>
@@ -117,7 +103,22 @@ const ProductsListWrapper = () => {
             </Button>
           </div>
           <div className={styles.sortWrapper}>
-            <SearchForm value={searchQuery} onSearch={setSearchQuery} />
+            <SearchForm
+              value={params.query ?? ""}
+              onSearch={(val) => {
+                const newParams = new URLSearchParams();
+
+                if (val) {
+                  newParams.set("q", val);
+                }
+
+                window.history.replaceState(
+                  null,
+                  "",
+                  `/${locale}${RoutesEnum.Products}?${newParams.toString()}`
+                );
+              }}
+            />
             <Sort />
           </div>
         </div>
@@ -163,3 +164,7 @@ const ProductsListWrapper = () => {
 };
 
 export default ProductsListWrapper;
+// debouncedSearchQuery ? fetch( ${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(debouncedSearchQuery)}
+// const [debouncedRange, setDebouncedRange] = useState<number[] | null>(null);
+// const [searchQuery, setSearchQuery] = useState("");
+// const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");

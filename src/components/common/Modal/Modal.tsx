@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useState, KeyboardEvent, memo } from "react";
 import { createPortal } from "react-dom";
+import classNames from "classnames";
 
 import styles from "./Modal.module.scss";
 
@@ -11,9 +12,10 @@ export type ModalProps = {
   title?: string;
   children: ReactNode;
   className?: string;
+  bodyClassName?: string;
 };
 
-const Modal = memo(({ isOpen, onClose, title, children, className = "" }: ModalProps) => {
+const Modal = memo(({ isOpen, onClose, title, children, className, bodyClassName }: ModalProps) => {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const Modal = memo(({ isOpen, onClose, title, children, className = "" }: ModalP
             ×
           </button>
         </div>
-        <div className={styles.body}>{children}</div>
+        <div className={classNames(bodyClassName, styles.body)}>{children}</div>
       </div>
     </div>,
     container

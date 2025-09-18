@@ -9,7 +9,7 @@ type CartGeneralBlockProps = {
 };
 
 const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
-  const { totalAmount } = useOrder();
+  const { totalAmount, deliveryPrice } = useOrder();
   const t = useTranslations("CartPage.TotalBlock");
 
   return (
@@ -18,17 +18,19 @@ const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
       <div className={styles.amountWrapper}>
         <span className={styles.amountText}>{t("costOfGoods")} </span>
         <span className={styles.amountText}>
-          {totalAmount} {t("current")}
+          {totalAmount - deliveryPrice} {t("current")}
         </span>
       </div>
       <div className={styles.deliveryAmountWrapper}>
         <span className={styles.deliveryAmountText}>{t("delivery")} </span>
-        <span className={styles.deliveryAmountText}>300 {t("current")}</span>
+        <span className={styles.deliveryAmountText}>
+          {deliveryPrice} {t("current")}
+        </span>
       </div>
       <div className={styles.totalAmountWrapper}>
         <span className={styles.totalAmountText}>{t("title")} </span>
         <span className={styles.totalAmountText}>
-          {totalAmount + 300} {t("current")}
+          {totalAmount} {t("current")}
         </span>
       </div>
       <Button buttonType="bigButton" onClick={onBuy}>

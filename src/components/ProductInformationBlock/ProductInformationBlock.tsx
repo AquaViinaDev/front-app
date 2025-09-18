@@ -24,17 +24,14 @@ export const ProductInformationBlock = ({
   const [cartAmount, setCartAmount] = useState(1);
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
   const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
-  const [withDelivery, setWithDelivery] = useState(false);
   const openDeliveryModal = useCallback(() => setIsDeliveryModalOpen(true), []);
   const closeDeliveryModal = useCallback(() => setIsDeliveryModalOpen(false), []);
-  const { items, addProduct, updateProductQty } = useOrder();
+  const { deliveryPrice, setDeliveryPrice, items, addProduct, updateProductQty } = useOrder();
   const router = useRouter();
   const locale = useLocale();
 
   const openConditionsModal = useCallback(() => setIsConditionsModalOpen(true), []);
   const closeConditionsModal = useCallback(() => setIsConditionsModalOpen(false), []);
-
-  const toggleDelivery = useCallback(() => setWithDelivery((v) => !v), []);
 
   const currentItem = items.find((i) => i.id === productId);
 
@@ -126,31 +123,40 @@ export const ProductInformationBlock = ({
         isOpen={isDeliveryModalOpen}
         onClose={closeDeliveryModal}
         title={t("ProductPage.modalDeliveryInfo.title")}
+        bodyClassName={styles.bodyModal}
       >
-        <p className={styles.deliveryText}>
-          {t("ProductPage.modalDeliveryInfo.firstCondition")} —{" "}
-          <span>300 {t("ProductPage.modalDeliveryInfo.price")}</span>
-        </p>
-        <p className={styles.deliveryText}>
-          {t("ProductPage.modalDeliveryInfo.secondCondition")} —{" "}
-          <span>1000 {t("ProductPage.modalDeliveryInfo.price")}</span>
-        </p>
         <div className={styles.deliveryOption}>
           <label className={styles.checkboxLabel}>
-            <input type="checkbox" checked={withDelivery} onChange={toggleDelivery} />
-            <span>{t("ProductPage.modalDeliveryInfo.delivery")}</span>
+            <input
+              type="radio"
+              name="delivery"
+              checked={deliveryPrice === 50}
+              onChange={() => setDeliveryPrice(50)}
+            />
+            <span>
+              {t("ProductPage.modalDeliveryInfo.firstCondition")} —{" "}
+              <strong>50 {t("ProductPage.modalDeliveryInfo.price")}</strong>
+            </span>
           </label>
-          <div className={styles.actions}>
-            <Button
-              onClick={() => {
-                console.log("доставка выбрана:", withDelivery);
-                closeDeliveryModal();
-              }}
-              buttonType="smallButton"
-            >
-              {t("ProductPage.modalDeliveryInfo.confirm")}
-            </Button>
-          </div>
+        </div>
+        <div className={styles.deliveryOption}>
+          <label className={styles.checkboxLabel}>
+            <input
+              type="radio"
+              name="delivery"
+              checked={deliveryPrice === 100}
+              onChange={() => setDeliveryPrice(100)}
+            />
+            <span>
+              {t("ProductPage.modalDeliveryInfo.secondCondition")} —{" "}
+              <strong>100 {t("ProductPage.modalDeliveryInfo.price")}</strong>
+            </span>
+          </label>
+        </div>
+        <div className={styles.actions}>
+          <Button onClick={() => closeDeliveryModal()} buttonType="smallButton">
+            {t("ProductPage.modalDeliveryInfo.confirm")}
+          </Button>
         </div>
       </Modal>
       <Modal

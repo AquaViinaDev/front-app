@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Select from "react-select";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./Local.module.scss";
 
@@ -13,6 +13,7 @@ const options = [
 
 const Local = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const currentLocale = pathname.split("/")[1];
@@ -24,8 +25,10 @@ const Local = () => {
   const handleChange = (option: { value: string } | null) => {
     if (!option) return;
 
-    const newPath = pathname.replace(/^\/[a-z]{2}/, `/${option.value}`);
-    router.push(newPath);
+    const basePath = pathname.replace(/^\/[a-z]{2}/, `/${option.value}`);
+    const query = searchParams.toString();
+
+    router.push(query ? `${basePath}?${query}` : basePath);
   };
 
   return (

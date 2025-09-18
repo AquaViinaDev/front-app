@@ -1,12 +1,13 @@
-import { CSSProperties, useEffect } from "react";
+import { CSSProperties, useEffect, useMemo } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { useLocale, useTranslations } from "use-intl";
-
+import classNames from "classnames";
+import { useRouter, useSearchParams } from "next/navigation";
+import { RoutesEnum } from "@/types";
 import { ClipLoader } from "react-spinners";
 import { Button } from "@/components/common";
 
 import styles from "./FiltersBlock.module.scss";
-import classNames from "classnames";
 
 const override: CSSProperties = {
   display: "block",
@@ -45,29 +46,54 @@ const FiltersBlock = ({
   filtersData,
   isLoading,
   error,
-  selectedBrand,
-  setSelectedBrand,
-  selectedType,
-  setSelectedType,
+  // selectedBrand,
+  // setSelectedBrand,
+  // selectedType,
+  // setSelectedType,
   range,
   setRange,
   className,
 }: FiltersBlockProps) => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");
   const locale = useLocale();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const langKey: keyof FilterOption = locale === "ru" ? "ru" : "ro";
 
-  const isFilterActive =
-    selectedBrand !== null ||
-    selectedType !== null ||
-    range[0] !== filtersData.price.low ||
-    range[1] !== filtersData.price.more;
+  const isFilterActive = useMemo(() => {
+    const urlParams = Object.fromEntries(new URLSearchParams(searchParams.toString()));
+    return (
+      range[0] !== filtersData.price.low ||
+      range[1] !== filtersData.price.more ||
+      !!urlParams.brand ||
+      !!urlParams.type
+    );
+  }, [range, filtersData.price.low, filtersData.price.more, searchParams]);
+
+  const updateParams = (params: Record<string, string | number | null>) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null || value === "") {
+        newParams.delete(key);
+      } else {
+        newParams.set(key, String(value));
+      }
+    });
+
+    router.replace(`?${newParams.toString()}`);
+  };
 
   useEffect(() => {
     if (filtersData?.price) {
-      setRange([filtersData.price.low, filtersData.price.more]);
+      const params = Object.fromEntries(new URLSearchParams(searchParams.toString()));
+
+      const minPrice = params.minPrice ? Number(params.minPrice) : filtersData.price.low;
+      const maxPrice = params.maxPrice ? Number(params.maxPrice) : filtersData.price.more;
+
+      setRange([minPrice, maxPrice]);
     }
-  }, [filtersData]);
+  }, [filtersData, searchParams, setRange]);
 
   if (error) {
     return (
@@ -82,18 +108,15 @@ const FiltersBlock = ({
       <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("brand")}</h3>
         {isLoading ? (
-          <ClipLoader
-            loading={isLoading}
-            cssOverride={override}
-            size={30}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+          <ClipLoader loading={isLoading} cssOverride={override} size={30} />
         ) : (
           <ul className={styles.list}>
             {filtersData.brand.map((item, id) => (
               <li className={styles.item} key={id}>
-                <button className={styles.filterButton} onClick={() => setSelectedBrand(item.ro)}>
+                <button
+                  className={styles.filterButton}
+                  onClick={() => updateParams({ brand: item.ro })}
+                >
                   {item[langKey]}
                 </button>
               </li>
@@ -104,19 +127,19 @@ const FiltersBlock = ({
       <div className={styles.priceWrapper}>
         <h3 className={styles.title}>{t("price")}</h3>
         {isLoading ? (
-          <ClipLoader
-            loading={isLoading}
-            cssOverride={override}
-            size={30}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+          <ClipLoader loading={isLoading} cssOverride={override} size={30} />
         ) : (
           <>
             <Slider.Root
               className={styles.sliderRoot}
               value={range}
-              onValueChange={setRange}
+              onValueChange={(val) => setRange(val)}
+              onValueCommit={(val) => {
+                updateParams({
+                  minPrice: val[0],
+                  maxPrice: val[1],
+                });
+              }}
               min={filtersData.price.low}
               max={filtersData.price.more}
               step={1}
@@ -139,6 +162,7 @@ const FiltersBlock = ({
                     setRange([newValue, range[1]]);
                   }
                 }}
+                onBlur={() => updateParams({ minPrice: range[0], maxPrice: range[1] })}
               />
               -
               <input
@@ -152,6 +176,7 @@ const FiltersBlock = ({
                     setRange([range[0], newValue]);
                   }
                 }}
+                onBlur={() => updateParams({ minPrice: range[0], maxPrice: range[1] })}
               />
             </div>
           </>
@@ -160,18 +185,15 @@ const FiltersBlock = ({
       <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("chapter")}</h3>
         {isLoading ? (
-          <ClipLoader
-            loading={isLoading}
-            cssOverride={override}
-            size={30}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+          <ClipLoader loading={isLoading} cssOverride={override} size={30} />
         ) : (
           <ul className={styles.list}>
             {filtersData.productType.map((item, id) => (
               <li className={styles.item} key={id}>
-                <button className={styles.filterButton} onClick={() => setSelectedType(item.ro)}>
+                <button
+                  className={styles.filterButton}
+                  onClick={() => updateParams({ type: item.ro })}
+                >
                   {item[langKey]}
                 </button>
               </li>
@@ -180,12 +202,10 @@ const FiltersBlock = ({
         )}
       </div>
       <Button
-        disabled={!isFilterActive}
         buttonType={"smallButton"}
+        disabled={!isFilterActive}
         onClick={() => {
-          setSelectedBrand(null);
-          setSelectedType(null);
-          setRange([filtersData.price.low, filtersData.price.more]);
+          router.replace(`/${locale}${RoutesEnum.Products}`);
         }}
       >
         Очистить фильтр

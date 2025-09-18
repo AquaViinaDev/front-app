@@ -1,25 +1,53 @@
-// export const getAllProducts = async () => {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-//     next: { revalidate: 60 },
-//   });
-//
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch filters");
-//   }
-//   return res.json();
-// };
-
-export const getCartProducts = async (ids: string[]) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/by-ids`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ ids }),
+export const getAllProducts = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+    next: { revalidate: 60 },
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch cart products");
+    throw new Error("Failed to fetch filters");
+  }
+  return res.json();
+};
+
+export const getFilteredProducts = async (filters: {
+  brand?: string;
+  type?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}) => {
+  const params = new URLSearchParams();
+
+  if (filters.brand) params.append("brand", filters.brand);
+  if (filters.type) params.append("type", filters.type);
+  if (filters.minPrice !== undefined) params.append("minPrice", String(filters.minPrice));
+  if (filters.maxPrice !== undefined) params.append("maxPrice", String(filters.maxPrice));
+
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/products/filter?${params.toString()}`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch filtered products");
+  }
+
+  return res.json();
+};
+
+export const getSearchedProducts = async (query: string) => {
+  if (!query) return [];
+
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(
+    query
+  )}`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch searched products");
   }
 
   return res.json();
@@ -53,27 +81,17 @@ export const getFilters = async () => {
   return res.json();
 };
 
-export const getFilteredProducts = async (filters: {
-  brand?: string;
-  type?: string;
-  minPrice?: number;
-  maxPrice?: number;
-}) => {
-  const params = new URLSearchParams();
-
-  if (filters.brand) params.append("brand", filters.brand);
-  if (filters.type) params.append("type", filters.type);
-  if (filters.minPrice !== undefined) params.append("minPrice", String(filters.minPrice));
-  if (filters.maxPrice !== undefined) params.append("maxPrice", String(filters.maxPrice));
-
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/products/filter?${params.toString()}`;
-
-  const res = await fetch(url, {
-    next: { revalidate: 60 },
+export const getCartProducts = async (ids: string[]) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/by-ids`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids }),
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch filtered products");
+    throw new Error("Failed to fetch cart products");
   }
 
   return res.json();
@@ -110,3 +128,64 @@ export const sendConsultation = async (consultationData: { name: string; phone: 
 
   return res.json();
 };
+
+//
+
+// useEffect(() => {
+//   if (!range) return;
+//   const handler = setTimeout(() => setDebouncedRange(range), 500);
+//   return () => clearTimeout(handler);
+// }, [range]);
+//
+// useEffect(() => {
+//   if (selectedBrand || selectedType) {
+//     setSearchQuery("");
+//     setDebouncedSearchQuery("");
+//   }
+// }, [selectedBrand, selectedType]);
+
+// const {
+//   data: products = [],
+//   isLoading: isProductsLoading,
+//   isFetched,
+// } = useQuery({
+//   queryKey: [
+//     "filteredProducts",
+//     selectedBrand,
+//     selectedType,
+//     debouncedRange,
+//     debouncedSearchQuery,
+//   ],
+//   queryFn: () =>
+//     debouncedSearchQuery
+//       ? fetch(
+//           `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(debouncedSearchQuery)}`
+//         ).then((res) => res.json())
+//       : getFilteredProducts({
+//           brand: selectedBrand ?? "",
+//           type: selectedType ?? "",
+//           minPrice: debouncedRange?.[0] ?? filters.price.low,
+//           maxPrice: debouncedRange?.[1] ?? filters.price.more,
+//         }),
+//   enabled: !!filters,
+//   placeholderData: keepPreviousData,
+// });
+//
+// useEffect(() => {
+//   if (filters?.price) {
+//     const initialRange = [filters.price.low, filters.price.more];
+//     setRange(initialRange);
+//     setDebouncedRange(initialRange);
+//   }
+// }, [filters]);
+
+// useEffect(() => {
+//   const handler = setTimeout(() => setDebouncedSearchQuery(searchQuery), 1000);
+//   return () => clearTimeout(handler);
+// }, [searchQuery]);
+//
+// useEffect(() => {
+//   if (typeFromQuery) {
+//     setSelectedType(typeFromQuery);
+//   }
+// }, [typeFromQuery]);
