@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { ChangeEvent, memo } from "react";
 import classNames from "classnames";
 
 import styles from "./CartAmount.module.scss";
@@ -10,9 +10,21 @@ export type CartAmountProps = {
 };
 
 const CartAmount = memo(({ value, onChange, className }: CartAmountProps) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+
+    if (!isNaN(newValue)) {
+      onChange(Math.max(1, newValue));
+    }
+  };
+
   return (
     <div className={classNames(className, styles.root)}>
-      <button className={styles.decrementAmount} onClick={() => onChange(Math.max(1, value - 1))}>
+      <button
+        type="button"
+        className={styles.decrementAmount}
+        onClick={() => onChange(Math.max(1, value - 1))}
+      >
         -
       </button>
       <input
@@ -20,10 +32,10 @@ const CartAmount = memo(({ value, onChange, className }: CartAmountProps) => {
         type="number"
         name="cartAmount"
         value={value}
-        readOnly={true}
         min={1}
+        onChange={handleInputChange}
       />
-      <button className={styles.incrementAmount} onClick={() => onChange(value + 1)}>
+      <button type="button" className={styles.incrementAmount} onClick={() => onChange(value + 1)}>
         +
       </button>
     </div>
