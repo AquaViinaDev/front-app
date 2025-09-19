@@ -47,16 +47,18 @@ const ProductsListWrapper = () => {
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      const newParams = new URLSearchParams();
+      const currentParams = new URLSearchParams(window.location.search);
 
       if (searchValue) {
-        newParams.set("q", searchValue);
+        currentParams.set("q", searchValue);
+      } else {
+        currentParams.delete("q");
       }
 
       window.history.replaceState(
         null,
         "",
-        `/${locale}${RoutesEnum.Products}?${newParams.toString()}`
+        `/${locale}${RoutesEnum.Products}?${currentParams.toString()}`
       );
     }, 500);
 

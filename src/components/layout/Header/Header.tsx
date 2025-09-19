@@ -14,7 +14,6 @@ import styles from "./Header.module.scss";
 import Cart from "@/components/layout/Header/components/Cart/Cart";
 
 const socialLinks: SocialData[] = [
-  // { image: "/telegram.svg", label: "Telegram", href: RoutesEnum.Main },
   {
     image: "/instagram.svg",
     label: "Instagram",
