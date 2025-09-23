@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: $font-4xl;
+  font-weight: $font-bold;
+  color: #04559b;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.nameInput {
+  border: 1px solid #CACACA !important;
+}
+
+.bodyModal {
+  padding: 30px 20px !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

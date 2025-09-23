@@ -1,9 +1,26 @@
 import { ServicesPage } from "../../../components/ServicesPage";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Aqua Viina Consultation",
-  description: "Aqua Viina Consultation",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: "ru" | "ro" };
+}): Promise<Metadata> {
+  const titles = {
+    ru: "Установка, замена картриджей и ремонт фильтров для воды — AquaViina",
+    ro: "Montaj, înlocuire cartușe și reparații filtre de apă — AquaViina",
+  };
+
+  const descriptions = {
+    ru: "Профессиональная установка фильтров, замена картриджей и ремонт систем очистки воды в Кишинёве и по всей Молдове. Бесплатная установка при покупке фильтра у нас. Гарантия на все работы — 6 месяцев.",
+    ro: "Montaj profesional al filtrelor, înlocuirea cartușelor și reparații ale sistemelor de purificare a apei în Chișinău și în toată Moldova. Montaj gratuit pentru filtrele cumpărate de la noi. Garanție 6 luni pentru toate lucrările.",
+  };
+
+  return {
+    title: titles[locale],
+    description: descriptions[locale],
+  };
+}
 
 const Services = () => {
   return <ServicesPage />;

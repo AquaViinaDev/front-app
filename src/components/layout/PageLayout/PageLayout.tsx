@@ -34,9 +34,11 @@ const PageLayout = memo(
     return (
       <div className={classNames(className, styles.root)} {...props}>
         <div className={classNames(wrapperClassName, styles.wrapper)}>
-          <div className={styles.headerPage}>
-            <h1 className={styles.title}>{title}</h1>
-          </div>
+          {title ? (
+            <div className={styles.headerPage}>
+              <h1 className={styles.title}>{title}</h1>
+            </div>
+          ) : null}
           <div className={styles.contentWrapper}>
             <div className={classNames(contentClassName, styles.content)}>
               {isLoading ? (

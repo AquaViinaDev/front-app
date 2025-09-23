@@ -1,0 +1,40 @@
+@use "variables" as *;
+@use "media" as *;
+
+.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.title {
+  font-size: $font-3xl;
+  font-weight: $font-semi-bold;
+}
+
+.content {
+  display: flex;
+  gap: 15px;
+}
+
+.description {
+  font-size: $font-lg;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+}
+
+.price {
+  font-size: $font-lg;
+  font-weight: $font-semi-bold;
+  white-space: nowrap;
+}

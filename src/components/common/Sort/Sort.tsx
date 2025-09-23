@@ -1,6 +1,9 @@
-import styles from "./Sort.module.scss";
+"use client";
+
 import { useState } from "react";
 import { useTranslations } from "use-intl";
+
+import styles from "./Sort.module.scss";
 
 const Sort = () => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");

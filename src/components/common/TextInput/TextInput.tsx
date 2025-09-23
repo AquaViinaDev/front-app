@@ -1,7 +1,6 @@
 "use client";
 
 import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, memo, useCallback } from "react";
-
 import { useTranslations } from "use-intl";
 import classNames from "classnames";
 
@@ -15,10 +14,12 @@ export type TextInputProps = NativeInputProps & {
   isLabel?: boolean;
   textInputClassName?: string;
   error?: boolean;
+  className?: string;
 };
 
 const TextInput = memo(
   ({
+    className,
     error = false,
     textInputClassName,
     value,
@@ -33,7 +34,7 @@ const TextInput = memo(
     );
 
     return (
-      <div className={styles.root}>
+      <div className={classNames(className, styles.root)}>
         {isLabel ? (
           <label className={styles.label} htmlFor="textInput">
             {t("labelInput")}

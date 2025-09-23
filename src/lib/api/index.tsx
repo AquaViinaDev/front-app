@@ -113,7 +113,11 @@ export const sendOrder = async (orderData: any) => {
   return res.json();
 };
 
-export const sendConsultation = async (consultationData: { name: string; phone: string }) => {
+export const sendConsultation = async (consultationData: {
+  name: string;
+  phone: string;
+  orderName?: string;
+}) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/consultations`, {
     method: "POST",
     headers: {

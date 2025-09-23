@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "use-intl";
 import { getNavLinks } from "@/components/layout/Header/utils";
+import { Cart } from "../Header/components/Cart";
 
 import styles from "./Header.module.scss";
-import Cart from "@/components/layout/Header/components/Cart/Cart";
 
 const socialLinks: SocialData[] = [
   {
@@ -44,7 +44,8 @@ const Header = () => {
       <div className={styles.wrapper}>
         <div className={styles.logo}>
           <Link href={`/${locale}${RoutesEnum.Main}`} onClick={() => setIsOpen(false)}>
-            AQUA VIINA
+            {/*<Image src={"logo-icon.svg"} alt="Logo Aqua Viina" width={100} height={100} />*/}
+            Aqua Viina
           </Link>
         </div>
         <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
