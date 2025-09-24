@@ -1,12 +1,10 @@
 import { Metadata } from "next";
 import { HomePage } from "@/components/HomePage";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: "ru" | "ro" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await props.params;
 
   const meta = {
     ru: {
@@ -21,9 +19,11 @@ export async function generateMetadata({
     },
   };
 
+  const current = meta[locale as "ru" | "ro"] ?? meta["ru"];
+
   return {
-    title: meta[locale].title,
-    description: meta[locale].description,
+    title: current.title,
+    description: current.description,
     alternates: {
       canonical: `https://aqua-viina.md/${locale}`,
       languages: {
@@ -32,8 +32,8 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: meta[locale].title,
-      description: meta[locale].description,
+      title: current.title,
+      description: current.description,
       url: `https://aqua-viina.md/${locale}`,
       siteName: "AquaViina",
       type: "website",

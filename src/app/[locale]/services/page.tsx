@@ -1,11 +1,11 @@
 import { ServicesPage } from "../../../components/ServicesPage";
 import { Metadata } from "next";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: "ru" | "ro" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "ru" | "ro" }>;
 }): Promise<Metadata> {
+  const { locale } = await props.params;
+
   const titles = {
     ru: "Установка, замена картриджей и ремонт фильтров для воды — AquaViina",
     ro: "Montaj, înlocuire cartușe și reparații filtre de apă — AquaViina",

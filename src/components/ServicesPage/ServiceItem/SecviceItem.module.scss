@@ -21,6 +21,14 @@
   gap: 15px;
 }
 
+.readMore {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #777575;
+}
+
 .description {
   font-size: $font-lg;
   line-height: 1.4;
@@ -37,4 +45,10 @@
   font-size: $font-lg;
   font-weight: $font-semi-bold;
   white-space: nowrap;
+}
+
+@media (max-width: $mobileScreen) {
+  .content {
+    flex-direction: column;
+  }
 }

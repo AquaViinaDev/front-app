@@ -51,9 +51,10 @@ const Header = () => {
         <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
           <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
           <Social links={socialLinks} onAction={() => setIsOpen(false)} />
-          <Cart />
+          <Cart className={styles.cart} />
           <Local />
         </div>
+        <Cart className={styles.cartMobile} />
         <button className={styles.burger} onClick={() => setIsOpen(!isOpen)} aria-label="Menu open">
           <Image
             src={isOpen ? "/close.svg" : "/burger.svg"}

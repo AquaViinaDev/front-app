@@ -7,7 +7,7 @@ import { useTranslations } from "use-intl";
 import { Modal } from "../common/Modal";
 import { Button, PhoneInput, TextInput } from "@/components/common";
 import { useMutation } from "@tanstack/react-query";
-import { sendConsultation } from "@/lib/api";
+import { sendServiceOrder } from "@/lib/api";
 import { toast } from "react-toastify";
 
 import styles from "./ServicesPage.module.scss";
@@ -15,16 +15,22 @@ import styles from "./ServicesPage.module.scss";
 const ServicesPage = () => {
   const t = useTranslations("ServicePage");
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [userName, setUserName] = useState<string | null>("");
-  const [phoneNumber, setPhoneNumber] = useState<string | null>("");
-  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [selectedService, setSelectedService] = useState<string>("");
+  const [errors, setErrors] = useState<{ name: boolean; phone: boolean }>({
+    name: false,
+    phone: false,
+  });
 
-  const consultationMutation = useMutation({
-    mutationFn: sendConsultation,
+  const mutationOrder = useMutation({
+    mutationFn: sendServiceOrder,
     onSuccess: () => {
-      toast.success("Заявка отправлена ✅");
+      toast.success("Заявка отправлена");
       setUserName("");
       setPhoneNumber("");
+      setSelectedService("");
+      setIsOpenModal(false);
     },
     onError: () => {
       toast.error("Ошибка отправки, попробуйте ещё раз");
@@ -38,15 +44,21 @@ const ServicesPage = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!userName || !phoneNumber || phoneNumber.length <= 10 || !selectedService) return;
+
+    const nameError = !userName?.trim();
+    const phoneError = !phoneNumber?.trim() || phoneNumber.length <= 10;
+
+    setErrors({ name: nameError, phone: phoneError });
+
+    if (nameError || phoneError || !selectedService) return;
 
     const payload = {
       name: userName,
       phone: phoneNumber,
-      service: selectedService,
+      orderName: selectedService,
     };
 
-    consultationMutation.mutate(payload);
+    mutationOrder.mutate(payload);
     setIsOpenModal(false);
   };
 
@@ -76,16 +88,21 @@ const ServicesPage = () => {
       <Modal
         onClose={() => setIsOpenModal(false)}
         isOpen={isOpenModal}
-        title={t("modalHeader")}
+        title={`${t("modalHeader")}${selectedService}`}
         bodyClassName={styles.bodyModal}
       >
         <form className={styles.form} onSubmit={handleSubmit}>
           <TextInput
             textInputClassName={styles.nameInput}
             value={userName}
-            onChange={(value) => setUserName(value)}
+            onChange={(value) => setUserName(value ?? "")}
+            error={errors.name}
           />
-          <PhoneInput value={phoneNumber} onChange={(e) => setPhoneNumber(e)} />
+          <PhoneInput
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e ?? "")}
+            error={errors.phone}
+          />
           <Button buttonType={"bigButton"}>{t("button")}</Button>
         </form>
       </Modal>

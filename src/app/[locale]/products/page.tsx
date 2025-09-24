@@ -1,12 +1,10 @@
 import { ProductsPage } from "../../../components/ProductsPage";
 import { Metadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: "ru" | "ro" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "ru" | "ro" }>;
 }): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await props.params; // ✅ ждем params
 
   const meta = {
     ru: {

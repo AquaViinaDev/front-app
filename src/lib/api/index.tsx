@@ -113,11 +113,7 @@ export const sendOrder = async (orderData: any) => {
   return res.json();
 };
 
-export const sendConsultation = async (consultationData: {
-  name: string;
-  phone: string;
-  orderName?: string;
-}) => {
+export const sendConsultation = async (consultationData: { name: string; phone: string }) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/consultations`, {
     method: "POST",
     headers: {
@@ -133,63 +129,22 @@ export const sendConsultation = async (consultationData: {
   return res.json();
 };
 
-//
+export const sendServiceOrder = async (orderData: {
+  name: string;
+  phone: string;
+  orderName: string;
+}) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service-orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderData),
+  });
 
-// useEffect(() => {
-//   if (!range) return;
-//   const handler = setTimeout(() => setDebouncedRange(range), 500);
-//   return () => clearTimeout(handler);
-// }, [range]);
-//
-// useEffect(() => {
-//   if (selectedBrand || selectedType) {
-//     setSearchQuery("");
-//     setDebouncedSearchQuery("");
-//   }
-// }, [selectedBrand, selectedType]);
+  if (!res.ok) {
+    throw new Error("Failed to send service order");
+  }
 
-// const {
-//   data: products = [],
-//   isLoading: isProductsLoading,
-//   isFetched,
-// } = useQuery({
-//   queryKey: [
-//     "filteredProducts",
-//     selectedBrand,
-//     selectedType,
-//     debouncedRange,
-//     debouncedSearchQuery,
-//   ],
-//   queryFn: () =>
-//     debouncedSearchQuery
-//       ? fetch(
-//           `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(debouncedSearchQuery)}`
-//         ).then((res) => res.json())
-//       : getFilteredProducts({
-//           brand: selectedBrand ?? "",
-//           type: selectedType ?? "",
-//           minPrice: debouncedRange?.[0] ?? filters.price.low,
-//           maxPrice: debouncedRange?.[1] ?? filters.price.more,
-//         }),
-//   enabled: !!filters,
-//   placeholderData: keepPreviousData,
-// });
-//
-// useEffect(() => {
-//   if (filters?.price) {
-//     const initialRange = [filters.price.low, filters.price.more];
-//     setRange(initialRange);
-//     setDebouncedRange(initialRange);
-//   }
-// }, [filters]);
-
-// useEffect(() => {
-//   const handler = setTimeout(() => setDebouncedSearchQuery(searchQuery), 1000);
-//   return () => clearTimeout(handler);
-// }, [searchQuery]);
-//
-// useEffect(() => {
-//   if (typeFromQuery) {
-//     setSelectedType(typeFromQuery);
-//   }
-// }, [typeFromQuery]);
+  return res.json();
+};
