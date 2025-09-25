@@ -74,17 +74,17 @@
   },
 
   "Footer": {
-    "advancedPages": {
-      "title": "Pagini principale",
+    "mainText": "Filtre pentru apă curată și sănătoasă",
+    "navigation": {
+      "title": "Navigare",
       "main": "Acasă",
-      "simpleSolutions": "Soluții simple",
-      "advancedSolutions": "Soluții avansate"
+      "products": "Produse",
+      "services": "Услуги",
+      "aboutUs": "Despre noi"
     },
-    "simpleSolutions": {
-      "title": "Soluții simple"
-    },
-    "advancedSolutions": {
-      "title": "Soluții avansate"
+    "contacts": {
+      "title": "Contacte",
+      "location": "Chișinău, Moldova"
     }
   },
 
@@ -171,6 +171,8 @@
     "from": "de la",
     "currency": "lei",
     "modalHeader": "Comanda: ",
+    "successOrder": "Cererea a fost trimisă",
+    "errorOrder": "Eroare la trimitere, vă rugăm să încercați din nou.",
     "osmosisInstallation": {
       "title": "Instalarea unui filtru de osmoză inversă sau de flux",
       "description": "Comandați instalarea filtrelor de la tehnicienii noștri. Dacă ați achiziționat un filtru de la noi, instalarea este gratuită. Instalarea pentru filtre de la terți începe de la 400 de lei (cu condiția ca toate piesele necesare să fie incluse). Singurul lucru care poate modifica prețul este dificultatea de a găuri un orificiu pentru baterie în chiuvetă. Instalarea durează aproximativ o oră. Piesele suplimentare sunt necesare doar dacă lipsește ceva din kit; în acest caz, tehnicianul le va instala la prețul din magazin. De asemenea, instalăm filtre pe care le-ați folosit deja. Oferim o garanție de 6 luni pentru toate lucrările."

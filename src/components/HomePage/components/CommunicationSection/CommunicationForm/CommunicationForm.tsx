@@ -13,6 +13,7 @@ const CommunicationForm = () => {
   const [name, setName] = useState<string | null>("");
   const [phone, setPhone] = useState<string | null>("");
   const t = useTranslations("CommunicationSection");
+  const tServicePage = useTranslations("ServicePage");
   const handleNameChange = useCallback((value: string | null) => {
     setName(value ?? "");
   }, []);
@@ -24,12 +25,12 @@ const CommunicationForm = () => {
   const consultationMutation = useMutation({
     mutationFn: sendConsultation,
     onSuccess: () => {
-      toast.success("Заявка отправлена ✅");
+      toast.success(tServicePage("successOrder"));
       setName("");
       setPhone("");
     },
     onError: () => {
-      toast.error("Ошибка отправки, попробуйте ещё раз");
+      toast.error(tServicePage("errorOrder"));
     },
   });
 

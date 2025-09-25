@@ -15,39 +15,39 @@ const Footer = () => {
       <div className={styles.container}>
         <div>
           <h2 className={styles.logo}>AQUA VIINA</h2>
-          <p className={styles.description}>Фильтры для чистой и здоровой воды</p>
+          <p className={styles.description}>{t("mainText")}</p>
         </div>
         <div>
-          <h3 className={styles.title}>Навигация</h3>
+          <h3 className={styles.title}>{t("navigation.title")}</h3>
           <ul className={styles.navList}>
             <li>
               <Link href={`/${locale}${RoutesEnum.Main}`} className={styles.link}>
-                Главная
+                {t("navigation.main")}
               </Link>
             </li>
             <li>
               <Link href={`/${locale}${RoutesEnum.Products}`} className={styles.link}>
-                Продукция
+                {t("navigation.products")}
               </Link>
             </li>
             <li>
               <Link href={`/${locale}${RoutesEnum.Services}`} className={styles.link}>
-                Услуги
+                {t("navigation.services")}
               </Link>
             </li>
             <li>
               <Link href={`/${locale}${RoutesEnum.About}`} className={styles.link}>
-                О нас
+                {t("navigation.aboutUs")}
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h3 className={styles.title}>Контакты</h3>
+          <h3 className={styles.title}>{t("contacts.title")}</h3>
           <p className={styles.contact}>
             📞
-            <Link href="tel:+37377717054" className={styles.link}>
-              +373 777 17 054
+            <Link href="tel:+373 67 177 889" className={styles.link}>
+              +373 67 177 889
             </Link>
           </p>
           <p className={styles.contact}>
@@ -67,7 +67,7 @@ const Footer = () => {
               Aqua Viina
             </Link>
           </p>
-          <p className={styles.contact}>📍 Кишинёв, Молдова</p>
+          <p className={styles.contact}>📍 {t("contacts.location")}</p>
         </div>
       </div>
       <div className={styles.bottomBar}>© 2025 AQUA VIINA. Все права защищены.</div>

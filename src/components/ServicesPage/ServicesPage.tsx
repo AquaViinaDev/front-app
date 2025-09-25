@@ -26,14 +26,14 @@ const ServicesPage = () => {
   const mutationOrder = useMutation({
     mutationFn: sendServiceOrder,
     onSuccess: () => {
-      toast.success("Заявка отправлена");
+      toast.success(t("successOrder"));
       setUserName("");
       setPhoneNumber("");
       setSelectedService("");
       setIsOpenModal(false);
     },
     onError: () => {
-      toast.error("Ошибка отправки, попробуйте ещё раз");
+      toast.error(t("errorOrder"));
     },
   });
 
