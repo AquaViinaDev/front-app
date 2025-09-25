@@ -65,7 +65,7 @@ export const getProductById = async (id: string) => {
 
     return res.json();
   } catch (error) {
-    console.error("Ошибка при получении продукта:", error);
+    console.error("Error receiving product:", error);
     return null;
   }
 };

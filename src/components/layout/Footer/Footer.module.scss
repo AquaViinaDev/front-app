@@ -1,50 +1,76 @@
 @use "variables" as *;
 @use "media" as *;
 
-.root {
-  background-color: #1f1f1f;
-  padding: 40px 20px;
+.footer {
+  background-color: #f7f7f7;
+  color: #444;
 }
 
-.wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  max-width: $max-width;
+.container {
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 32px 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (min-width: $mobileScreen) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.logo {
+  color: $bg-blue;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.description {
+  font-size: 14px;
+  margin-top: 8px;
 }
 
 .title {
-  font-size: $font-md;
-  font-weight: $font-semi-bold;
-  text-transform: uppercase;
-  color: #525252;
+  font-size: 16px;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
-.link {
-  font-size: $font-sm;
-  color: $text-white;
-  text-decoration: none;
-  transition: color 0.2s;
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 6px;
+  }
 }
 
-@media (max-width: $mobileScreen) {
-  .title {
-    font-size: $font-sm;
-  }
+.link, .instagramLink {
+  font-size: 14px;
+  color: #444;
+  text-decoration: none;
+  transition: color 0.2s;
 
-  .wrapper {
-    gap: 20px;
+  &:hover {
+    color: #2563eb;
   }
+}
 
-  .column {
-    gap: 7px;
-  }
+.instagramLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.bottomBar {
+  background-color: $bg-gray;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 13px;
 }

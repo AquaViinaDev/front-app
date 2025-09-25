@@ -122,10 +122,7 @@ const ProductsListWrapper = () => {
             </Button>
           </div>
           <div className={styles.sortWrapper}>
-            <SearchForm
-              value={searchValue}
-              onSearch={(val) => setSearchValue(val)} // меняем локальный стейт
-            />
+            <SearchForm value={searchValue} onSearch={(val) => setSearchValue(val)} />
             <Sort />
           </div>
         </div>
@@ -171,7 +168,3 @@ const ProductsListWrapper = () => {
 };
 
 export default ProductsListWrapper;
-// debouncedSearchQuery ? fetch( ${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(debouncedSearchQuery)}
-// const [debouncedRange, setDebouncedRange] = useState<number[] | null>(null);
-// const [searchQuery, setSearchQuery] = useState("");
-// const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
