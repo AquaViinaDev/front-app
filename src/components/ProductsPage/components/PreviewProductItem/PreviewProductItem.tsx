@@ -35,7 +35,7 @@ const PreviewProductItem = memo(
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={`${process.env.NEXT_PUBLIC_API_URL}${image}`}
+            src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : null}
             alt={title}
             width={180}
             height={180}

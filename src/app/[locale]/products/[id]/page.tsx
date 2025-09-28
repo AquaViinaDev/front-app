@@ -72,6 +72,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
           productId={localizedProduct.id}
           price={localizedProduct.price}
           inStock={localizedProduct.stockQty}
+          oldPrice={localizedProduct.oldPrice}
         />
       </div>
       <div className={styles.additionalInfoBlock}>

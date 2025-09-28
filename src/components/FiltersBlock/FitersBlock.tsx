@@ -60,6 +60,14 @@ const FiltersBlock = ({
   const searchParams = useSearchParams();
   const langKey: keyof FilterOption = locale === "ru" ? "ru" : "ro";
 
+  const params = useMemo(
+    () => Object.fromEntries(new URLSearchParams(searchParams.toString())),
+    [searchParams]
+  );
+
+  const activeBrand = params.brand || null;
+  const activeType = params.type || null;
+
   const isFilterActive = useMemo(() => {
     const urlParams = Object.fromEntries(new URLSearchParams(searchParams.toString()));
     return (
@@ -114,7 +122,9 @@ const FiltersBlock = ({
             {filtersData.brand.map((item, id) => (
               <li className={styles.item} key={id}>
                 <button
-                  className={styles.filterButton}
+                  className={classNames(styles.filterButton, {
+                    [styles.active]: activeBrand === item.ro,
+                  })}
                   onClick={() => updateParams({ brand: item.ro })}
                 >
                   {item[langKey]}
@@ -191,7 +201,9 @@ const FiltersBlock = ({
             {filtersData.productType.map((item, id) => (
               <li className={styles.item} key={id}>
                 <button
-                  className={styles.filterButton}
+                  className={classNames(styles.filterButton, {
+                    [styles.active]: activeType === item.ro,
+                  })}
                   onClick={() => updateParams({ type: item.ro })}
                 >
                   {item[langKey]}
@@ -208,7 +220,7 @@ const FiltersBlock = ({
           router.replace(`/${locale}${RoutesEnum.Products}`);
         }}
       >
-        Очистить фильтр
+        {t("clearFilter")}
       </Button>
     </div>
   );

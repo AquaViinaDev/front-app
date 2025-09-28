@@ -99,6 +99,7 @@
       "brand": "Marca",
       "price": "Preţ",
       "chapter": "Сapitol",
+      "clearFilter": "Șterge filtrul",
       "sortDefault": "Sortare implicită",
       "sortDesc": "După preț: de la scump",
       "sortAsc": "După preț: de la ieftin"

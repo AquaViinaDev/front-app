@@ -14,12 +14,14 @@ export type ProductInformationBlockProps = {
   productId: string;
   price: number;
   inStock: boolean;
+  oldPrice?: number;
 };
 
 export const ProductInformationBlock = ({
   productId,
   price,
   inStock,
+  oldPrice,
 }: ProductInformationBlockProps) => {
   const [cartAmount, setCartAmount] = useState(1);
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
@@ -105,7 +107,7 @@ export const ProductInformationBlock = ({
         <div className={styles.rightBlock}>
           <div className={styles.priceBlock}>
             <p className={styles.saleInfo}>
-              {price} {t("ProductsPageInformation.price")}
+              {oldPrice} {t("ProductsPageInformation.price")}
             </p>
             <p className={styles.priceInfo}>
               {price} {t("ProductsPageInformation.price")}

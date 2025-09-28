@@ -36,6 +36,9 @@
   &:hover {
     background-color: $bg-gray;
   }
+  &.active {
+    background-color: $bg-gray;
+  }
 }
 
 .sliderRoot {
