@@ -71,7 +71,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
         <ProductInformationBlock
           productId={localizedProduct.id}
           price={localizedProduct.price}
-          inStock={localizedProduct.stockQty}
+          inStock={localizedProduct.inStock}
           oldPrice={localizedProduct.oldPrice}
         />
       </div>

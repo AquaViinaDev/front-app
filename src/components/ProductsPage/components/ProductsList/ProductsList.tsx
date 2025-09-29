@@ -40,7 +40,7 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
           image={product.images[0]}
           title={product.name?.[locale]}
           price={product.price}
-          isInStock={product.stockQty >= 1}
+          isInStock={product.inStock}
           link={`/products/${product.id}`}
         />
       ))}
