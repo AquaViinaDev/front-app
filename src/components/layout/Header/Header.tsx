@@ -44,7 +44,7 @@ const Header = () => {
       <div className={styles.wrapper}>
         <div className={styles.logo}>
           <Link href={`/${locale}${RoutesEnum.Main}`} onClick={() => setIsOpen(false)}>
-            <Image src={"logo.svg"} alt="Logo Aqua Viina" width={150} height={50} />
+            <Image src={"/logo.svg"} alt="Logo Aqua Viina" width={150} height={50} />
           </Link>
         </div>
         <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>

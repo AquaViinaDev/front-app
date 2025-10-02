@@ -81,14 +81,14 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
             {locale === "ru" ? "Технические характеристики:" : "Specificații tehnice:"}
           </h3>
           <ul className={styles.characteristicsInformation}>
-            {Object.entries(localizedProduct.characteristics as Record<string, string>).map(
-              ([key, value]) => (
+            {Object.entries(localizedProduct.characteristics as Record<string, string>)
+              .filter(([_, value]) => value !== null && value !== undefined && value !== "")
+              .map(([key, value]) => (
                 <li className={styles.characteristicsItem} key={key}>
                   <span className={styles.key}>{key}</span>
                   <span className={styles.value}>{value}</span>
                 </li>
-              )
-            )}
+              ))}
           </ul>
         </div>
         <div className={styles.description}>

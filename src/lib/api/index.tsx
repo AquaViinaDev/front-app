@@ -1,54 +1,30 @@
-export const getAllProducts = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch filters");
-  }
-  return res.json();
-};
-
-export const getFilteredProducts = async (filters: {
+export const getProducts = async (params: {
+  query?: string;
   brand?: string;
   type?: string;
   minPrice?: number;
   maxPrice?: number;
+  sortOrder?: "asc" | "desc";
+  page: number;
+  limit: number;
 }) => {
-  const params = new URLSearchParams();
+  const searchParams = new URLSearchParams();
 
-  if (filters.brand) params.append("brand", filters.brand);
-  if (filters.type) params.append("type", filters.type);
-  if (filters.minPrice !== undefined) params.append("minPrice", String(filters.minPrice));
-  if (filters.maxPrice !== undefined) params.append("maxPrice", String(filters.maxPrice));
+  if (params.query) searchParams.set("query", params.query);
+  if (params.brand) searchParams.set("brand", params.brand);
+  if (params.type) searchParams.set("type", params.type);
+  if (params.minPrice !== undefined) searchParams.set("minPrice", String(params.minPrice));
+  if (params.maxPrice !== undefined) searchParams.set("maxPrice", String(params.maxPrice));
+  if (params.sortOrder) searchParams.set("sortOrder", params.sortOrder);
 
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/products/filter?${params.toString()}`;
+  searchParams.set("page", String(params.page));
+  searchParams.set("limit", String(params.limit));
 
-  const res = await fetch(url, {
-    next: { revalidate: 60 },
-  });
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/products?${searchParams.toString()}`;
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch filtered products");
-  }
+  const res = await fetch(url);
 
-  return res.json();
-};
-
-export const getSearchedProducts = async (query: string) => {
-  if (!query) return [];
-
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(
-    query
-  )}`;
-
-  const res = await fetch(url, {
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch searched products");
-  }
+  if (!res.ok) throw new Error("Failed to fetch products");
 
   return res.json();
 };

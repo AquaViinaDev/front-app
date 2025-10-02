@@ -1,24 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "use-intl";
 
 import styles from "./Sort.module.scss";
 
-const Sort = () => {
+export type SortProps = {
+  value: "asc" | "desc" | "default";
+  onChange: (value: "asc" | "desc" | "default") => void;
+};
+
+const Sort = ({ value, onChange }: SortProps) => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");
-  const [sort, setSort] = useState("default");
+
   return (
     <select
       id="sort"
-      value={sort}
-      onChange={(e) => setSort(e.target.value)}
+      value={value}
+      onChange={(e) => onChange(e.target.value as "asc" | "desc" | "default")}
       className={styles.root}
     >
       <option value="default">{t("sortDefault")}</option>
-      <option value="price_desc">{t("sortDesc")}</option>
-      <option value="price_asc">{t("sortAsc")}</option>
+      <option value="desc">{t("sortDesc")}</option>
+      <option value="asc">{t("sortAsc")}</option>
     </select>
   );
 };
+
 export default Sort;

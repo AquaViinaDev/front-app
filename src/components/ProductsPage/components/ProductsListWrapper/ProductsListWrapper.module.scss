@@ -61,6 +61,10 @@
   cursor: pointer;
 }
 
+.loadMoreBtn {
+  margin: 20px auto 0;
+}
+
 @keyframes slideIn {
   from {
     transform: translateX(100%);

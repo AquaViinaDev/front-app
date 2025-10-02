@@ -3,7 +3,7 @@ import Image from "next/image";
 import { CartAmount } from "@/components/common";
 import RemoveIcon from "@/assets/icons/remove-icon.svg";
 import { useOrder } from "../../CartContext";
-import { useLocale } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 
 import styles from "./CartProductItem.module.scss";
 
@@ -24,23 +24,24 @@ export type CartProductItemProps = {
 };
 
 const CartProductItem = ({ item }: CartProductItemProps) => {
+  const t = useTranslations("CartPage.CartProductsBlock");
   const { id, name, image, price, qty, totalPrice } = item;
   const locale = useLocale();
   const { updateProductQty, removeProduct } = useOrder();
-
+  console.log(locale);
   const link = `/products/${id}`;
 
   return (
     <div className={styles.root}>
       <Link className={styles.link} href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
         <Image
-          src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.svg"}
+          src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.png"}
           alt={name?.ro ?? "Product Image"}
           width={81}
           height={81}
           className={styles.itemImage}
         />
-        <h3 className={styles.title}>{name?.ru ?? "Без имени"}</h3>
+        <h3 className={styles.title}>{locale === "ru" ? name?.ru : name?.ro}</h3>
       </Link>
       <div className={styles.counter}>
         <CartAmount
@@ -48,8 +49,12 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
           onChange={(value) => updateProductQty(id, value)}
           value={qty}
         />
-        <p className={styles.onePrice}>* {price} лей</p>
-        <p className={styles.totalPrice}>{totalPrice} лей</p>
+        <p className={styles.onePrice}>
+          * {price} {t("current")}
+        </p>
+        <p className={styles.totalPrice}>
+          {totalPrice} {t("current")}
+        </p>
       </div>
       <button className={styles.removeBtn} onClick={() => removeProduct(id)}>
         <RemoveIcon />
