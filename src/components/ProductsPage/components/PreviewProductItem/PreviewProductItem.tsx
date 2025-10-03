@@ -28,14 +28,16 @@ const PreviewProductItem = memo(
       if (!isInStock) return;
 
       addProduct(id);
-      toast.success(`Товар успешно добавлен!`);
+      toast.success(t("ProductsPageInformation.productAddedSuccess"));
     };
 
     return (
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : null}
+            src={
+              image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.png"
+            }
             alt={title}
             width={180}
             height={180}

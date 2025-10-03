@@ -94,6 +94,7 @@
     "cartButton": "В корзину",
     "quickPurchaseButton": "Быстрая покупка",
     "price": "лей/шт.",
+    "productAddedSuccess": "Товар успешно добавлен",
     "filterAndSort": {
       "brand": "Бренд",
       "price": "Цена",

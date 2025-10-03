@@ -28,7 +28,7 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
   const { id, name, image, price, qty, totalPrice } = item;
   const locale = useLocale();
   const { updateProductQty, removeProduct } = useOrder();
-  console.log(locale);
+
   const link = `/products/${id}`;
 
   return (

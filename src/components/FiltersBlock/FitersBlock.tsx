@@ -33,10 +33,6 @@ export type FiltersBlockProps = {
   filtersData: FiltersResponse;
   isLoading: boolean;
   error: Error | null;
-  selectedBrand: string | null;
-  setSelectedBrand: (val: string | null) => void;
-  selectedType: string | null;
-  setSelectedType: (val: string | null) => void;
   range: number[];
   setRange: (val: number[]) => void;
   className?: string;
@@ -46,10 +42,6 @@ const FiltersBlock = ({
   filtersData,
   isLoading,
   error,
-  // selectedBrand,
-  // setSelectedBrand,
-  // selectedType,
-  // setSelectedType,
   range,
   setRange,
   className,
@@ -125,7 +117,11 @@ const FiltersBlock = ({
                   className={classNames(styles.filterButton, {
                     [styles.active]: activeBrand === item.ro,
                   })}
-                  onClick={() => updateParams({ brand: item.ro })}
+                  onClick={() =>
+                    updateParams({
+                      brand: activeBrand === item.ro ? null : item.ro,
+                    })
+                  }
                 >
                   {item[langKey]}
                 </button>
@@ -204,7 +200,7 @@ const FiltersBlock = ({
                   className={classNames(styles.filterButton, {
                     [styles.active]: activeType === item.ro,
                   })}
-                  onClick={() => updateParams({ type: item.ro })}
+                  onClick={() => updateParams({ type: activeType === item.ro ? null : item.ro })}
                 >
                   {item[langKey]}
                 </button>
