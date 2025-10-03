@@ -2,7 +2,7 @@
 
 import { PhoneInput, TextInput, Button } from "@/components/common";
 import { useCallback, useState } from "react";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { sendConsultation } from "@/lib/api";
@@ -10,13 +10,21 @@ import { sendConsultation } from "@/lib/api";
 import styles from "./CommunicationForm.module.scss";
 
 const CommunicationForm = () => {
-  const [name, setName] = useState<string | null>("");
-  const [phone, setPhone] = useState<string | null>("");
+  const local = useLocale();
   const t = useTranslations("CommunicationSection");
   const tServicePage = useTranslations("ServicePage");
-  const handleNameChange = useCallback((value: string | null) => {
-    setName(value ?? "");
-  }, []);
+
+  const [name, setName] = useState<string | null>("");
+  const [phone, setPhone] = useState<string | null>("");
+
+  const userLang = local === "ru" ? "русский язык" : "румынский язык";
+
+  const handleNameChange = useCallback(
+    (value: string | null) => {
+      setName(value ?? "");
+    },
+    [userLang]
+  );
 
   const handlePhoneChange = useCallback((value: string | null) => {
     setPhone(value ?? "");
@@ -39,8 +47,9 @@ const CommunicationForm = () => {
       className={styles.form}
       onSubmit={(e) => {
         e.preventDefault();
+        const nameWithLang = `${name} - язык (${local})`;
         if (!name || !phone || phone.length <= 10) return;
-        consultationMutation.mutate({ name, phone });
+        consultationMutation.mutate({ name: nameWithLang, phone });
       }}
     >
       <TextInput required value={name} onChange={handleNameChange} />

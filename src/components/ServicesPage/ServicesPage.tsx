@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ServiceItem } from "./ServiceItem";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import { Modal } from "../common/Modal";
 import { Button, PhoneInput, TextInput } from "@/components/common";
 import { useMutation } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import styles from "./ServicesPage.module.scss";
 
 const ServicesPage = () => {
+  const local = useLocale();
   const t = useTranslations("ServicePage");
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [userName, setUserName] = useState<string>("");
@@ -53,7 +54,7 @@ const ServicesPage = () => {
     if (nameError || phoneError || !selectedService) return;
 
     const payload = {
-      name: userName,
+      name: `${userName} - язык (${local})`,
       phone: phoneNumber,
       orderName: selectedService,
     };

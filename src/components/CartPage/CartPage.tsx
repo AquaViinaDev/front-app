@@ -8,13 +8,13 @@ import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
 import { getCartProducts, sendOrder } from "@/lib/api";
 import { toast } from "react-toastify";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 
 import styles from "./CartPage.module.scss";
 
 const CartPage = () => {
   const t = useTranslations("CartPage");
-
+  const local = useLocale();
   const [ids, setIds] = useState<string[] | null>(null);
   const { clearCart, userInfo, resetUserInfo, setItems, products, totalAmount, setProducts } =
     useOrder();
@@ -90,7 +90,7 @@ const CartPage = () => {
         totalPrice: Number(item.price * item.qty),
       })),
       userInfo: {
-        name: userInfo.name,
+        name: `${userInfo.name} - язык (${local})`,
         phone: userInfo.phone,
         email: userInfo.email || null,
         address: userInfo.address,
