@@ -18,11 +18,8 @@ import styles from "./ProductsListWrapper.module.scss";
 const ProductsListWrapper = () => {
   const t = useTranslations();
   const searchParams = useSearchParams();
-  const typeFromQuery = searchParams.get("type");
   const locale = useLocale();
 
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [selectedType, setSelectedType] = useState<string | null>(typeFromQuery);
   const [range, setRange] = useState<number[]>([0, 0]);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
@@ -88,9 +85,6 @@ const ProductsListWrapper = () => {
     );
   }, [sortOrder, locale]);
 
-  // const hasFilters =
-  //   !!params.brand || !!params.type || !!params.minPrice || !!params.maxPrice || !!params.query;
-
   const {
     data: filters = {
       brand: [],
@@ -123,7 +117,7 @@ const ProductsListWrapper = () => {
         maxPrice: params.maxPrice ?? filters.price.more,
         sortOrder: appliedSort,
         page: pageParam,
-        limit: 4,
+        limit: 100,
       });
     },
     initialPageParam: 1,
@@ -163,10 +157,6 @@ const ProductsListWrapper = () => {
             filtersData={filters}
             isLoading={isLoading}
             error={error}
-            selectedBrand={selectedBrand}
-            setSelectedBrand={setSelectedBrand}
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
             range={range}
             setRange={setRange}
             className={styles.filter}
@@ -192,10 +182,6 @@ const ProductsListWrapper = () => {
               filtersData={filters}
               isLoading={isLoading}
               error={error}
-              selectedBrand={selectedBrand}
-              setSelectedBrand={setSelectedBrand}
-              selectedType={selectedType}
-              setSelectedType={setSelectedType}
               range={range}
               setRange={setRange}
               className={styles.filtersModal}

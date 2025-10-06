@@ -1,0 +1,51 @@
+@use "variables" as *;
+
+.title {
+  font-size: $font-4xl;
+  font-weight: $font-bold;
+  color: $text-blue;
+  text-align: center;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.text {
+  font-size: $font-lg;
+  font-weight: $font-regular;
+  line-height: 1.4;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.shortInfoBlock {
+  width: 100%;
+  background-color: #f7f7f7;
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.nameInput {
+  border: 1px solid #CACACA !important;
+}
+
+.bodyModal {
+  padding: 30px 20px !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

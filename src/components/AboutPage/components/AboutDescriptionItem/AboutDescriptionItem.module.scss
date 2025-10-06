@@ -1,0 +1,7 @@
+@use "variables" as *;
+
+.title {
+  font-size: $font-xl;
+  color: $text-blue;
+  font-weight: $font-semi-bold;
+}

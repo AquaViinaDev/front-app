@@ -132,6 +132,43 @@
     }
   },
 
+  "AboutPage": {
+    "title": "Ne pasă de ceea ce beți în fiecare zi",
+    "textButton": " Consultație gratuită",
+    "sendButton": "Confirma",
+    "modalTitle": "Obțineți o consultație gratuită",
+    "WhoWeAre": {
+      "title": "1. Cine suntem",
+      "text": "Am creat AQUA VIINA pentru a rezolva o sarcină simplă, dar importantă: să oferim oamenilor acces la apă de calitate acasă și la birou. Fără complicații, fără cheltuieli inutile — doar filtre sigure și un serviciu corect."
+    },
+    "WhyChooseUs": {
+      "title": "2. De ce ne aleg clienții",
+      "textFirstLine": "- La cheie: de la livrare până la schimbarea cartușelor.",
+      "textSecondLine": "- Simplu: vă reamintim de service, nu trebuie să vă gândiți la termene.",
+      "textThirdLine": "- Sigur: garanție pentru echipament și lucrări.",
+      "textFourthLine": "- Corect: fără plăți ascunse, doar condiții transparente."
+    },
+    "OurExpertise": {
+      "title": "3. Expertiza noastră",
+      "text": "De la simple căni filtrante până la sisteme de osmoză inversă — alegem filtrul potrivit pentru nevoile dvs. Specialiștii noștri sunt instruiți și lucrează doar cu echipamente testate."
+    },
+    "OurPromise": {
+      "title": "4. Promisiunea noastră",
+      "text": "Nu vindem doar filtre — creăm obiceiul de a bea apă curată. Grija pentru sănătate și confortul clientului — aceasta este baza AQUA VIINA."
+    },
+    "CallToAction": {
+      "title": "5. Apel la acțiune",
+      "text": "Lăsați o cerere — și vom alege soluția potrivită pentru casa sau biroul dvs."
+    },
+    "ShortInfoBlockItem": {
+      "delivery": "Livrare gratuită",
+      "guarantee": "Garanție și retur în 14 zile",
+      "support": "Suport clienți profesional",
+      "wideSelection": "Varietate de produse în stoc și la comandă"
+    }
+  },
+
+
   "CartPage": {
     "mainTitle": "În coșul dvs.",
     "CartProductsBlock": {
