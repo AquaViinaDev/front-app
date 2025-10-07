@@ -97,6 +97,7 @@
     "price": "lei/bucată",
     "productAddedSuccess": "Produsul a fost adăugat cu succes",
     "filters": "Filtre",
+    "loadMore": "Încarcă mai mult",
     "filterAndSort": {
       "brand": "Marca",
       "price": "Preţ",

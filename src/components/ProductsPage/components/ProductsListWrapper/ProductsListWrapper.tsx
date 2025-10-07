@@ -73,7 +73,7 @@ const ProductsListWrapper = () => {
     const currentParams = new URLSearchParams(window.location.search);
 
     if (sortOrder && sortOrder !== "default") {
-      currentParams.set("sortOrder", sortOrder); // ⚠ здесь тоже sortOrder
+      currentParams.set("sortOrder", sortOrder);
     } else {
       currentParams.delete("sortOrder");
     }
@@ -163,14 +163,16 @@ const ProductsListWrapper = () => {
           />
           <ProductsList data={products} isFetched={isFetched} isLoading={isProductsLoading} />
         </div>
-        <Button
-          className={styles.loadMoreBtn}
-          buttonType={"bigButton"}
-          onClick={() => fetchNextPage()}
-          disabled={isFetchingNextPage || products.length >= totalCount}
-        >
-          Загрузить еще
-        </Button>
+        {products.length < totalCount ? (
+          <Button
+            className={styles.loadMoreBtn}
+            buttonType={"bigButton"}
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage || products.length >= totalCount}
+          >
+            {t("ProductsPageInformation.loadMore")}
+          </Button>
+        ) : null}
       </div>
       {isMobileFiltersOpen && (
         <div className={styles.mobileFiltersOverlay} onClick={closeFilters}>

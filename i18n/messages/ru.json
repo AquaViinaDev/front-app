@@ -96,6 +96,7 @@
     "price": "лей/шт.",
     "productAddedSuccess": "Товар успешно добавлен",
     "filters": "Фильтры",
+    "loadMore": "Загрузить еще",
     "filterAndSort": {
       "brand": "Бренд",
       "price": "Цена",
