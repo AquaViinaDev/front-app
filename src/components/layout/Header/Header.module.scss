@@ -24,6 +24,12 @@
   align-items: center;
 }
 
+.mobileActions {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
 .burger {
   display: none;
 }
@@ -33,11 +39,6 @@
 }
 
 @media (max-width: $tabletScreen) {
-  .wrapper {
-    display: flex;
-    align-items: center;
-  }
-
   .additionalWrapper {
     position: absolute;
     top: -1000%;
@@ -59,22 +60,23 @@
     align-items: center;
   }
 
-  .burger {
-    display: block;
-    background-color: $bg-white;
-    border: none;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-  }
-
   .cart {
     display: none;
   }
 
+  .mobileActions {
+    display: flex;
+  }
+
   .cartMobile {
     display: block;
-    margin-right: 20px;
+  }
+
+  .burger {
+    display: block;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
   }
 }
 

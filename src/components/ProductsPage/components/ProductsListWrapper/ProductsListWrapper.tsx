@@ -117,7 +117,7 @@ const ProductsListWrapper = () => {
         maxPrice: params.maxPrice ?? filters.price.more,
         sortOrder: appliedSort,
         page: pageParam,
-        limit: 100,
+        limit: 4,
       });
     },
     initialPageParam: 1,
@@ -143,7 +143,7 @@ const ProductsListWrapper = () => {
               className={styles.filtersButton}
               onClick={openFilters}
             >
-              <span className={styles.buttonTitle}>Фильтры</span>
+              <span className={styles.buttonTitle}>{t("ProductsPageInformation.filters")}</span>
               <Image src={"/filters-icon.svg"} alt={"Filter Icon"} width={20} height={20} />
             </Button>
           </div>

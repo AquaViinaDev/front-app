@@ -10,9 +10,9 @@ import Link from "next/link";
 import { RoutesEnum } from "@/types";
 import { sendConsultation } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 import styles from "./AboutPage.module.scss";
-import { toast } from "react-toastify";
 
 const AboutPage = () => {
   const t = useTranslations("AboutPage");

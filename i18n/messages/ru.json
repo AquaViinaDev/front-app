@@ -95,6 +95,7 @@
     "quickPurchaseButton": "Быстрая покупка",
     "price": "лей/шт.",
     "productAddedSuccess": "Товар успешно добавлен",
+    "filters": "Фильтры",
     "filterAndSort": {
       "brand": "Бренд",
       "price": "Цена",

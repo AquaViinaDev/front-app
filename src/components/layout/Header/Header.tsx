@@ -53,15 +53,21 @@ const Header = () => {
           <Cart className={styles.cart} />
           <Local />
         </div>
-        <Cart className={styles.cartMobile} />
-        <button className={styles.burger} onClick={() => setIsOpen(!isOpen)} aria-label="Menu open">
-          <Image
-            src={isOpen ? "/close.svg" : "/burger.svg"}
-            alt={"Burger"}
-            width={30}
-            height={30}
-          />
-        </button>
+        <div className={styles.mobileActions}>
+          <Cart className={styles.cartMobile} />
+          <button
+            className={styles.burger}
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Menu open"
+          >
+            <Image
+              src={isOpen ? "/close.svg" : "/burger.svg"}
+              alt={"Burger"}
+              width={30}
+              height={30}
+            />
+          </button>
+        </div>
       </div>
     </header>
   );
