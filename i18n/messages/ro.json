@@ -117,12 +117,19 @@
       "description": "Cumpără cu livrare în Chișinău"
     },
     "modalDeliveryInfo": {
-      "title": "Termeni de livrare",
-      "firstCondition": "Livrare în Chișinău",
-      "secondCondition": "În toată Moldova",
+      "chisinauDelivery": {
+        "title": "Livrare în țară:",
+        "pay": "• Comenzi până la 1000 lei — 100 lei",
+        "freePay": "• Comenzi peste 1000 lei — gratuit"
+      },
+      "countryDelivery": {
+        "title": "Livrare în Chișinău:",
+        "pay": "• Comenzi până la 500 lei — 80 lei",
+        "freePay": "• Comenzi peste 500 lei — gratuit"
+      },
       "price": "lei",
       "delivery": "Am nevoie de livrare",
-      "confirm": "Confirma"
+      "confirm": "Este clar"
     },
     "modalConditionsInfo": {
       "title": "Serviciu",
@@ -170,7 +177,6 @@
     }
   },
 
-
   "CartPage": {
     "mainTitle": "În coșul dvs.",
     "CartProductsBlock": {
@@ -183,6 +189,8 @@
       "name": "Nume Nume de familie",
       "company": "Companie",
       "deliveryTitle": "Livrare",
+      "deliveryChisinau": "În jurul Chișinăului",
+      "deliveryMoldova": "În toată Moldova",
       "municipality": "Municipalitate/District",
       "suburb": "Suburbie",
       "address" : "Adresă (stradă, număr casă etc.)",

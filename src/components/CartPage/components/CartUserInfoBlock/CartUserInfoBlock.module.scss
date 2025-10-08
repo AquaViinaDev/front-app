@@ -16,6 +16,19 @@
   font-weight: $font-bold;
 }
 
+.deliveryTypeRow {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
 .userForm, .deliveryInputsWrapper {
   display: flex;
   flex-wrap: wrap;

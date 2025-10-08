@@ -117,11 +117,19 @@
     },
     "modalDeliveryInfo": {
       "title": "Условия доставки",
-      "firstCondition": "По Кишиневу доставка",
-      "secondCondition": "По Молдове",
+      "chisinauDelivery": {
+        "title": "Доставка по стране:",
+        "pay": "• Заказы до 1000 лей — 100 лей",
+        "freePay": "• Заказы свыше 1000 лей — бесплатно"
+      },
+      "countryDelivery": {
+        "title": "Доставка по Кишинёву:",
+        "pay": "• Заказы до 500 лей — 80 лей",
+        "freePay": "• Заказы свыше 500 лей — бесплатно"
+      },
       "price": "лей",
       "delivery": "Мне нужна доставка",
-      "confirm": "Подтвердить"
+      "confirm": "Понятно"
     },
     "modalConditionsInfo": {
       "title": "Обслуживание",
@@ -182,6 +190,8 @@
       "name": "Имя Фамилия",
       "company": "Компания",
       "deliveryTitle": "Доставка",
+      "deliveryChisinau": "По Кишиневу",
+      "deliveryMoldova": "По Молдове",
       "municipality": "Муниципалитет/район",
       "suburb": "Пригород",
       "address" : "Адрес (улица, номер дома и т.д.)",

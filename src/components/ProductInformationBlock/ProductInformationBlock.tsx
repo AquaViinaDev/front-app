@@ -128,32 +128,18 @@ export const ProductInformationBlock = ({
         bodyClassName={styles.bodyModal}
       >
         <div className={styles.deliveryOption}>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="radio"
-              name="delivery"
-              checked={deliveryPrice === 50}
-              onChange={() => setDeliveryPrice(50)}
-            />
-            <span>
-              {t("ProductPage.modalDeliveryInfo.firstCondition")} —{" "}
-              <strong>50 {t("ProductPage.modalDeliveryInfo.price")}</strong>
-            </span>
-          </label>
+          <p className={styles.optionTitle}>
+            {t("ProductPage.modalDeliveryInfo.chisinauDelivery.title")}
+          </p>
+          <p>{t("ProductPage.modalDeliveryInfo.chisinauDelivery.pay")}</p>
+          <p>{t("ProductPage.modalDeliveryInfo.chisinauDelivery.freePay")}</p>
         </div>
         <div className={styles.deliveryOption}>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="radio"
-              name="delivery"
-              checked={deliveryPrice === 100}
-              onChange={() => setDeliveryPrice(100)}
-            />
-            <span>
-              {t("ProductPage.modalDeliveryInfo.secondCondition")} —{" "}
-              <strong>100 {t("ProductPage.modalDeliveryInfo.price")}</strong>
-            </span>
-          </label>
+          <p className={styles.optionTitle}>
+            {t("ProductPage.modalDeliveryInfo.countryDelivery.title")}
+          </p>
+          <p>{t("ProductPage.modalDeliveryInfo.countryDelivery.pay")}</p>
+          <p>{t("ProductPage.modalDeliveryInfo.countryDelivery.freePay")}</p>
         </div>
         <div className={styles.actions}>
           <Button onClick={() => closeDeliveryModal()} buttonType="smallButton">

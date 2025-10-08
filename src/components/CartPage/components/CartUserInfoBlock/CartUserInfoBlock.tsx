@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { PhoneInput, TextInput, ToggleGroup } from "@/components/common";
 import { useOrder } from "@/components/CartPage/CartContext";
+import { useTranslations } from "use-intl";
 
 import styles from "./CartUserInfoBlock.module.scss";
-import { useTranslations } from "use-intl";
 
 export type CartUserInfoBlockProps = {
   errors: { name?: boolean; phone?: boolean; address?: boolean };
@@ -19,7 +19,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   const [region, setRegion] = useState("");
   const [suburb, setSuburb] = useState("");
   const [street, setStreet] = useState("");
-  const { setUserInfo, userInfo } = useOrder();
+  const { setUserInfo, userInfo, setDeliveryZone, deliveryZone } = useOrder();
 
   const updateAddress = (newRegion: string, newSuburb: string, newStreet: string) => {
     const fullAddress = [newRegion, newSuburb, newStreet].filter(Boolean).join(", ");
@@ -36,6 +36,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   useEffect(() => {
     if (resetKey) {
       setDelivery("delivery");
+      setDeliveryZone("chisinau");
       setRegion("");
       setSuburb("");
       setStreet("");
@@ -84,6 +85,28 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           value={delivery}
           onChange={setDelivery}
         />
+        <div className={styles.deliveryTypeRow}>
+          <label className={styles.radioLabel}>
+            <input
+              type="radio"
+              name="deliveryZone"
+              value="chisinau"
+              checked={deliveryZone === "chisinau"}
+              onChange={() => setDeliveryZone("chisinau")}
+            />
+            <span>{t("deliveryChisinau")}</span>
+          </label>
+          <label className={styles.radioLabel}>
+            <input
+              type="radio"
+              name="deliveryZone"
+              value="moldova"
+              checked={deliveryZone === "moldova"}
+              onChange={() => setDeliveryZone("moldova")}
+            />
+            <span>{t("deliveryMoldova")}</span>
+          </label>
+        </div>
         <div className={styles.deliveryInputsWrapper}>
           <TextInput
             error={errors.address}

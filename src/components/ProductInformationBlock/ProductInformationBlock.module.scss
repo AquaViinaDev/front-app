@@ -155,23 +155,20 @@
 
 .deliveryOption {
   display:flex;
-  justify-content: space-between;
-  align-items:center;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .conditionsDescription {
   margin-bottom: 15px;
 }
 
-.checkboxLabel {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size: $font-md;
+.optionTitle {
+  font-weight: $font-semi-bold;
+}
 
-  input {
-    cursor: pointer;
-  }
+.actions {
+  margin-left: auto;
 }
 
 @media (max-width: $tabletScreen) {
