@@ -25,8 +25,6 @@ const PreviewProductItem = memo(
     const { addProduct } = useOrder();
 
     const handleAddToCart = () => {
-      if (!isInStock) return;
-
       addProduct(id);
       toast.success(t("ProductsPageInformation.productAddedSuccess"));
     };
@@ -59,7 +57,7 @@ const PreviewProductItem = memo(
           <p className={styles.priceInfo}>
             {price} {t("ProductsPageInformation.price")}
           </p>
-          <Button buttonType={"smallButton"} onClick={handleAddToCart}>
+          <Button disabled={!isInStock} buttonType={"smallButton"} onClick={handleAddToCart}>
             {t("ProductsPageInformation.cartButton")}
           </Button>
         </div>

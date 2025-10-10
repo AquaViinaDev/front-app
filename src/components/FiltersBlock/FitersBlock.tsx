@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useMemo } from "react";
+import { CSSProperties, Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { useLocale, useTranslations } from "use-intl";
 import classNames from "classnames";
@@ -34,7 +34,7 @@ export type FiltersBlockProps = {
   isLoading: boolean;
   error: Error | null;
   range: number[];
-  setRange: (val: number[]) => void;
+  setRange: Dispatch<SetStateAction<number[]>>;
   className?: string;
 };
 
@@ -52,6 +52,15 @@ const FiltersBlock = ({
   const searchParams = useSearchParams();
   const langKey: keyof FilterOption = locale === "ru" ? "ru" : "ro";
 
+  const safeFilters = {
+    brand: Array.isArray(filtersData?.brand) ? filtersData.brand : [],
+    productType: Array.isArray(filtersData?.productType) ? filtersData.productType : [],
+    price: {
+      low: Number(filtersData?.price?.low) || 0,
+      more: Number(filtersData?.price?.more) || 0,
+    },
+  };
+
   const params = useMemo(
     () => Object.fromEntries(new URLSearchParams(searchParams.toString())),
     [searchParams]
@@ -63,12 +72,12 @@ const FiltersBlock = ({
   const isFilterActive = useMemo(() => {
     const urlParams = Object.fromEntries(new URLSearchParams(searchParams.toString()));
     return (
-      range[0] !== filtersData.price.low ||
-      range[1] !== filtersData.price.more ||
+      range?.[0] !== safeFilters.price.low ||
+      range?.[1] !== safeFilters.price.more ||
       !!urlParams.brand ||
       !!urlParams.type
     );
-  }, [range, filtersData.price.low, filtersData.price.more, searchParams]);
+  }, [range, safeFilters.price.low, safeFilters.price.more, searchParams]);
 
   const updateParams = (params: Record<string, string | number | null>) => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -85,15 +94,21 @@ const FiltersBlock = ({
   };
 
   useEffect(() => {
-    if (filtersData?.price) {
-      const params = Object.fromEntries(new URLSearchParams(searchParams.toString()));
+    if (!filtersData?.price) return;
 
-      const minPrice = params.minPrice ? Number(params.minPrice) : filtersData.price.low;
-      const maxPrice = params.maxPrice ? Number(params.maxPrice) : filtersData.price.more;
+    const paramsString = searchParams.toString();
+    const params = Object.fromEntries(new URLSearchParams(paramsString));
 
-      setRange([minPrice, maxPrice]);
-    }
-  }, [filtersData, searchParams, setRange]);
+    const minPrice = params.minPrice ? Number(params.minPrice) : filtersData.price.low;
+    const maxPrice = params.maxPrice ? Number(params.maxPrice) : filtersData.price.more;
+
+    setRange((prev) => {
+      if (prev[0] !== minPrice || prev[1] !== maxPrice) {
+        return [minPrice, maxPrice];
+      }
+      return prev;
+    });
+  }, [filtersData]);
 
   if (error) {
     return (
@@ -110,8 +125,8 @@ const FiltersBlock = ({
         {isLoading ? (
           <ClipLoader loading={isLoading} cssOverride={override} size={30} />
         ) : (
-          <ul className={styles.list}>
-            {filtersData.brand.map((item, id) => (
+          <ul className={classNames(styles.list, { [styles.visible]: !isLoading })}>
+            {safeFilters.brand.map((item, id) => (
               <li className={styles.item} key={id}>
                 <button
                   className={classNames(styles.filterButton, {
@@ -146,8 +161,8 @@ const FiltersBlock = ({
                   maxPrice: val[1],
                 });
               }}
-              min={filtersData.price.low}
-              max={filtersData.price.more}
+              min={safeFilters.price.low}
+              max={safeFilters.price.more}
               step={1}
             >
               <Slider.Track className={styles.sliderTrack}>
@@ -194,7 +209,7 @@ const FiltersBlock = ({
           <ClipLoader loading={isLoading} cssOverride={override} size={30} />
         ) : (
           <ul className={styles.list}>
-            {filtersData.productType.map((item, id) => (
+            {safeFilters.productType.map((item, id) => (
               <li className={styles.item} key={id}>
                 <button
                   className={classNames(styles.filterButton, {

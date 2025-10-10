@@ -29,7 +29,9 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
     );
   }
 
-  if (!data || !data.length) return <p className={styles.noFound}>No products found</p>;
+  if (!Array.isArray(data) || data.length === 0) {
+    return <p className={styles.noFound}>No products found</p>;
+  }
 
   return (
     <ul className={styles.root}>
