@@ -117,6 +117,7 @@
       "description": "Cumpără cu livrare în Chișinău"
     },
     "modalDeliveryInfo": {
+      "title": "Termeni de livrare",
       "chisinauDelivery": {
         "title": "Livrare în țară:",
         "pay": "• Comenzi până la 1000 lei — 100 lei",

@@ -61,7 +61,11 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>
           <Image
-            src={`${process.env.NEXT_PUBLIC_API_URL}${product.images[0]}`}
+            src={
+              product.images[0]
+                ? `${process.env.NEXT_PUBLIC_API_URL}${product.images[0]}`
+                : "/images/cuvshinExample.png"
+            }
             alt={localizedProduct.name}
             className={styles.image}
             width={400}

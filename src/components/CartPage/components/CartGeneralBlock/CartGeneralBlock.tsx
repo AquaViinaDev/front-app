@@ -36,7 +36,6 @@ const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
     defineDelivery();
   }, [deliveryZone, totalAmount, defineDelivery]);
 
-  console.log(totalAmount);
   return (
     <div className={styles.root}>
       <h3 className={styles.title}>{t("title")}</h3>

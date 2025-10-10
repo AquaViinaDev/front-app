@@ -28,7 +28,7 @@ export const ProductInformationBlock = ({
   const [isConditionsModalOpen, setIsConditionsModalOpen] = useState(false);
   const openDeliveryModal = useCallback(() => setIsDeliveryModalOpen(true), []);
   const closeDeliveryModal = useCallback(() => setIsDeliveryModalOpen(false), []);
-  const { deliveryPrice, setDeliveryPrice, items, addProduct, updateProductQty } = useOrder();
+  const { items, addProduct, updateProductQty } = useOrder();
   const router = useRouter();
   const locale = useLocale();
 
@@ -113,10 +113,14 @@ export const ProductInformationBlock = ({
               {price} {t("ProductsPageInformation.price")}
             </p>
           </div>
-          <Button buttonType={"bigButton"} onClick={() => addProduct(productId, cartAmount)}>
+          <Button
+            disabled={!inStock}
+            buttonType={"bigButton"}
+            onClick={() => addProduct(productId, cartAmount)}
+          >
             {t("ProductsPageInformation.cartButton")}
           </Button>
-          <Button buttonType={"bigButton"} onClick={handleQuickPurchase}>
+          <Button disabled={!inStock} buttonType={"bigButton"} onClick={handleQuickPurchase}>
             {t("ProductsPageInformation.quickPurchaseButton")}
           </Button>
         </div>
