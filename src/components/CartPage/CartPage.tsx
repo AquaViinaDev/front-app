@@ -16,8 +16,17 @@ const CartPage = () => {
   const t = useTranslations("CartPage");
   const local = useLocale();
   const [ids, setIds] = useState<string[] | null>(null);
-  const { clearCart, userInfo, resetUserInfo, setItems, products, totalAmount, setProducts } =
-    useOrder();
+  const {
+    clearCart,
+    userInfo,
+    resetUserInfo,
+    setItems,
+    products,
+    totalAmount,
+    setProducts,
+    setDeliveryPrice,
+    deliveryPrice,
+  } = useOrder();
   const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
   const [resetFields, setResetFields] = useState(false);
   const validate = () => {
@@ -36,7 +45,7 @@ const CartPage = () => {
         const parsed: { id: string; qty: number }[] = JSON.parse(saved);
         setIds(parsed.map((item) => item.id));
       } catch (e) {
-        console.error("Ошибка парсинга aquaCart:", e);
+        console.error("Parsing error aquaCart:", e);
         setIds([]);
       }
     } else {
@@ -44,7 +53,7 @@ const CartPage = () => {
     }
   }, []);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["cartProducts", ids],
     queryFn: () => getCartProducts(ids!),
     enabled: ids !== null && ids.length > 0,
@@ -97,7 +106,7 @@ const CartPage = () => {
         companyName: userInfo.companyName || null,
         description: userInfo.description || null,
       },
-      totalAmount: Number(totalAmount),
+      totalAmount: Number(totalAmount + deliveryPrice),
     };
 
     try {

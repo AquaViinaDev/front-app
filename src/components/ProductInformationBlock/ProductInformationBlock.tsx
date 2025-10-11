@@ -92,9 +92,7 @@ export const ProductInformationBlock = ({
               tabIndex={0}
             >
               <Image src={"/service-icon.svg"} alt={"Service"} width={36} height={36} />
-              <span className={styles.textDelivery}>
-                {t("ProductPage.modalConditionsInfo.title")}
-              </span>
+              <span className={styles.textDelivery}>{t("ProductPage.modalServiceInfo.title")}</span>
             </div>
             <div className={styles.returnBlock}>
               <Image src={"/return-icon.svg"} alt={"Delivery truck"} width={36} height={36} />
@@ -154,10 +152,16 @@ export const ProductInformationBlock = ({
       <Modal
         isOpen={isConditionsModalOpen}
         onClose={closeConditionsModal}
-        title={t("ProductPage.modalDeliveryInfo.title")}
+        title={t("ProductPage.modalServiceInfo.title")}
+        bodyClassName={styles.bodyModal}
       >
-        <p className={styles.conditionsDescription}>
-          {t("ProductPage.modalConditionsInfo.description")}
+        <p className={styles.serviceModalText}>{t("ProductPage.modalServiceInfo.firstText")}</p>
+        <p className={styles.serviceModalText}>{t("ProductPage.modalServiceInfo.secondText")}</p>
+        <p className={styles.serviceModalText}>
+          {t("ProductPage.modalServiceInfo.firstConditionText")}
+        </p>
+        <p className={styles.serviceModalText}>
+          {t("ProductPage.modalServiceInfo.secondConditionText")}
         </p>
         <div className={styles.actions}>
           <Button
@@ -166,7 +170,7 @@ export const ProductInformationBlock = ({
             }}
             buttonType="smallButton"
           >
-            {t("ProductPage.modalConditionsInfo.confirm")}
+            {t("ProductPage.modalServiceInfo.confirm")}
           </Button>
         </div>
       </Modal>

@@ -132,6 +132,14 @@
       "delivery": "Am nevoie de livrare",
       "confirm": "Este clar"
     },
+    "modalServiceInfo": {
+      "title": "Serviciu",
+      "firstText": "Toate sistemele de osmoză inversă, filtrele de tip curent și orice alte sisteme beneficiază de garanție 2 ani.",
+      "secondText": "Orice produs poate fi returnat în termen de 14 zile, conform legii, dacă sunt respectate condițiile:",
+      "firstConditionText": "1. Produsul nu a fost folosit și este păstrat în ambalajul original.",
+      "secondConditionText": "2. Sunt păstrate toate accesoriile, documentația, bonul și certificatul de garanție (dacă există).",
+      "confirm": "Este clar"
+    },
     "modalConditionsInfo": {
       "title": "Serviciu",
       "description": "Lorem ipsum",

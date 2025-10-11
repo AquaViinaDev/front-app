@@ -39,6 +39,8 @@ type CartContextType = {
   resetUserInfo: () => void;
   deliveryZone: "chisinau" | "moldova";
   setDeliveryZone: React.Dispatch<React.SetStateAction<"chisinau" | "moldova">>;
+  deliveryPrice: number;
+  setDeliveryPrice: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const initialUserInfo: UserInfo = {
@@ -61,6 +63,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     return [];
   });
   const [deliveryZone, setDeliveryZone] = useState<"chisinau" | "moldova">("chisinau");
+  const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [products, setProducts] = useState<CartProduct[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
 
@@ -116,6 +119,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         resetUserInfo,
         deliveryZone,
         setDeliveryZone,
+        setDeliveryPrice,
+        deliveryPrice,
       }}
     >
       {children}

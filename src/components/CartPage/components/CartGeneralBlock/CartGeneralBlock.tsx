@@ -3,32 +3,31 @@ import { useOrder } from "@/components/CartPage/CartContext";
 
 import styles from "./CartGeneralBlock.module.scss";
 import { useTranslations } from "use-intl";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type CartGeneralBlockProps = {
   onBuy: () => void;
 };
 
 const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
-  const { totalAmount, deliveryZone } = useOrder();
-  const [delivery, setDelivery] = useState<number>(0);
+  const { products, totalAmount, deliveryZone, setDeliveryPrice, deliveryPrice } = useOrder();
   const t = useTranslations("CartPage.TotalBlock");
 
   const defineDelivery = () => {
     if (deliveryZone === "chisinau") {
       if (totalAmount > 500) {
-        setDelivery(0);
+        setDeliveryPrice(0);
       } else {
-        setDelivery(80);
+        setDeliveryPrice(80);
       }
     } else if (deliveryZone === "moldova") {
       if (totalAmount > 1000) {
-        setDelivery(0);
+        setDeliveryPrice(0);
       } else {
-        setDelivery(100);
+        setDeliveryPrice(100);
       }
     } else {
-      setDelivery(0);
+      setDeliveryPrice(0);
     }
   };
 
@@ -48,13 +47,13 @@ const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
       <div className={styles.deliveryAmountWrapper}>
         <span className={styles.deliveryAmountText}>{t("delivery")} </span>
         <span className={styles.deliveryAmountText}>
-          {delivery} {t("current")}
+          {products.length === 0 ? 0 : deliveryPrice} {t("current")}
         </span>
       </div>
       <div className={styles.totalAmountWrapper}>
         <span className={styles.totalAmountText}>{t("title")} </span>
         <span className={styles.totalAmountText}>
-          {totalAmount} {t("current")}
+          {products.length === 0 ? 0 : totalAmount + deliveryPrice} {t("current")}
         </span>
       </div>
       <Button buttonType="bigButton" onClick={onBuy}>

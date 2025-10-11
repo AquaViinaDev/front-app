@@ -9,6 +9,12 @@ import { notFound } from "next/navigation";
 import { CartProvider } from "@/components/CartPage/CartContext";
 import { ToastProvider } from "@/app/[locale]/ToastProvider";
 
+export const metadata = {
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
   weight: ["300", "400", "600", "700", "800"],
