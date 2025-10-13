@@ -24,7 +24,6 @@ const CartPage = () => {
     products,
     totalAmount,
     setProducts,
-    setDeliveryPrice,
     deliveryPrice,
   } = useOrder();
   const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
