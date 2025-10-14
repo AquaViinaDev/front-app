@@ -79,6 +79,7 @@ const CartPage = () => {
       setItems(productsWithQty.map((p: CartItem) => ({ id: p.id, qty: p.qty })));
     }
   }, [data, setProducts, setItems]);
+  console.log(deliveryPrice);
 
   const handleBuy = async () => {
     if (products.length === 0) {
@@ -89,7 +90,6 @@ const CartPage = () => {
       toast.error(t("Notification.requiredFields"));
       return;
     }
-
     const orderData = {
       products: products.map((item) => ({
         name: item.name.ru,
@@ -106,6 +106,7 @@ const CartPage = () => {
         description: userInfo.description || null,
       },
       totalAmount: Number(totalAmount + deliveryPrice),
+      deliveryPrice: deliveryPrice,
     };
 
     try {
