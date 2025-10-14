@@ -1,15 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
-import Select from "react-select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./Local.module.scss";
-
-const options = [
-  { value: "ro", label: "RO" },
-  { value: "ru", label: "RU" },
-];
 
 const Local = () => {
   const pathname = usePathname();
@@ -17,45 +10,18 @@ const Local = () => {
   const router = useRouter();
 
   const currentLocale = pathname.split("/")[1];
-  const selectedOption = useMemo(
-    () => options.find((opt) => opt.value === currentLocale) ?? options[0],
-    [currentLocale]
-  );
+  const nextLocale = currentLocale === "ru" ? "ro" : "ru";
 
-  const handleChange = (option: { value: string } | null) => {
-    if (!option) return;
-
-    const basePath = pathname.replace(/^\/[a-z]{2}/, `/${option.value}`);
+  const handleToggle = () => {
+    const basePath = pathname.replace(/^\/[a-z]{2}/, `/${nextLocale}`);
     const query = searchParams.toString();
-
     router.push(query ? `${basePath}?${query}` : basePath);
   };
 
   return (
-    <div className={styles.root}>
-      <Select
-        instanceId="language-select"
-        isSearchable={false}
-        value={selectedOption}
-        onChange={handleChange}
-        options={options}
-        components={{
-          DropdownIndicator: () => null,
-          IndicatorSeparator: () => null,
-        }}
-        styles={{
-          control: (base) => ({ ...base, border: "none", boxShadow: "none", cursor: "pointer" }),
-          input: (base) => ({ ...base, caretColor: "transparent" }),
-          singleValue: (base) => ({ ...base, opacity: 0.5 }),
-          option: (base, state) => ({
-            ...base,
-            backgroundColor: state.isSelected ? "#eeeeee" : state.isFocused ? "#c4c4c4" : "#ffffff",
-            color: state.isSelected ? "#000" : "#333",
-            cursor: "pointer",
-          }),
-        }}
-      />
-    </div>
+    <button className={styles.root} onClick={handleToggle}>
+      {currentLocale.toUpperCase()}
+    </button>
   );
 };
 

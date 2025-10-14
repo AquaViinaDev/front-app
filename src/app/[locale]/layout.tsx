@@ -37,7 +37,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   if (!messages) notFound();
 
   return (
-    <html lang={locale} className={montserrat.variable}>
+    <html lang={locale} data-scroll-behavior="smooth" className={montserrat.variable}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ToastProvider />
