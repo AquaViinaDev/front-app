@@ -45,26 +45,27 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
   let existingLocale: SupportedLocale | null = null;
 
   rawSegments.forEach((segment) => {
-    if (segment === "undefined" || !segment.trim()) {
+    const trimmed = segment.trim();
+    const normalized = trimmed.toLowerCase();
+
+    if (!trimmed || normalized === "undefined" || normalized === "null") {
       return;
     }
 
-    const lowerSegment = segment.toLowerCase();
-
-    if (SUPPORTED_LOCALES.includes(segment as SupportedLocale)) {
-      existingLocale = segment as SupportedLocale;
-      cleanedSegments.push(segment);
+    if (SUPPORTED_LOCALES.includes(normalized as SupportedLocale)) {
+      existingLocale = normalized as SupportedLocale;
+      cleanedSegments.push(normalized);
       localeHandled = true;
       return;
     }
 
-    if (LOCALE_PLACEHOLDERS.has(lowerSegment)) {
+    if (LOCALE_PLACEHOLDERS.has(normalized)) {
       localeHandled = true;
       cleanedSegments.push("__LOCALE_PLACEHOLDER__");
       return;
     }
 
-    cleanedSegments.push(segment);
+    cleanedSegments.push(trimmed);
   });
 
   const finalLocale = resolveLocale(locale, existingLocale);
@@ -74,21 +75,30 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
       return finalLocale;
     }
 
-    if (SUPPORTED_LOCALES.includes(segment as SupportedLocale)) {
+    const trimmed = segment.trim();
+    const normalized = trimmed.toLowerCase();
+
+    if (SUPPORTED_LOCALES.includes(normalized as SupportedLocale)) {
       return finalLocale;
     }
 
-    return segment;
+    if (normalized === "undefined" || normalized === "null") {
+      return "";
+    }
+
+    return trimmed;
   });
+
+  const filteredSegments = normalizedSegments.filter((segment) => segment);
 
   const shouldAppendLocale =
     !localeHandled && process.env.NEXT_PUBLIC_API_APPEND_LOCALE?.toLowerCase() === "true";
 
   if (shouldAppendLocale) {
-    normalizedSegments.push(finalLocale);
+    filteredSegments.push(finalLocale);
   }
 
-  const normalizedPath = normalizedSegments.length ? `/${normalizedSegments.join("/")}` : "";
+  const normalizedPath = filteredSegments.length ? `/${filteredSegments.join("/")}` : "";
 
   return `${baseUrl.origin}${normalizedPath}`;
 };
