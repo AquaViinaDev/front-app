@@ -54,6 +54,8 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
 
     if (SUPPORTED_LOCALES.includes(normalized as SupportedLocale)) {
       existingLocale = normalized as SupportedLocale;
+      placeholderIndex = cleanedSegments.length;
+      cleanedSegments.push("__LOCALE_PLACEHOLDER__");
       return;
     }
 
