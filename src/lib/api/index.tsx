@@ -41,7 +41,7 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
   const rawSegments = baseUrl.pathname.split("/").filter(Boolean);
 
   const cleanedSegments: string[] = [];
-  let localeHandled = false;
+  let placeholderIndex: number | null = null;
   let existingLocale: SupportedLocale | null = null;
 
   rawSegments.forEach((segment) => {
@@ -54,13 +54,11 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
 
     if (SUPPORTED_LOCALES.includes(normalized as SupportedLocale)) {
       existingLocale = normalized as SupportedLocale;
-      cleanedSegments.push(normalized);
-      localeHandled = true;
       return;
     }
 
     if (LOCALE_PLACEHOLDERS.has(normalized)) {
-      localeHandled = true;
+      placeholderIndex = cleanedSegments.length;
       cleanedSegments.push("__LOCALE_PLACEHOLDER__");
       return;
     }
@@ -70,33 +68,17 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
 
   const finalLocale = resolveLocale(locale, existingLocale);
 
-  const normalizedSegments = cleanedSegments.map((segment) => {
-    if (segment === "__LOCALE_PLACEHOLDER__") {
-      return finalLocale;
-    }
+  const normalizedSegments = cleanedSegments.map((segment) =>
+    segment === "__LOCALE_PLACEHOLDER__" ? finalLocale : segment
+  );
 
-    const trimmed = segment.trim();
-    const normalized = trimmed.toLowerCase();
-
-    if (SUPPORTED_LOCALES.includes(normalized as SupportedLocale)) {
-      return finalLocale;
-    }
-
-    if (normalized === "undefined" || normalized === "null") {
-      return "";
-    }
-
-    return trimmed;
-  });
-
-  const filteredSegments = normalizedSegments.filter((segment) => segment);
-
-  const shouldAppendLocale =
-    !localeHandled && process.env.NEXT_PUBLIC_API_APPEND_LOCALE?.toLowerCase() === "true";
-
-  if (shouldAppendLocale) {
-    filteredSegments.push(finalLocale);
+  if (placeholderIndex !== null) {
+    normalizedSegments[placeholderIndex] = finalLocale;
+  } else if (process.env.NEXT_PUBLIC_API_APPEND_LOCALE?.toLowerCase() === "true") {
+    normalizedSegments.push(finalLocale);
   }
+
+  const filteredSegments = normalizedSegments.filter((segment) => segment && segment.trim());
 
   const normalizedPath = filteredSegments.length ? `/${filteredSegments.join("/")}` : "";
 
