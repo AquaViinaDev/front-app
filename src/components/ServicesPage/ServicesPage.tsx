@@ -24,7 +24,8 @@ const ServicesPage = () => {
   });
 
   const mutationOrder = useMutation({
-    mutationFn: sendServiceOrder,
+    mutationFn: (payload: { name: string; phone: string; orderName: string }) =>
+      sendServiceOrder(payload, local),
     onSuccess: () => {
       toast.success(t("successOrder"));
       setUserName("");

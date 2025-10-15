@@ -26,7 +26,7 @@ const AboutPage = () => {
   });
 
   const { mutate: sendConsultationMutate } = useMutation({
-    mutationFn: sendConsultation,
+    mutationFn: (payload: { name: string; phone: string }) => sendConsultation(payload, local),
     onSuccess: () => {
       setIsOpenModal(false);
       toast.success(tServicePage("successOrder"));

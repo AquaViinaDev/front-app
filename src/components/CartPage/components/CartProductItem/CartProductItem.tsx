@@ -4,6 +4,7 @@ import { CartAmount } from "@components/common";
 import RemoveIcon from "@assets/icons/remove-icon.svg";
 import { useOrder } from "@components/CartPage/CartContext";
 import { useLocale, useTranslations } from "use-intl";
+import { resolveApiBaseUrl } from "@lib/api";
 
 import styles from "./CartProductItem.module.scss";
 
@@ -28,6 +29,7 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
   const { id, name, image, price, qty, totalPrice } = item;
   const locale = useLocale();
   const { updateProductQty, removeProduct } = useOrder();
+  const apiBaseUrl = resolveApiBaseUrl(locale);
 
   const link = `/products/${id}`;
 
@@ -35,7 +37,7 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
     <div className={styles.root}>
       <Link className={styles.link} href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
         <Image
-          src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.png"}
+          src={image ? `${apiBaseUrl}${image}` : "/images/cuvshinExample.png"}
           alt={name?.ro ?? "Product Image"}
           width={81}
           height={81}

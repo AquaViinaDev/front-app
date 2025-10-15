@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "use-intl";
 import { useOrder } from "@components/CartPage/CartContext";
 import classNames from "classnames";
 import { toast } from "react-toastify";
+import { resolveApiBaseUrl } from "@lib/api";
 
 import styles from "./PreviewProductItem.module.scss";
 
@@ -23,6 +24,7 @@ const PreviewProductItem = memo(
     const locale = useLocale();
     const t = useTranslations();
     const { addProduct } = useOrder();
+    const apiBaseUrl = resolveApiBaseUrl(locale);
 
     const handleAddToCart = () => {
       addProduct(id);
@@ -33,9 +35,7 @@ const PreviewProductItem = memo(
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={
-              image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : "/images/cuvshinExample.png"
-            }
+            src={image ? `${apiBaseUrl}${image}` : "/images/cuvshinExample.png"}
             alt={title}
             width={180}
             height={180}

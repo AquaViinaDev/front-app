@@ -94,8 +94,8 @@ const ProductsListWrapper = () => {
     error,
     isLoading,
   } = useQuery<FiltersResponse>({
-    queryKey: ["getFilters"],
-    queryFn: getFilters,
+    queryKey: ["getFilters", locale],
+    queryFn: () => getFilters(locale),
   });
 
   const {
@@ -105,11 +105,12 @@ const ProductsListWrapper = () => {
     isLoading: isProductsLoading,
     isFetched,
   } = useInfiniteQuery({
-    queryKey: ["products", params, sortOrder],
+    queryKey: ["products", locale, params, sortOrder],
     queryFn: ({ pageParam = 1 }) => {
       const appliedSort = sortOrder === "default" ? "desc" : sortOrder;
 
       return getProducts({
+        locale,
         query: params.query,
         brand: params.brand,
         type: params.type,

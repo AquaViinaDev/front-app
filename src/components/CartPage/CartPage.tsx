@@ -53,8 +53,8 @@ const CartPage = () => {
   }, []);
 
   const { data, error } = useQuery({
-    queryKey: ["cartProducts", ids],
-    queryFn: () => getCartProducts(ids!),
+    queryKey: ["cartProducts", local, ids],
+    queryFn: () => getCartProducts(ids!, local),
     enabled: ids !== null && ids.length > 0,
   });
 
@@ -110,7 +110,7 @@ const CartPage = () => {
     };
 
     try {
-      await sendOrder(orderData);
+      await sendOrder(orderData, local);
       toast.success(t("Notification.successOrder"));
       clearCart();
       resetUserInfo();

@@ -1,4 +1,4 @@
-import { getProductById } from "@lib/api";
+import { getProductById, resolveApiBaseUrl } from "@lib/api";
 import { notFound } from "next/navigation";
 import { PageLayout } from "@components/layout/PageLayout";
 import Image from "next/image";
@@ -17,7 +17,7 @@ export type ProductPageTypeProps = {
 
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
   const { id, locale } = await params;
-  const product = await getProductById(id);
+  const product = await getProductById(id, locale);
   const localizedProduct = mapProductForLocale(product, locale);
 
   if (!localizedProduct) {
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const { id, locale } = await params;
-  const product = await getProductById(id);
+  const product = await getProductById(id, locale);
   const localizedProduct = mapProductForLocale(product, locale);
 
   if (!product) {
@@ -63,7 +63,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
           <Image
             src={
               product.images[0]
-                ? `${process.env.NEXT_PUBLIC_API_URL}${product.images[0]}`
+                ? `${resolveApiBaseUrl(locale)}${product.images[0]}`
                 : "/images/cuvshinExample.png"
             }
             alt={localizedProduct.name}

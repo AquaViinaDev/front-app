@@ -31,7 +31,7 @@ const CommunicationForm = () => {
   }, []);
 
   const consultationMutation = useMutation({
-    mutationFn: sendConsultation,
+    mutationFn: (payload: { name: string; phone: string }) => sendConsultation(payload, local),
     onSuccess: () => {
       toast.success(tServicePage("successOrder"));
       setName("");

@@ -1,13 +1,117 @@
-export const getProducts = async (params: {
+const SUPPORTED_LOCALES = ["ru", "ro"] as const;
+type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+
+const resolveLocale = (locale?: string | null, fallback?: string | null): SupportedLocale => {
+  const candidates = [locale, fallback, process.env.NEXT_PUBLIC_DEFAULT_LOCALE, SUPPORTED_LOCALES[0]];
+
+  const matched = candidates.find((item): item is SupportedLocale =>
+    typeof item === "string" && SUPPORTED_LOCALES.includes(item as SupportedLocale)
+  );
+
+  return matched ?? SUPPORTED_LOCALES[0];
+};
+
+const parseBaseUrl = () => {
+  const raw = process.env.NEXT_PUBLIC_API_URL;
+
+  if (!raw) {
+    throw new Error("NEXT_PUBLIC_API_URL is not configured");
+  }
+
+  try {
+    return new URL(raw);
+  } catch {
+    return new URL(raw, "http://localhost");
+  }
+};
+
+const LOCALE_PLACEHOLDERS = new Set([
+  "[locale]",
+  "{locale}",
+  ":locale",
+  "%locale%",
+  "[lang]",
+  "{lang}",
+  ":lang",
+  "%lang%",
+]);
+
+export const resolveApiBaseUrl = (locale?: string | null): string => {
+  const baseUrl = parseBaseUrl();
+  const rawSegments = baseUrl.pathname.split("/").filter(Boolean);
+
+  const cleanedSegments: string[] = [];
+  let localeHandled = false;
+  let existingLocale: SupportedLocale | null = null;
+
+  rawSegments.forEach((segment) => {
+    if (segment === "undefined" || !segment.trim()) {
+      return;
+    }
+
+    const lowerSegment = segment.toLowerCase();
+
+    if (SUPPORTED_LOCALES.includes(segment as SupportedLocale)) {
+      existingLocale = segment as SupportedLocale;
+      cleanedSegments.push(segment);
+      localeHandled = true;
+      return;
+    }
+
+    if (LOCALE_PLACEHOLDERS.has(lowerSegment)) {
+      localeHandled = true;
+      cleanedSegments.push("__LOCALE_PLACEHOLDER__");
+      return;
+    }
+
+    cleanedSegments.push(segment);
+  });
+
+  const finalLocale = resolveLocale(locale, existingLocale);
+
+  const normalizedSegments = cleanedSegments.map((segment) => {
+    if (segment === "__LOCALE_PLACEHOLDER__") {
+      return finalLocale;
+    }
+
+    if (SUPPORTED_LOCALES.includes(segment as SupportedLocale)) {
+      return finalLocale;
+    }
+
+    return segment;
+  });
+
+  const shouldAppendLocale =
+    !localeHandled && process.env.NEXT_PUBLIC_API_APPEND_LOCALE?.toLowerCase() === "true";
+
+  if (shouldAppendLocale) {
+    normalizedSegments.push(finalLocale);
+  }
+
+  const normalizedPath = normalizedSegments.length ? `/${normalizedSegments.join("/")}` : "";
+
+  return `${baseUrl.origin}${normalizedPath}`;
+};
+
+const buildApiUrl = (path: string, locale?: string | null) => {
+  const base = resolveApiBaseUrl(locale);
+  if (!path) return base;
+  return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
+};
+
+type GetProductsParams = {
+  locale?: string;
   query?: string;
   brand?: string;
   type?: string;
   minPrice?: number;
   maxPrice?: number;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: "asc" | "desc" | "default";
   page: number;
   limit: number;
-}) => {
+};
+
+export const getProducts = async ({ locale, ...params }: GetProductsParams) => {
   const searchParams = new URLSearchParams();
 
   if (params.query) searchParams.set("query", params.query);
@@ -15,13 +119,12 @@ export const getProducts = async (params: {
   if (params.type) searchParams.set("type", params.type);
   if (params.minPrice !== undefined) searchParams.set("minPrice", String(params.minPrice));
   if (params.maxPrice !== undefined) searchParams.set("maxPrice", String(params.maxPrice));
-  if (params.sortOrder) searchParams.set("sortOrder", params.sortOrder);
+  if (params.sortOrder && params.sortOrder !== "default") searchParams.set("sortOrder", params.sortOrder);
 
   searchParams.set("page", String(params.page));
   searchParams.set("limit", String(params.limit));
 
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/products?${searchParams.toString()}`;
-
+  const url = `${buildApiUrl("products", locale)}?${searchParams.toString()}`;
   const res = await fetch(url);
 
   if (!res.ok) throw new Error("Failed to fetch products");
@@ -29,9 +132,9 @@ export const getProducts = async (params: {
   return res.json();
 };
 
-export const getProductById = async (id: string) => {
+export const getProductById = async (id: string, locale?: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
+    const res = await fetch(buildApiUrl(`products/${id}`, locale), {
       next: { revalidate: 60 },
     });
 
@@ -46,8 +149,8 @@ export const getProductById = async (id: string) => {
   }
 };
 
-export const getFilters = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/filters`, {
+export const getFilters = async (locale?: string) => {
+  const res = await fetch(buildApiUrl("filters", locale), {
     next: { revalidate: 60 },
   });
 
@@ -57,8 +160,8 @@ export const getFilters = async () => {
   return res.json();
 };
 
-export const getCartProducts = async (ids: string[]) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/by-ids`, {
+export const getCartProducts = async (ids: string[], locale?: string) => {
+  const res = await fetch(buildApiUrl("products/by-ids", locale), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -73,8 +176,8 @@ export const getCartProducts = async (ids: string[]) => {
   return res.json();
 };
 
-export const sendOrder = async (orderData: any) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+export const sendOrder = async (orderData: unknown, locale?: string) => {
+  const res = await fetch(buildApiUrl("orders", locale), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -89,8 +192,11 @@ export const sendOrder = async (orderData: any) => {
   return res.json();
 };
 
-export const sendConsultation = async (consultationData: { name: string; phone: string }) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/consultations`, {
+export const sendConsultation = async (
+  consultationData: { name: string; phone: string },
+  locale?: string
+) => {
+  const res = await fetch(buildApiUrl("consultations", locale), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -105,12 +211,15 @@ export const sendConsultation = async (consultationData: { name: string; phone: 
   return res.json();
 };
 
-export const sendServiceOrder = async (orderData: {
-  name: string;
-  phone: string;
-  orderName: string;
-}) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service-orders`, {
+export const sendServiceOrder = async (
+  orderData: {
+    name: string;
+    phone: string;
+    orderName: string;
+  },
+  locale?: string
+) => {
+  const res = await fetch(buildApiUrl("service-orders", locale), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
