@@ -23,6 +23,14 @@
   gap: 6px;
 }
 
+.skeletonList {
+  gap: 10px;
+}
+
+.itemSkeleton {
+  list-style: none;
+}
+
 .filterButton {
   font-family: "Montserrat", sans-serif;
   cursor: pointer;
@@ -80,6 +88,22 @@
   font-size: 14px;
   display: flex;
   justify-content: space-between;
+}
+
+.priceSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sliderSkeleton {
+  height: 12px;
+}
+
+.priceSkeletonValues {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .priceValue {

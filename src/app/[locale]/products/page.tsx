@@ -1,4 +1,4 @@
-import { ProductsPage } from "../../../components/ProductsPage";
+import { ProductsPage } from "@components/ProductsPage";
 import { Metadata } from "next";
 
 export async function generateMetadata(props: {

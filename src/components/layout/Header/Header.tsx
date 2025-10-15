@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { RoutesEnum } from "@/types";
+import { RoutesEnum } from "@types";
 import { Navbar } from "./components/NavBar";
 import Social, { SocialData } from "./components/Social/Social";
 import { Local } from "./components/Local";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "use-intl";
-import { getNavLinks } from "@/components/layout/Header/utils";
+import { getNavLinks } from "@components/layout/Header/utils";
 import { Cart } from "../Header/components/Cart";
 
 import styles from "./Header.module.scss";

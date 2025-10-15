@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { Button } from "@/components/common";
+import { Button } from "@components/common";
 import { useTranslations } from "use-intl";
 
 import styles from "./SecviceItem.module.scss";

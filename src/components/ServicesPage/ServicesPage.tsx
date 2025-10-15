@@ -1,13 +1,12 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { PageLayout } from "@/components/layout/PageLayout";
-import { ServiceItem } from "./ServiceItem";
+import { PageLayout } from "@components/layout/PageLayout";
+import { ServiceItem } from "@components/ServicesPage/ServiceItem";
 import { useLocale, useTranslations } from "use-intl";
-import { Modal } from "../common/Modal";
-import { Button, PhoneInput, TextInput } from "@/components/common";
+import { LeadForm, Modal } from "@components/common";
 import { useMutation } from "@tanstack/react-query";
-import { sendServiceOrder } from "@/lib/api";
+import { sendServiceOrder } from "@lib/api";
 import { toast } from "react-toastify";
 
 import styles from "./ServicesPage.module.scss";
@@ -92,20 +91,17 @@ const ServicesPage = () => {
         title={`${t("modalHeader")}${selectedService}`}
         bodyClassName={styles.bodyModal}
       >
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <TextInput
-            textInputClassName={styles.nameInput}
-            value={userName}
-            onChange={(value) => setUserName(value ?? "")}
-            error={errors.name}
-          />
-          <PhoneInput
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e ?? "")}
-            error={errors.phone}
-          />
-          <Button buttonType={"bigButton"}>{t("button")}</Button>
-        </form>
+        <LeadForm
+          formClassName={styles.form}
+          nameInputClassName={styles.nameInput}
+          name={userName}
+          phone={phoneNumber}
+          errors={errors}
+          onNameChange={setUserName}
+          onPhoneChange={setPhoneNumber}
+          onSubmit={handleSubmit}
+          submitLabel={t("button")}
+        />
       </Modal>
     </PageLayout>
   );

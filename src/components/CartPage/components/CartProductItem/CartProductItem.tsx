@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CartAmount } from "@/components/common";
-import RemoveIcon from "@/assets/icons/remove-icon.svg";
-import { useOrder } from "../../CartContext";
+import { CartAmount } from "@components/common";
+import RemoveIcon from "@assets/icons/remove-icon.svg";
+import { useOrder } from "@components/CartPage/CartContext";
 import { useLocale, useTranslations } from "use-intl";
 
 import styles from "./CartProductItem.module.scss";

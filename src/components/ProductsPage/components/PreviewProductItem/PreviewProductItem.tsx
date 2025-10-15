@@ -1,9 +1,9 @@
 import { HTMLAttributes, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/common";
+import { Button } from "@components/common";
 import { useLocale, useTranslations } from "use-intl";
-import { useOrder } from "@/components/CartPage/CartContext";
+import { useOrder } from "@components/CartPage/CartContext";
 import classNames from "classnames";
 import { toast } from "react-toastify";
 

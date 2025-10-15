@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PhoneInput, TextInput, ToggleGroup } from "@/components/common";
-import { useOrder } from "@/components/CartPage/CartContext";
+import { PhoneInput, TextInput, ToggleGroup } from "@components/common";
+import { useOrder } from "@components/CartPage/CartContext";
 import { useTranslations } from "use-intl";
 
 import styles from "./CartUserInfoBlock.module.scss";

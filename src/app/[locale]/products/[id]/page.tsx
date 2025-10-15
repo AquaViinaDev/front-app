@@ -1,8 +1,8 @@
-import { getProductById } from "@/lib/api";
+import { getProductById } from "@lib/api";
 import { notFound } from "next/navigation";
-import { PageLayout } from "@/components/layout/PageLayout";
+import { PageLayout } from "@components/layout/PageLayout";
 import Image from "next/image";
-import { ProductInformationBlock } from "@/components/ProductInformationBlock";
+import { ProductInformationBlock } from "@components/ProductInformationBlock";
 import { Metadata } from "next";
 import { mapProductForLocale } from "./utils";
 

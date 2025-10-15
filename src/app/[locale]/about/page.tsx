@@ -1,4 +1,4 @@
-import { AboutPage } from "../../../components/AboutPage";
+import { AboutPage } from "@components/AboutPage";
 import { Metadata } from "next";
 
 export async function generateMetadata(props: {

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Button, CartAmount, Modal } from "@/components/common";
+import { Button, CartAmount, Modal } from "@components/common";
 import classNames from "classnames";
 import Image from "next/image";
 import { useLocale, useTranslations } from "use-intl";
-import { useOrder } from "@/components/CartPage/CartContext";
+import { useOrder } from "@components/CartPage/CartContext";
 import { useRouter } from "next/navigation";
 
 import styles from "./ProductInformationBlock.module.scss";

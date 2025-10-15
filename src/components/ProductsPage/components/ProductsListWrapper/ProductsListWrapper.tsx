@@ -2,16 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
-import { PageLayout } from "@/components/layout/PageLayout";
+import { PageLayout } from "@components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
-import { Button, SearchForm, Sort } from "@/components/common";
-import { getProducts, getFilters } from "@/lib/api";
+import { Button, SearchForm, Sort } from "@components/common";
+import { getProducts, getFilters } from "@lib/api";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { FiltersResponse } from "@/components/FiltersBlock/FitersBlock";
-import { FiltersBlock } from "@/components/FiltersBlock";
+import { FiltersResponse } from "@components/FiltersBlock/FitersBlock";
+import { FiltersBlock } from "@components/FiltersBlock";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { RoutesEnum } from "@/types";
+import { RoutesEnum } from "@types";
 
 import styles from "./ProductsListWrapper.module.scss";
 

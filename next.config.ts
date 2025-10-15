@@ -1,17 +1,37 @@
 import path from "path";
 import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
+import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
-const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+const defaultImageHosts = [
+  "http://localhost:3000",
+  "http://157.90.240.22:3000",
+];
 
+const parseRemotePattern = (target: string): RemotePattern => {
+  const url = new URL(target);
+
+  return {
+    protocol: url.protocol.replace(/:$/, ""),
+    hostname: url.hostname,
+    port: url.port || undefined,
+    pathname: url.pathname !== "/" ? url.pathname : undefined,
+  };
+};
+
+const imageHosts = (process.env.NEXT_PUBLIC_IMAGE_HOSTS || "")
+  .split(",")
+  .map((host) => host.trim())
+  .filter(Boolean);
+
+const remotePatterns: RemotePattern[] = (imageHosts.length
+  ? imageHosts
+  : defaultImageHosts
+).map(parseRemotePattern);
+
+const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
     prependData: `
@@ -20,13 +40,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3000",
-      },
-    ],
+    remotePatterns,
   },
 
   webpack(config) {

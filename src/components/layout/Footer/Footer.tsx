@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "use-intl";
 import Link from "next/link";
-import { RoutesEnum } from "@/types";
+import { RoutesEnum } from "@types";
 import Image from "next/image";
 
 import styles from "./Footer.module.scss";

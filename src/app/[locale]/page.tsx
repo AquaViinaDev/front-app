@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { HomePage } from "@/components/HomePage";
+import { HomePage } from "@components/HomePage";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

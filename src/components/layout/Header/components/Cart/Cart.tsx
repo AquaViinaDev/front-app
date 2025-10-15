@@ -1,12 +1,12 @@
 "use client";
 
-import { RoutesEnum } from "@/types";
+import { RoutesEnum } from "@types";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "use-intl";
-import { useOrder } from "@/components/CartPage/CartContext";
+import { useOrder } from "@components/CartPage/CartContext";
 import { memo, useEffect, useState } from "react";
-import { getTotalQty } from "@/components/utils";
+import { getTotalQty } from "@components/utils";
 import classNames from "classnames";
 
 import styles from "./Cart.module.scss";

@@ -8,6 +8,27 @@
   width: 80%;
 }
 
+.skeletonList {
+  gap: 20px;
+}
+
+.skeletonItem {
+  list-style: none;
+  flex: 1 1 24%;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: $bg-white;
+  padding: 15px;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.skeletonLine {
+  width: 70%;
+}
+
 .noContentBlock {
   width: 80%;
   display: flex;
@@ -31,5 +52,23 @@
 @media (max-width: $tabletScreen) {
   .root {
     width: 100%;
+  }
+}
+
+@media (max-width: 1150px) {
+  .skeletonItem {
+    flex-basis: 32%;
+  }
+}
+
+@media (max-width: 750px) {
+  .skeletonItem {
+    flex-basis: 48%;
+  }
+}
+
+@media (max-width: 525px) {
+  .skeletonItem {
+    flex-basis: 100%;
   }
 }

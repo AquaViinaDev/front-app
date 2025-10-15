@@ -1,19 +1,12 @@
-import { CSSProperties, Dispatch, SetStateAction, useEffect, useMemo } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { useLocale, useTranslations } from "use-intl";
 import classNames from "classnames";
 import { useRouter, useSearchParams } from "next/navigation";
-import { RoutesEnum } from "@/types";
-import { ClipLoader } from "react-spinners";
-import { Button } from "@/components/common";
+import { RoutesEnum } from "@types";
+import { Button, Skeleton } from "@components/common";
 
 import styles from "./FiltersBlock.module.scss";
-
-const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "#04559b",
-};
 
 export type FilterOption = {
   ro: string;
@@ -123,7 +116,13 @@ const FiltersBlock = ({
       <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("brand")}</h3>
         {isLoading ? (
-          <ClipLoader loading={isLoading} cssOverride={override} size={30} />
+          <ul className={classNames(styles.list, styles.skeletonList)}>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <li key={index} className={styles.itemSkeleton}>
+                <Skeleton height={16} />
+              </li>
+            ))}
+          </ul>
         ) : (
           <ul className={classNames(styles.list, { [styles.visible]: !isLoading })}>
             {safeFilters.brand.map((item, id) => (
@@ -148,7 +147,13 @@ const FiltersBlock = ({
       <div className={styles.priceWrapper}>
         <h3 className={styles.title}>{t("price")}</h3>
         {isLoading ? (
-          <ClipLoader loading={isLoading} cssOverride={override} size={30} />
+          <div className={styles.priceSkeleton}>
+            <Skeleton height={12} className={styles.sliderSkeleton} radius={12} />
+            <div className={styles.priceSkeletonValues}>
+              <Skeleton height={32} width="40%" />
+              <Skeleton height={32} width="40%" />
+            </div>
+          </div>
         ) : (
           <>
             <Slider.Root
@@ -206,7 +211,13 @@ const FiltersBlock = ({
       <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("chapter")}</h3>
         {isLoading ? (
-          <ClipLoader loading={isLoading} cssOverride={override} size={30} />
+          <ul className={classNames(styles.list, styles.skeletonList)}>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <li key={index} className={styles.itemSkeleton}>
+                <Skeleton height={16} />
+              </li>
+            ))}
+          </ul>
         ) : (
           <ul className={styles.list}>
             {safeFilters.productType.map((item, id) => (

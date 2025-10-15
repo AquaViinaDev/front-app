@@ -1,5 +1,5 @@
-import { Button } from "@/components/common";
-import { useOrder } from "@/components/CartPage/CartContext";
+import { Button } from "@components/common";
+import { useOrder } from "@components/CartPage/CartContext";
 
 import styles from "./CartGeneralBlock.module.scss";
 import { useTranslations } from "use-intl";

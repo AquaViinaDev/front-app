@@ -1,6 +1,6 @@
 import { CartProductItem } from "../CartProductItem";
 import { CartProductItemType } from "../CartProductItem/CartProductItem";
-import { getTotalQty } from "@/components/utils";
+import { getTotalQty } from "@components/utils";
 
 import styles from "./CartProductsBlock.module.scss";
 import { useTranslations } from "use-intl";

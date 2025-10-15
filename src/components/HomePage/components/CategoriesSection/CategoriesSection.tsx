@@ -1,7 +1,7 @@
 import { CategoriesList } from "./component/CategoriesList";
 import { CategoriesItem } from "./component/CategoriesItem";
-import { CustomLink } from "@/components/common";
-import { RoutesEnum } from "@/types";
+import { CustomLink } from "@components/common";
+import { RoutesEnum } from "@types";
 import { useLocale, useTranslations } from "use-intl";
 
 import styles from "./CategoriesSection.module.scss";

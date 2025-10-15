@@ -1,3 +1,3 @@
-import CartPage from "@/components/CartPage/CartPage";
+import CartPage from "@components/CartPage/CartPage";
 
 export { CartPage };

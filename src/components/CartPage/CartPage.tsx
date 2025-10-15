@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageLayout } from "@/components/layout/PageLayout";
-import { CartProductsBlock, CartUserInfoBlock, CartGeneralBlock } from "../CartPage/components";
-import { CartItem, useOrder } from "../CartPage/CartContext";
+import { PageLayout } from "@components/layout/PageLayout";
+import { CartProductsBlock, CartUserInfoBlock, CartGeneralBlock } from "@components/CartPage/components";
+import { CartItem, useOrder } from "@components/CartPage/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
-import { getCartProducts, sendOrder } from "@/lib/api";
+import { getCartProducts, sendOrder } from "@lib/api";
 import { toast } from "react-toastify";
 import { useLocale, useTranslations } from "use-intl";
 

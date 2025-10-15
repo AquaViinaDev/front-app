@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 import "./globals.css";
 import { Montserrat } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { Header } from "@components/layout/Header";
+import { Footer } from "@components/layout/Footer";
 import { NextIntlClientProvider } from "next-intl";
-import getRequestConfig from "../../../i18n/request";
+import getRequestConfig from "@i18n/request";
 import { notFound } from "next/navigation";
-import { CartProvider } from "@/components/CartPage/CartContext";
-import { ToastProvider } from "@/app/[locale]/ToastProvider";
+import { CartProvider } from "@components/CartPage/CartContext";
+import { ToastProvider } from "@app/[locale]/ToastProvider";
 
 export const metadata = {
   icons: {

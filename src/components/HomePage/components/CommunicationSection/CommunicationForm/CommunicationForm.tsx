@@ -1,11 +1,11 @@
 "use client";
 
-import { PhoneInput, TextInput, Button } from "@/components/common";
+import { PhoneInput, TextInput, Button } from "@components/common";
 import { useCallback, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
-import { sendConsultation } from "@/lib/api";
+import { sendConsultation } from "@lib/api";
 
 import styles from "./CommunicationForm.module.scss";
 

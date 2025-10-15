@@ -1,4 +1,4 @@
-import { CartPage } from "../../../components/CartPage";
+import { CartPage } from "@components/CartPage";
 import { Metadata } from "next";
 
 export async function generateMetadata({

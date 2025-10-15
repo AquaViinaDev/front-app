@@ -1,4 +1,4 @@
-import { RoutesEnum } from "@/types";
+import { RoutesEnum } from "@types";
 
 export const getNavLinks = (t: (key: string) => string, locale: string) => [
   { label: t("Header.products"), href: `/${locale}${RoutesEnum.Products}` },

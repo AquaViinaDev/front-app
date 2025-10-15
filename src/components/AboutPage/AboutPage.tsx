@@ -1,14 +1,13 @@
 "use client";
 
-import { PageLayout } from "../layout/PageLayout";
+import { PageLayout } from "@components/layout/PageLayout";
 import { useLocale, useTranslations } from "use-intl";
-import { AboutDescriptionItem, ShortInfoBlockItem } from "./components";
-import { Button } from "../common/Button";
-import { Modal, PhoneInput, TextInput } from "@/components/common";
+import { AboutDescriptionItem, ShortInfoBlockItem } from "@components/AboutPage/components";
+import { Button, LeadForm, Modal } from "@components/common";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { RoutesEnum } from "@/types";
-import { sendConsultation } from "@/lib/api";
+import { RoutesEnum } from "@types";
+import { sendConsultation } from "@lib/api";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
@@ -105,20 +104,17 @@ const AboutPage = () => {
         title={t("modalTitle")}
         bodyClassName={styles.bodyModal}
       >
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <TextInput
-            textInputClassName={styles.nameInput}
-            value={userName}
-            onChange={(value) => setUserName(value ?? "")}
-            error={errors.name}
-          />
-          <PhoneInput
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e ?? "")}
-            error={errors.phone}
-          />
-          <Button buttonType={"bigButton"}>{t("sendButton")}</Button>
-        </form>
+        <LeadForm
+          formClassName={styles.form}
+          nameInputClassName={styles.nameInput}
+          name={userName}
+          phone={phoneNumber}
+          errors={errors}
+          onNameChange={setUserName}
+          onPhoneChange={setPhoneNumber}
+          onSubmit={handleSubmit}
+          submitLabel={t("sendButton")}
+        />
       </Modal>
     </PageLayout>
   );

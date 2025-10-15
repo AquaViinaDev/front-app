@@ -1,8 +1,8 @@
 "use client";
 
 // import { useEffect, useState } from "react";
-// import { Button } from "@/components/common/Button";
-// import SearchIcon from "@/assets/icons/search-icon.svg";
+// import { Button } from "@components/common/Button";
+// import SearchIcon from "@assets/icons/search-icon.svg";
 
 import styles from "./SearchForm.module.scss";
 
