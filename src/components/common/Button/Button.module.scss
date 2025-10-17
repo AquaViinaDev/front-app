@@ -4,14 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 60px;
+  padding: 24px 42px;
   font-family: $font-default;
-  font-size: $font-lg;
+  font-size: $font-2xl;
   font-weight: $font-bold;
   color: $bg-white;
   white-space: nowrap;
   text-decoration: none;
-  border-radius: 30px;
+  border-radius: 16px;
   background-color: $bg-blue;
   outline: none;
   border: none;
@@ -21,13 +21,14 @@
 
   &.disabled {
     color: #bdbdbd;
-    background-color: $bg-blue;
+    background-color: #e9e8e8;
     opacity: .8;
     cursor: default;
   }
 }
 
 .smallButton {
-  padding: 15px;
-  font-size: $font-sm;
+  border-radius: 8px;
+  padding: 16px 24px;
+  font-size: 16px;
 }

@@ -1,10 +1,20 @@
 @use "variables" as *;
 @use "media" as *;
 
+//.root {
+//  display: grid;
+//  gap: 16px;
+//  justify-items: stretch;
+//  align-items: stretch;
+//  grid-template-columns: repeat(4, 1fr);
+//  width: 80%;
+//}
 .root {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  gap: 16px;
+  justify-items: stretch; // 👈 важно!
+  align-items: stretch; // 👈 заставляет все карточки быть одинаковой высоты
+  grid-template-columns: repeat(4, 1fr);
   width: 80%;
 }
 
@@ -56,18 +66,27 @@
 }
 
 @media (max-width: 1150px) {
+  .root {
+    grid-template-columns: repeat(3, 1fr);
+  }
   .skeletonItem {
     flex-basis: 32%;
   }
 }
 
 @media (max-width: 750px) {
+  .root {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .skeletonItem {
     flex-basis: 48%;
   }
 }
 
 @media (max-width: 525px) {
+  .root {
+    grid-template-columns: 1fr;
+  }
   .skeletonItem {
     flex-basis: 100%;
   }

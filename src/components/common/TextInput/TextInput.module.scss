@@ -13,9 +13,8 @@
   width: 100%;
   font-family: "Montserrat", sans-serif;
   font-size: $font-lg;
-  padding: 10px 20px 10px 20px;
-  height: 60px;
-  border-radius: 30px;
+  padding: 24px;
+  border-radius: 16px;
   border: none;
   outline: none;
   background-color: $bg-white;
@@ -28,7 +27,7 @@
 
 .label {
   position: absolute;
-  top: -25px;
+  top: -40px;
   left: 0;
   font-size: $font-xl;
 }

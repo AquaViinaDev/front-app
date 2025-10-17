@@ -118,7 +118,7 @@ const ProductsListWrapper = () => {
         maxPrice: params.maxPrice ?? filters.price.more,
         sortOrder: appliedSort,
         page: pageParam,
-        limit: 4,
+        limit: 100,
       });
     },
     initialPageParam: 1,
