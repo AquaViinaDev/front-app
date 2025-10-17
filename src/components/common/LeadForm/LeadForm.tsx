@@ -4,7 +4,10 @@ import { FormEvent } from "react";
 import { Button } from "@components/common/Button";
 import { PhoneInput } from "@components/common/PhoneInput";
 import { TextInput } from "@components/common/TextInput";
-import type { ButtonProps } from "@components/common/Button";
+import type { ButtonProps } from "@components/common/Button/Button";
+import classNames from "classnames";
+
+import styles from "./LeadForm.module.scss";
 
 type LeadFormErrors = {
   name?: boolean;
@@ -41,8 +44,9 @@ export const LeadForm = ({
   buttonClassName,
 }: LeadFormProps) => {
   return (
-    <form className={formClassName} onSubmit={onSubmit}>
+    <form className={classNames(formClassName, styles.root)} onSubmit={onSubmit}>
       <TextInput
+        className={styles.textInput}
         textInputClassName={nameInputClassName}
         value={name}
         onChange={(value) => onNameChange(value ?? "")}
@@ -54,7 +58,7 @@ export const LeadForm = ({
         error={Boolean(errors.phone)}
         inputClass={phoneInputClassName}
       />
-      <Button buttonType={buttonType} className={buttonClassName}>
+      <Button buttonType={buttonType} className={classNames(buttonClassName, styles.button)}>
         {submitLabel}
       </Button>
     </form>

@@ -1,19 +1,11 @@
 @use "variables" as *;
 @use "media" as *;
 
-//.root {
-//  display: grid;
-//  gap: 16px;
-//  justify-items: stretch;
-//  align-items: stretch;
-//  grid-template-columns: repeat(4, 1fr);
-//  width: 80%;
-//}
 .root {
   display: grid;
   gap: 16px;
-  justify-items: stretch; // 👈 важно!
-  align-items: stretch; // 👈 заставляет все карточки быть одинаковой высоты
+  justify-items: stretch;
+  align-items: stretch;
   grid-template-columns: repeat(4, 1fr);
   width: 80%;
 }

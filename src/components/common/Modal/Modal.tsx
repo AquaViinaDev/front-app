@@ -13,59 +13,62 @@ export type ModalProps = {
   children: ReactNode;
   className?: string;
   bodyClassName?: string;
+  headerClassName?: string;
 };
 
-const Modal = memo(({ isOpen, onClose, title, children, className, bodyClassName }: ModalProps) => {
-  const [container, setContainer] = useState<HTMLElement | null>(null);
+const Modal = memo(
+  ({ isOpen, onClose, title, children, className, bodyClassName, headerClassName }: ModalProps) => {
+    const [container, setContainer] = useState<HTMLElement | null>(null);
 
-  useEffect(() => {
-    let root = document.getElementById("modal-root");
-    if (!root) {
-      root = document.createElement("div");
-      root.id = "modal-root";
-      document.body.appendChild(root);
-    }
-    setContainer(root);
-  }, []);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
+    useEffect(() => {
+      let root = document.getElementById("modal-root");
+      if (!root) {
+        root = document.createElement("div");
+        root.id = "modal-root";
+        document.body.appendChild(root);
       }
-    };
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKey as any);
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKey as any);
-    };
-  }, [isOpen, onClose]);
+      setContainer(root);
+    }, []);
 
-  if (!isOpen || !container) return null;
+    useEffect(() => {
+      const handleKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", handleKey as any);
+      } else {
+        document.body.style.overflow = "";
+      }
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", handleKey as any);
+      };
+    }, [isOpen, onClose]);
 
-  return createPortal(
-    <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
-      <div
-        className={styles.panel + (className ? ` ${className}` : "")}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={styles.header}>
-          {title && <h2 className={styles.title}>{title}</h2>}
-          <button aria-label="Close" className={styles.close} onClick={onClose} type="button">
-            ×
-          </button>
+    if (!isOpen || !container) return null;
+
+    return createPortal(
+      <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
+        <div
+          className={styles.panel + (className ? ` ${className}` : "")}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={classNames(headerClassName, styles.header)}>
+            {title && <h2 className={styles.title}>{title}</h2>}
+            <button aria-label="Close" className={styles.close} onClick={onClose} type="button">
+              ×
+            </button>
+          </div>
+          <div className={classNames(bodyClassName, styles.body)}>{children}</div>
         </div>
-        <div className={classNames(bodyClassName, styles.body)}>{children}</div>
-      </div>
-    </div>,
-    container
-  );
-});
+      </div>,
+      container
+    );
+  }
+);
 
 Modal.displayName = "Modal.Modal";
 
