@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { RoutesEnum } from "@types";
 
-import styles from "./ProductsListWrapper.module.scss";
+import styles from "./ProductListWrapper.module.scss";
 
 const ProductsListWrapper = () => {
   const t = useTranslations();
@@ -118,7 +118,7 @@ const ProductsListWrapper = () => {
         maxPrice: params.maxPrice ?? filters.price.more,
         sortOrder: appliedSort,
         page: pageParam,
-        limit: 4,
+        limit: 100,
       });
     },
     initialPageParam: 1,
@@ -135,7 +135,7 @@ const ProductsListWrapper = () => {
   const totalCount = data?.pages[0]?.total ?? 0;
 
   return (
-    <PageLayout className={styles.pageLayout} title={t("ProductsPageInformation.title")}>
+    <PageLayout className={styles.pageLayout}>
       <div className={styles.wrapper}>
         <div className={styles.filtersWrapper}>
           <div className={styles.mobileFilter}>
@@ -149,6 +149,9 @@ const ProductsListWrapper = () => {
             </Button>
           </div>
           <div className={styles.sortWrapper}>
+            <div className={styles.titleWrapper}>
+              <h1 className={styles.title}>{t("ProductsPageInformation.title")}</h1>
+            </div>
             <SearchForm value={searchValue} onSearch={(val) => setSearchValue(val)} />
             <Sort value={sortOrder} onChange={setSortOrder} />
           </div>

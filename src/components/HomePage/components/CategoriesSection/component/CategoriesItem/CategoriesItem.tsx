@@ -1,9 +1,9 @@
 "use client";
 
 import { memo, ReactNode } from "react";
+import Image from "next/image";
 
 import styles from "./CategoriesItem.module.scss";
-import Image from "next/image";
 
 export type CategoriesItemType = {
   image: string;
@@ -25,7 +25,7 @@ const CategoriesItem = memo(({ categoriesData, children }: CategoriesItemProps) 
         alt={title}
         width={260}
         height={286}
-        style={{ width: "100%", height: "auto", objectFit: "cover" }}
+        style={{ width: "100%", height: "auto" }}
       />
       <div className={styles.infoBlock}>
         <p className={styles.title}>{title}</p>

@@ -24,7 +24,7 @@
   color: $text-white;
   height: 100%;
   display: flex;
-  gap: 40px;
+  gap: 24px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -41,7 +41,6 @@
 }
 
 .subtitle {
-  margin-top: 16px;
   font-size: $font-2xl;
   font-weight: $font-light;
   line-height: 1.55;
@@ -61,8 +60,8 @@
   }
 
   .button {
-    padding: 10px;
-    font-size: $font-md;
+    padding: 16px 24px;
+    font-size: $font-2xl;
     font-weight: $font-semi-bold;
   }
 }

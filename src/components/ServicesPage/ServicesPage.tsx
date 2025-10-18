@@ -91,6 +91,7 @@ const ServicesPage = () => {
         isOpen={isOpenModal}
         title={`${t("modalHeader")}${selectedService}`}
         bodyClassName={styles.bodyModal}
+        headerClassName={styles.headerModal}
       >
         <LeadForm
           formClassName={styles.form}

@@ -32,7 +32,6 @@
   text-align: center;
   color: $text-white;
   display: flex;
-  gap: 60px;
   height: 100%;
   flex-direction: column;
   justify-content: center;
@@ -42,13 +41,15 @@
 .title {
   font-size: $font-6xl;
   font-weight: $font-semi-bold;
+  margin-bottom: 24px;
 }
 
 .subtitle {
   max-width: 600px;
   font-size: $font-3xl;
   font-weight: $font-light;
-  line-height: 1.5;
+  line-height: 1.4;
+  margin-bottom: 60px;
 }
 
 .form {

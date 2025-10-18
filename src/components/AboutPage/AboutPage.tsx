@@ -103,6 +103,7 @@ const AboutPage = () => {
         isOpen={isOpenModal}
         title={t("modalTitle")}
         bodyClassName={styles.bodyModal}
+        headerClassName={styles.headerModal}
       >
         <LeadForm
           formClassName={styles.form}

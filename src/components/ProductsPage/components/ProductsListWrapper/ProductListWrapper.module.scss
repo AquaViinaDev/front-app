@@ -8,12 +8,27 @@
 
 .contentFilterWrapper, .sortWrapper {
   display: flex;
-  gap: 15px;
+  gap: 16px;
+}
+
+.sortWrapper {
+  display: flex;
+  width: 100%;
+}
+
+.titleWrapper {
+  flex: 1;
+}
+
+.title {
+  font-size: $font-3xl;
+  font-weight: $font-bold;
 }
 
 .filtersWrapper {
+  width: 100%;
   display: flex;
-  gap: 15px;
+  gap: 16px;
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 10px;
