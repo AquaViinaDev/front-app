@@ -42,6 +42,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
 
+  // ✅ Standalone output for Docker
+  output: 'standalone',
+
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
     prependData: `
