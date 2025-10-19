@@ -1,0 +1,29 @@
+# Development Dockerfile для Next.js
+FROM node:18-alpine
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Устанавливаем зависимости системы
+RUN apk add --no-cache libc6-compat
+
+# Копируем package files
+COPY package*.json ./
+
+# Устанавливаем зависимости
+RUN npm ci
+
+# Копируем исходный код
+COPY . .
+
+# Открываем порт
+EXPOSE 3001
+
+# Устанавливаем переменные для development
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3001
+ENV HOSTNAME="0.0.0.0"
+
+# Запускаем в dev режиме с hot reload
+CMD ["npm", "run", "dev"]
