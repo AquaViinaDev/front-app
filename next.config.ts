@@ -8,7 +8,8 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const defaultImageHosts = [
   "http://localhost:3000",
   "http://157.90.240.22:3000",
-];
+  process.env.API_INTERNAL_URL,
+].filter((value): value is string => typeof value === "string" && value.trim().length > 0);
 
 const parseRemotePattern = (target: string): RemotePattern => {
   const url = new URL(target);

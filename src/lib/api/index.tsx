@@ -11,12 +11,24 @@ const resolveLocale = (locale?: string | null, fallback?: string | null): Suppor
   return matched ?? SUPPORTED_LOCALES[0];
 };
 
-const parseBaseUrl = () => {
-  const raw = process.env.NEXT_PUBLIC_API_URL;
+const resolveRawBaseUrl = () => {
+  const candidates = typeof window === "undefined"
+    ? [process.env.API_INTERNAL_URL, process.env.NEXT_PUBLIC_API_URL]
+    : [process.env.NEXT_PUBLIC_API_URL];
+
+  const raw = candidates.find(
+    (value): value is string => typeof value === "string" && value.trim().length > 0
+  );
 
   if (!raw) {
-    throw new Error("NEXT_PUBLIC_API_URL is not configured");
+    throw new Error("API base URL is not configured");
   }
+
+  return raw;
+};
+
+const parseBaseUrl = () => {
+  const raw = resolveRawBaseUrl();
 
   try {
     return new URL(raw);
