@@ -46,11 +46,12 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const { id, locale } = await params;
   const product = await getProductById(id, locale);
-  const localizedProduct = mapProductForLocale(product, locale);
 
   if (!product) {
     notFound();
   }
+
+  const localizedProduct = mapProductForLocale(product, locale);
 
   const mainImage = product.images?.[0];
   const resolvedImage = typeof mainImage === "string" ? resolveMediaUrl(mainImage) : null;
