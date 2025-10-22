@@ -17,6 +17,8 @@
   display: flex;
   margin: 0 auto 12px;
   border-radius: 8px;
+  object-fit: cover;       
+  object-position: center;
 }
 
 .bottomBlockWrapper {

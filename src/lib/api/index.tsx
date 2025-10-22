@@ -107,6 +107,76 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
   return `${baseUrl.origin}${normalizedPath}`;
 };
 
+const isAbsoluteUrl = (path: string) => /^(?:[a-z][a-z\d+\-.]*:)?\/\//i.test(path);
+
+const resolveMediaBaseUrl = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+  const defaultForEnvironment = isProduction ? DEFAULT_PUBLIC_API_URL : DEFAULT_LOCAL_API_URL;
+
+  const candidates = [
+    process.env.NEXT_PUBLIC_MEDIA_URL,
+    process.env.NEXT_PUBLIC_API_URL,
+    process.env.API_PUBLIC_URL,
+    defaultForEnvironment,
+  ];
+
+  const raw = candidates.find(
+    (value): value is string => typeof value === "string" && value.trim().length > 0
+  );
+
+  if (!raw) {
+    throw new Error("Media base URL is not configured");
+  }
+
+  try {
+    return new URL(raw);
+  } catch {
+    return new URL(raw, "http://localhost");
+  }
+};
+
+export const resolveMediaUrl = (path?: string | null): string | null => {
+  if (typeof path !== "string") return null;
+
+  const trimmed = path.trim();
+  if (!trimmed) return null;
+  if (isAbsoluteUrl(trimmed)) {
+    return trimmed;
+  }
+
+  let baseUrl = resolveMediaBaseUrl();
+
+  if (baseUrl.hostname.toLowerCase() === "server") {
+    const adjustedUrl = new URL(baseUrl.toString());
+    adjustedUrl.hostname = "localhost";
+    baseUrl = adjustedUrl;
+  }
+  const normalizedPath = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  const filteredSegments = baseUrl.pathname
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter((segment) => {
+      if (!segment) return false;
+      const normalized = segment.toLowerCase();
+      if (normalized === "undefined" || normalized === "null") return false;
+      if (SUPPORTED_LOCALES.includes(normalized as SupportedLocale)) return false;
+      if (LOCALE_PLACEHOLDERS.has(normalized)) return false;
+      return true;
+    });
+
+  const hostname = baseUrl.hostname.toLowerCase();
+  const isLocalHost =
+    hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+
+  const normalizedSegments = isLocalHost
+    ? filteredSegments.filter((segment) => segment.toLowerCase() !== "api")
+    : filteredSegments;
+
+  const basePathname = normalizedSegments.length ? `/${normalizedSegments.join("/")}` : "";
+
+  return `${baseUrl.origin}${basePathname}${normalizedPath}`;
+};
+
 const buildApiUrl = (path: string, locale?: string | null) => {
   const base = resolveApiBaseUrl(locale);
   if (!path) return base;

@@ -1,4 +1,4 @@
-import { getProductById, resolveApiBaseUrl } from "@lib/api";
+import { getProductById, resolveMediaUrl } from "@lib/api";
 import { notFound } from "next/navigation";
 import { PageLayout } from "@components/layout/PageLayout";
 import Image from "next/image";
@@ -52,6 +52,11 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
     notFound();
   }
 
+  const mainImage = product.images?.[0];
+  const resolvedImage = typeof mainImage === "string" ? resolveMediaUrl(mainImage) : null;
+  const shouldDisableOptimization =
+    !!resolvedImage &&
+    (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
   return (
     <PageLayout
       className={styles.pageLayout}
@@ -61,15 +66,12 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>
           <Image
-            src={
-              product.images[0]
-                ? `${resolveApiBaseUrl(locale)}${product.images[0]}`
-                : "/images/cuvshinExample.png"
-            }
+            src={resolvedImage ?? "/images/cuvshinExample.png"}
             alt={localizedProduct.name}
             className={styles.image}
             width={400}
             height={400}
+            unoptimized={shouldDisableOptimization}
           />
         </div>
         <ProductInformationBlock

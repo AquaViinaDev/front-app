@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "use-intl";
 import { useOrder } from "@components/CartPage/CartContext";
 import classNames from "classnames";
 import { toast } from "react-toastify";
-import { resolveApiBaseUrl } from "@lib/api";
+import { resolveMediaUrl } from "@lib/api";
 
 import styles from "./PreviewProductItem.module.scss";
 
@@ -24,7 +24,10 @@ const PreviewProductItem = memo(
     const locale = useLocale();
     const t = useTranslations();
     const { addProduct } = useOrder();
-    const apiBaseUrl = resolveApiBaseUrl(locale);
+    const resolvedImage = image ? resolveMediaUrl(image) : null;
+    const shouldDisableOptimization =
+      !!resolvedImage &&
+      (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
 
     const handleAddToCart = () => {
       addProduct(id);
@@ -35,14 +38,15 @@ const PreviewProductItem = memo(
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={image ? `${apiBaseUrl}${image}` : "/images/cuvshinExample.png"}
+            src={resolvedImage ?? "/images/cuvshinExample.png"}
             alt={title}
             width={180}
             height={180}
             className={styles.itemImage}
+            unoptimized={shouldDisableOptimization}
           />
           <h3 className={styles.title}>{title}</h3>
-        </Link>
+          </Link>
         <div className={styles.bottomBlockWrapper}>
           <p
             className={classNames(styles.stockInfo, {

@@ -4,7 +4,7 @@ import { CartAmount } from "@components/common";
 import RemoveIcon from "@assets/icons/remove-icon.svg";
 import { useOrder } from "@components/CartPage/CartContext";
 import { useLocale, useTranslations } from "use-intl";
-import { resolveApiBaseUrl } from "@lib/api";
+import { resolveMediaUrl } from "@lib/api";
 
 import styles from "./CartProductItem.module.scss";
 
@@ -29,19 +29,22 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
   const { id, name, image, price, qty, totalPrice } = item;
   const locale = useLocale();
   const { updateProductQty, removeProduct } = useOrder();
-  const apiBaseUrl = resolveApiBaseUrl(locale);
+  const resolvedImage = image ? resolveMediaUrl(image) : null;
+  const shouldDisableOptimization =
+    !!resolvedImage &&
+    (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
 
   const link = `/products/${id}`;
-
   return (
     <div className={styles.root}>
       <Link className={styles.link} href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
         <Image
-          src={image ? `${apiBaseUrl}${image}` : "/images/cuvshinExample.png"}
+          src={resolvedImage ?? "/images/cuvshinExample.png"}
           alt={name?.ro ?? "Product Image"}
           width={81}
           height={81}
           className={styles.itemImage}
+          unoptimized={shouldDisableOptimization}
         />
         <h3 className={styles.title}>{locale === "ru" ? name?.ru : name?.ro}</h3>
       </Link>

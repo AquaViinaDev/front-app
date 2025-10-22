@@ -7,38 +7,53 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const DEFAULT_PUBLIC_API_URL = "https://aquaviina.md/api";
 
-const defaultImageHosts = [
-  "http://localhost:3000",
-  "http://157.90.240.22:3000",
-  process.env.API_INTERNAL_URL,
-  process.env.NEXT_PUBLIC_API_URL,
-  DEFAULT_PUBLIC_API_URL,
-].filter((value): value is string => typeof value === "string" && value.trim().length > 0);
-
-const parseRemotePattern = (target: string): RemotePattern => {
-  const url = new URL(target);
-  const normalizedPath =
-    url.pathname && url.pathname !== "/"
-      ? `${url.pathname.replace(/\/$/, "")}/**`
-      : undefined;
-
-  return {
-    protocol: url.protocol.replace(/:$/, ""),
-    hostname: url.hostname,
-    port: url.port || undefined,
-    pathname: normalizedPath,
-  };
-};
-
-const imageHosts = (process.env.NEXT_PUBLIC_IMAGE_HOSTS || "")
-  .split(",")
-  .map((host) => host.trim())
-  .filter(Boolean);
-
-const remotePatterns: RemotePattern[] = (imageHosts.length
-  ? imageHosts
-  : defaultImageHosts
-).map(parseRemotePattern);
+// ✅ Более гибкая конфигурация для изображений
+const remotePatterns: RemotePattern[] = [
+  // Localhost
+  {
+    protocol: 'http',
+    hostname: 'localhost',
+    port: '3000',
+    pathname: '/**',
+  },
+  // IP сервера
+  {
+    protocol: 'http',
+    hostname: '157.90.240.22',
+    port: '3000',
+    pathname: '/**',
+  },
+  // Docker internal service name
+  {
+    protocol: 'http',
+    hostname: 'server',
+    port: '3000',
+    pathname: '/**',
+  },
+  // Production domain с HTTPS
+  {
+    protocol: 'https',
+    hostname: 'aquaviina.md',
+    pathname: '/api/**',
+  },
+  // Production domain с HTTP (на случай если нет SSL)
+  {
+    protocol: 'http',
+    hostname: 'aquaviina.md',
+    pathname: '/api/**',
+  },
+  // Любые изображения с aquaviina.md
+  {
+    protocol: 'https',
+    hostname: 'aquaviina.md',
+    pathname: '/**',
+  },
+  {
+    protocol: 'http',
+    hostname: 'aquaviina.md',
+    pathname: '/**',
+  },
+];
 
 const nextConfig: NextConfig = {
   // ✅ Игнорировать ошибки линтера при билде
@@ -63,6 +78,12 @@ const nextConfig: NextConfig = {
 
   images: {
     remotePatterns,
+    // ✅ Увеличиваем размеры и форматы
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // ✅ Отключаем минимизацию для дебага
+    minimumCacheTTL: 60,
   },
 
   webpack(config) {
