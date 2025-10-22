@@ -5,20 +5,28 @@ import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
+const DEFAULT_PUBLIC_API_URL = "https://aquaviina.md/api";
+
 const defaultImageHosts = [
   "http://localhost:3000",
   "http://157.90.240.22:3000",
   process.env.API_INTERNAL_URL,
+  process.env.NEXT_PUBLIC_API_URL,
+  DEFAULT_PUBLIC_API_URL,
 ].filter((value): value is string => typeof value === "string" && value.trim().length > 0);
 
 const parseRemotePattern = (target: string): RemotePattern => {
   const url = new URL(target);
+  const normalizedPath =
+    url.pathname && url.pathname !== "/"
+      ? `${url.pathname.replace(/\/$/, "")}/**`
+      : undefined;
 
   return {
     protocol: url.protocol.replace(/:$/, ""),
     hostname: url.hostname,
     port: url.port || undefined,
-    pathname: url.pathname !== "/" ? url.pathname : undefined,
+    pathname: normalizedPath,
   };
 };
 
