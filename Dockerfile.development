@@ -16,13 +16,13 @@ RUN npm ci
 # Копируем исходный код
 COPY . .
 
-# Открываем порт
-EXPOSE 3001
+# Открываем порт (Next.js по умолчанию слушает 3000)
+EXPOSE 3000
 
 # Устанавливаем переменные для development
 ENV NODE_ENV=development
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3001
+ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Запускаем в dev режиме с hot reload

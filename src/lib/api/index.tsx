@@ -11,10 +11,18 @@ const resolveLocale = (locale?: string | null, fallback?: string | null): Suppor
   return matched ?? SUPPORTED_LOCALES[0];
 };
 
+const DEFAULT_LOCAL_API_URL = "http://localhost:3000";
+const DEFAULT_PUBLIC_API_URL = "https://aquaviina.md/api";
+
 const resolveRawBaseUrl = () => {
-  const candidates = typeof window === "undefined"
-    ? [process.env.API_INTERNAL_URL, process.env.NEXT_PUBLIC_API_URL]
-    : [process.env.NEXT_PUBLIC_API_URL];
+  const isServer = typeof window === "undefined";
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const defaultForEnvironment = isProduction ? DEFAULT_PUBLIC_API_URL : DEFAULT_LOCAL_API_URL;
+
+  const candidates = isServer
+    ? [process.env.API_INTERNAL_URL, process.env.NEXT_PUBLIC_API_URL, defaultForEnvironment]
+    : [process.env.NEXT_PUBLIC_API_URL, defaultForEnvironment];
 
   const raw = candidates.find(
     (value): value is string => typeof value === "string" && value.trim().length > 0
