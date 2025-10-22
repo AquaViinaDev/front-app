@@ -18,9 +18,17 @@ export type ProductPageTypeProps = {
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
   const { id, locale } = await params;
   const product = await getProductById(id, locale);
+
+  if (!product) {
+    return {
+      title: "Товар не найден",
+      description: "Запрошенный фильтр не найден.",
+    };
+  }
+
   const localizedProduct = mapProductForLocale(product, locale);
 
-  if (!localizedProduct) {
+  if (!localizedProduct?.name) {
     return {
       title: "Товар не найден",
       description: "Запрошенный фильтр не найден.",
@@ -52,6 +60,10 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   }
 
   const localizedProduct = mapProductForLocale(product, locale);
+
+  if (!localizedProduct?.name) {
+    notFound();
+  }
 
   const mainImage = product.images?.[0];
   const resolvedImage = typeof mainImage === "string" ? resolveMediaUrl(mainImage) : null;

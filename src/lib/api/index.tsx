@@ -96,8 +96,6 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
 
   if (placeholderIndex !== null) {
     normalizedSegments[placeholderIndex] = finalLocale;
-  } else if (process.env.NEXT_PUBLIC_API_APPEND_LOCALE?.toLowerCase() === "true") {
-    normalizedSegments.push(finalLocale);
   }
 
   const filteredSegments = normalizedSegments.filter((segment) => segment && segment.trim());
