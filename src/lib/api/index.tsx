@@ -217,7 +217,8 @@ export const getProducts = async ({ locale, ...params }: GetProductsParams) => {
 export const getProductById = async (id: string, locale?: string) => {
   try {
     const res = await fetch(buildApiUrl(`products/${id}`, locale), {
-      next: { revalidate: 60 },
+      cache: "no-store",
+      next: { revalidate: 0 },
     });
 
     if (!res.ok) {
