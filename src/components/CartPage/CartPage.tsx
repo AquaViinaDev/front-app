@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PageLayout } from "@components/layout/PageLayout";
 import { CartProductsBlock, CartUserInfoBlock, CartGeneralBlock } from "@components/CartPage/components";
-import { CartItem, useOrder } from "@components/CartPage/CartContext";
+import { CartItem, useOrder, UserInfo } from "@components/CartPage/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
 import { getCartProducts, sendOrder } from "@lib/api";
@@ -26,17 +26,54 @@ const CartPage = () => {
     setProducts,
     deliveryPrice,
   } = useOrder();
-  const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; address?: boolean }>({});
-  const [resetFields, setResetFields] = useState(false);
-  const validate = () => {
-    const newErrors = {
-      name: !userInfo.name?.trim(),
-      phone: !userInfo.phone?.trim(),
-      address: !userInfo.address?.trim(),
-    };
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(Boolean);
-  };
+  type CartFormErrors = Partial<{
+    name: string;
+    phone: string;
+    email: string;
+    region: string;
+    street: string;
+  }>;
+
+  const [errors, setErrors] = useState<CartFormErrors>({});
+  const [resetTrigger, setResetTrigger] = useState(0);
+  const [isValidationActive, setIsValidationActive] = useState(false);
+
+  const buildValidationErrors = useCallback(
+    (info: UserInfo): CartFormErrors => {
+      const validationErrors: CartFormErrors = {};
+
+      const trimmedName = info.name.trim();
+      if (!trimmedName) {
+        validationErrors.name = t("Validation.nameRequired");
+      } else if (trimmedName.length < 2) {
+        validationErrors.name = t("Validation.nameTooShort");
+      }
+
+      const phoneDigits = info.phone.replace(/\D/g, "");
+      if (!phoneDigits) {
+        validationErrors.phone = t("Validation.phoneRequired");
+      } else if (phoneDigits.length < 8) {
+        validationErrors.phone = t("Validation.phoneInvalid");
+      }
+
+      const email = info.email.trim();
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        validationErrors.email = t("Validation.emailInvalid");
+      }
+
+      if (!info.region.trim()) {
+        validationErrors.region = t("Validation.regionRequired");
+      }
+
+      if (!info.street.trim()) {
+        validationErrors.street = t("Validation.streetRequired");
+      }
+
+      return validationErrors;
+    },
+    [t]
+  );
+
   useEffect(() => {
     const saved = localStorage.getItem("aquaCart");
     if (saved) {
@@ -79,17 +116,36 @@ const CartPage = () => {
       setItems(productsWithQty.map((p: CartItem) => ({ id: p.id, qty: p.qty })));
     }
   }, [data, setProducts, setItems]);
-  console.log(deliveryPrice);
+  useEffect(() => {
+    if (!isValidationActive) return;
+    setErrors(buildValidationErrors(userInfo));
+  }, [userInfo, isValidationActive, buildValidationErrors]);
 
   const handleBuy = async () => {
     if (products.length === 0) {
       toast.error(t("Notification.emptyCart"));
       return;
     }
-    if (!validate()) {
+    setIsValidationActive(true);
+    const validationResult = buildValidationErrors(userInfo);
+    setErrors(validationResult);
+
+    if (Object.keys(validationResult).length > 0) {
       toast.error(t("Notification.requiredFields"));
       return;
     }
+
+    const fullAddress = [userInfo.region, userInfo.suburb, userInfo.street]
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .join(", ");
+
+    const normalizedPhone = userInfo.phone.startsWith("+")
+      ? userInfo.phone
+      : userInfo.phone
+          .replace(/[^\d+]/g, "")
+          .replace(/^(\d)/, "+$1");
+
     const orderData = {
       products: products.map((item) => ({
         name: item.name.ru,
@@ -99,9 +155,9 @@ const CartPage = () => {
       })),
       userInfo: {
         name: `${userInfo.name} - язык (${local})`,
-        phone: userInfo.phone,
+        phone: normalizedPhone,
         email: userInfo.email || null,
-        address: userInfo.address,
+        address: fullAddress,
         companyName: userInfo.companyName || null,
         description: userInfo.description || null,
       },
@@ -114,9 +170,13 @@ const CartPage = () => {
       toast.success(t("Notification.successOrder"));
       clearCart();
       resetUserInfo();
-      setResetFields(true);
-    } catch (err: any) {
-      toast.error(err.message);
+      setIsValidationActive(false);
+      setErrors({});
+      setResetTrigger((prev) => prev + 1);
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error && err.message ? err.message : t("Notification.loadingError");
+      toast.error(message);
     }
   };
 
@@ -131,7 +191,7 @@ const CartPage = () => {
     >
       <div className={styles.topWrapper}>
         <CartProductsBlock productItems={products} />
-        <CartUserInfoBlock errors={errors} resetKey={resetFields} />
+        <CartUserInfoBlock errors={errors} resetKey={resetTrigger} />
       </div>
       <div className={styles.bottomWrapper}>
         <CartGeneralBlock onBuy={handleBuy} />

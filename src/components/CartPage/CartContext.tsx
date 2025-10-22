@@ -15,13 +15,15 @@ export type CartProduct = {
   totalPrice: number;
 };
 
-type UserInfo = {
+export type UserInfo = {
   name: string;
   phone: string;
   email: string;
-  address: string;
   companyName: string;
   description: string;
+  region: string;
+  suburb: string;
+  street: string;
 };
 
 type CartContextType = {
@@ -47,9 +49,11 @@ const initialUserInfo: UserInfo = {
   name: "",
   phone: "",
   email: "",
-  address: "",
   companyName: "",
   description: "",
+  region: "",
+  suburb: "",
+  street: "",
 };
 
 const CartContext = createContext<CartContextType | null>(null);

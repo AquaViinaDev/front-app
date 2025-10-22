@@ -1,5 +1,4 @@
 {
-
   "Header": {
     "products": "Produse",
     "services": "Servicii",
@@ -7,18 +6,16 @@
     "about": "Despre noi",
     "cart": "Coş"
   },
-
   "MainSection": {
     "title": "Filtre de apă în Moldova",
     "subtitle": "Instalare, garanție, întreținere pe viață la cel mai bun preț.",
     "textButton": "Consultație gratuită"
   },
-
   "CategoriesSection": {
     "title": "Ce filtru să alegi?",
     "subtitle": "Pentru confortul tău, le-am împărțit în 4 categorii.",
     "items": {
-      "jug":{
+      "jug": {
         "name": "Cani filtrante",
         "description": "Pentru cei care beau puțină apă, se mută frecvent sau închiriază locuințe. Compact și accesibil. Necesită înlocuirea frecventă a cartușului, dar este ușor de folosit și comod în călătorii.",
         "buttonText": "Vezi canile filtrante"
@@ -40,7 +37,6 @@
       }
     }
   },
-
   "WorkStepperSection": {
     "title": "Cum lucrăm",
     "subtitle": "5 pași simpli",
@@ -65,14 +61,12 @@
       "description": "O dată la șase luni te contactăm și venim într-o zi convenabilă pentru a înlocui cartușele și a menține apa curată."
     }
   },
-
   "CommunicationSection": {
     "title": "Deci, pasul 1",
     "description": "Lasă-ne numărul tău de telefon și te vom suna cât mai curând posibil și îți vom spune ce filtru ți se potrivește!",
     "labelInput": "Numele dvs",
     "textButton": "Trimite"
   },
-
   "Footer": {
     "mainText": "Filtre pentru apă curată și sănătoasă",
     "navigation": {
@@ -87,7 +81,6 @@
       "location": "Chișinău, Moldova"
     }
   },
-
   "ProductsPageInformation": {
     "title": "Catalog de filtre de apă",
     "isInStock": "În stoc",
@@ -108,7 +101,6 @@
       "sortAsc": "După preț: de la ieftin"
     }
   },
-
   "ProductPage": {
     "meta": {
       "failedTitle": "Produs negăsit.",
@@ -149,7 +141,6 @@
       "title": "Garanție și returnare în termen de 14 zile"
     }
   },
-
   "AboutPage": {
     "title": "Ne pasă de ceea ce beți în fiecare zi",
     "textButton": " Consultație gratuită",
@@ -185,7 +176,6 @@
       "wideSelection": "Varietate de produse în stoc și la comandă"
     }
   },
-
   "CartPage": {
     "mainTitle": "În coșul dvs.",
     "CartProductsBlock": {
@@ -202,7 +192,7 @@
       "deliveryMoldova": "În toată Moldova",
       "municipality": "Municipalitate/District",
       "suburb": "Suburbie",
-      "address" : "Adresă (stradă, număr casă etc.)",
+      "address": "Adresă (stradă, număr casă etc.)",
       "paymentMethod": "Modalitate de plată",
       "deliveryPlaceholder": "Puteți plăti curierul la livrare!",
       "finalityTitle": "Finalizare",
@@ -220,9 +210,17 @@
       "requiredFields": "Vă rugăm să completați câmpurile obligatorii!",
       "successOrder": "Comanda a fost trimisă cu succes!",
       "loadingError": "Eroare la încărcare"
+    },
+    "Validation": {
+      "nameRequired": "Introduceți numele",
+      "nameTooShort": "Numele trebuie să conțină cel puțin 2 caractere",
+      "phoneRequired": "Introduceți numărul de telefon",
+      "phoneInvalid": "Introduceți un număr de telefon valid",
+      "emailInvalid": "Introduceți un e-mail valid",
+      "regionRequired": "Indicați municipiul sau raionul",
+      "streetRequired": "Indicați strada și numărul casei"
     }
   },
-
   "ServicePage": {
     "title": "Instalarea filtrelor de apă",
     "button": "Comanda",
@@ -244,5 +242,4 @@
       "description": "Programați vizita unui tehnician pentru repararea sau întreținerea filtrelor. Reparăm scurgeri, efectuăm service și reparăm pompa, înlocuim piesele defecte și repunem sistemul în stare de funcționare. Tariful de deplasare al unui tehnician este de 250 de lei (diagnosticare și reparații până la 1 oră). Dacă reparația durează mai mult de o oră, tariful de deplasare este de 400 de lei. Toate piesele și consumabilele necesare se facturează separat, la prețul afișat în magazinul nostru sau pe site-ul nostru web. Timpul mediu de răspuns al unui tehnician este de 30-60 de minute. Pentru piese rare, este posibilă o vizită ulterioară. De asemenea, efectuăm diagnosticarea pompelor, analiza durității apei și inspecții preventive ale sistemului. Toate lucrările beneficiază de o garanție de 6 luni."
     }
   }
-
 }

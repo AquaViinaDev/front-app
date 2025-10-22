@@ -17,10 +17,11 @@ export type PhoneInputProps = {
   onChange?: (value: string | null, e?: ChangeEvent<HTMLInputElement> | null) => void;
   value?: string | null;
   error?: boolean;
+  errorMessage?: string;
 } & ModifiedPhoneInputProps;
 
 const PhoneInput = memo(
-  ({ label = true, error = false, value, onChange, ...props }: PhoneInputProps) => {
+  ({ label = true, error = false, value, errorMessage, onChange, ...props }: PhoneInputProps) => {
     const locale = useLocale();
     const wrappedOnChange = useCallback(
       (value: string, event: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,7 @@ const PhoneInput = memo(
         {label && <label className={styles.label}>{locale === "ru" ? "Телефон" : "Telefon"}</label>}
         <BasePhoneInput
           country="md"
-          value={value || "+373"}
+          value={value || ""}
           onChange={wrappedOnChange}
           inputProps={{
             name: "phone",
@@ -50,6 +51,7 @@ const PhoneInput = memo(
           buttonClass={styles.button}
           {...props}
         />
+        {errorMessage ? <span className={styles.errorMessage}>{errorMessage}</span> : null}
       </div>
     );
   }

@@ -75,6 +75,7 @@
   padding: 48px;
   border-radius: 16px !important;
   color: $text-black;
+  margin-top: 4px;
 
   &.error {
     outline: 1px solid tomato !important;
@@ -84,4 +85,10 @@
 .button {
   border: none !important;
   background: transparent !important;
+}
+
+.errorMessage {
+  margin-top: 4px;
+  font-size: $font-md;
+  color: #d1434b;
 }

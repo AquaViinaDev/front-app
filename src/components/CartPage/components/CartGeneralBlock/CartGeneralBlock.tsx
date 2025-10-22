@@ -13,27 +13,19 @@ const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
   const { products, totalAmount, deliveryZone, setDeliveryPrice, deliveryPrice } = useOrder();
   const t = useTranslations("CartPage.TotalBlock");
 
-  const defineDelivery = () => {
-    if (deliveryZone === "chisinau") {
-      if (totalAmount > 500) {
-        setDeliveryPrice(0);
-      } else {
-        setDeliveryPrice(80);
-      }
-    } else if (deliveryZone === "moldova") {
-      if (totalAmount > 1000) {
-        setDeliveryPrice(0);
-      } else {
-        setDeliveryPrice(100);
-      }
-    } else {
-      setDeliveryPrice(0);
-    }
-  };
-
   useEffect(() => {
-    defineDelivery();
-  }, [deliveryZone, totalAmount, defineDelivery]);
+    if (deliveryZone === "chisinau") {
+      setDeliveryPrice(totalAmount > 500 ? 0 : 80);
+      return;
+    }
+
+    if (deliveryZone === "moldova") {
+      setDeliveryPrice(totalAmount > 1000 ? 0 : 100);
+      return;
+    }
+
+    setDeliveryPrice(0);
+  }, [deliveryZone, totalAmount, setDeliveryPrice]);
 
   return (
     <div className={styles.root}>

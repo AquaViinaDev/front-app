@@ -2,46 +2,42 @@
 
 import { useEffect, useState } from "react";
 import { PhoneInput, TextInput, ToggleGroup } from "@components/common";
-import { useOrder } from "@components/CartPage/CartContext";
+import { useOrder, UserInfo } from "@components/CartPage/CartContext";
 import { useTranslations } from "use-intl";
 
 import styles from "./CartUserInfoBlock.module.scss";
 
 export type CartUserInfoBlockProps = {
-  errors: { name?: boolean; phone?: boolean; address?: boolean };
-  resetKey?: boolean;
+  errors: Partial<{
+    name: string;
+    phone: string;
+    email: string;
+    region: string;
+    street: string;
+  }>;
+  resetKey?: number;
 };
 
 const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   const t = useTranslations("CartPage.CartUserInfoBlock");
 
   const [delivery, setDelivery] = useState("delivery");
-  const [region, setRegion] = useState("");
-  const [suburb, setSuburb] = useState("");
-  const [street, setStreet] = useState("");
   const { setUserInfo, userInfo, setDeliveryZone, deliveryZone } = useOrder();
 
-  const updateAddress = (newRegion: string, newSuburb: string, newStreet: string) => {
-    const fullAddress = [newRegion, newSuburb, newStreet].filter(Boolean).join(", ");
-    setUserInfo((prev) => ({ ...prev, address: fullAddress }));
-  };
-
-  const handleChange = (field: string, value: string | null) => {
-    setUserInfo((prev: any) => ({
+  const handleChange = <K extends keyof UserInfo>(field: K, value: string | null) => {
+    setUserInfo((prev) => ({
       ...prev,
-      [field]: value,
+      [field]: value ?? "",
     }));
   };
 
   useEffect(() => {
-    if (resetKey) {
-      setDelivery("delivery");
-      setDeliveryZone("chisinau");
-      setRegion("");
-      setSuburb("");
-      setStreet("");
+    if (resetKey === undefined) {
+      return;
     }
-  }, [resetKey]);
+    setDelivery("delivery");
+    setDeliveryZone("chisinau");
+  }, [resetKey, setDeliveryZone]);
 
   return (
     <div className={styles.root}>
@@ -50,14 +46,17 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         <div className={styles.userForm}>
           <TextInput
             textInputClassName={styles.emailInput}
-            type={"email"}
-            placeholder={"E-mail"}
+            type="email"
+            placeholder="E-mail"
             isLabel={false}
             value={userInfo.email}
+            error={Boolean(errors.email)}
+            errorMessage={errors.email}
             onChange={(value) => handleChange("email", value)}
           />
           <TextInput
-            error={errors.name}
+            error={Boolean(errors.name)}
+            errorMessage={errors.name}
             textInputClassName={styles.userNameInput}
             placeholder={t("name")}
             isLabel={false}
@@ -72,8 +71,9 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
             onChange={(value) => handleChange("companyName", value)}
           />
           <PhoneInput
-            value={"373"}
-            error={errors.phone}
+            value={userInfo.phone}
+            error={Boolean(errors.phone)}
+            errorMessage={errors.phone}
             label={false}
             onChange={(value) => handleChange("phone", value)}
           />
@@ -110,35 +110,29 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         </div>
         <div className={styles.deliveryInputsWrapper}>
           <TextInput
-            error={errors.address}
+            error={Boolean(errors.region)}
+            errorMessage={errors.region}
             textInputClassName={styles.companyInput}
             placeholder={t("municipality")}
             isLabel={false}
-            value={region}
-            onChange={(value) => {
-              setRegion(value);
-              updateAddress(value, suburb, street);
-            }}
+            value={userInfo.region}
+            onChange={(value) => handleChange("region", value)}
           />
           <TextInput
             textInputClassName={styles.companyInput}
             placeholder={t("suburb")}
             isLabel={false}
-            value={suburb}
-            onChange={(value) => {
-              setSuburb(value);
-              updateAddress(region, value, street);
-            }}
+            value={userInfo.suburb}
+            onChange={(value) => handleChange("suburb", value)}
           />
           <TextInput
             textInputClassName={styles.companyInput}
             placeholder={t("address")}
             isLabel={false}
-            value={street}
-            onChange={(value) => {
-              setStreet(value);
-              updateAddress(region, suburb, value);
-            }}
+            value={userInfo.street}
+            error={Boolean(errors.street)}
+            errorMessage={errors.street}
+            onChange={(value) => handleChange("street", value)}
           />
         </div>
       </div>

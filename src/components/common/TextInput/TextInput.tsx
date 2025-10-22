@@ -14,6 +14,7 @@ export type TextInputProps = NativeInputProps & {
   isLabel?: boolean;
   textInputClassName?: string;
   error?: boolean;
+  errorMessage?: string;
   className?: string;
 };
 
@@ -25,6 +26,7 @@ const TextInput = memo(
     value,
     onChange,
     isLabel = true,
+    errorMessage,
     ...props
   }: TextInputProps) => {
     const t = useTranslations("CommunicationSection");
@@ -50,6 +52,7 @@ const TextInput = memo(
           {...props}
           onChange={wrappedOnChange}
         />
+        {errorMessage ? <span className={styles.errorMessage}>{errorMessage}</span> : null}
       </div>
     );
   }
