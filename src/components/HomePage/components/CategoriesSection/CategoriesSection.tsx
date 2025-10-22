@@ -7,10 +7,10 @@ import { useLocale, useTranslations } from "use-intl";
 import styles from "./CategoriesSection.module.scss";
 
 const categoryFilters: Record<string, string> = {
-  jug: "Carafe",
-  flowFilter: "Filtru de trecere",
-  reverseOsmosis: "Osmos",
-  prefilter: "Prefiltru",
+  jug: "Căni filtrante",
+  flowFilter: "Filtre sub chiuvetă",
+  reverseOsmosis: "Osmoză inversă",
+  prefilter: "Prefiltre",
 };
 
 const CategoriesSection = () => {

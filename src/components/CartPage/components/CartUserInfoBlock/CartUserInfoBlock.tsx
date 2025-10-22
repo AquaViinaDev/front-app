@@ -74,6 +74,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           <PhoneInput
             value={"373"}
             error={errors.phone}
+            label={false}
             onChange={(value) => handleChange("phone", value)}
           />
         </div>

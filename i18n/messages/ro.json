@@ -24,12 +24,12 @@
         "buttonText": "Vezi canile filtrante"
       },
       "flowFilter": {
-        "name": "Filtru de flux",
+        "name": "Filtre sub chiuvetă",
         "description": "Potrivit pentru familii de 2–4 persoane. Se instalează sub chiuvetă sau direct pe robinet. Curăță eficient apa de impuritățile principale. O alegere bună din punct de vedere al prețului și calității.",
         "buttonText": "Vezi filtrele de flux"
       },
       "reverseOsmosis": {
-        "name": "Osmosis inversă",
+        "name": "Osmoză inversă",
         "description": "Ideal pentru familii cu copii, persoane alergice și pentru cei care vor apă perfect curată. Elimină impurități, mirosuri, metale grele și bacterii. Oferă apă gustoasă și sigură pentru băut.",
         "buttonText": "Vezi osmoza inversă"
       },
