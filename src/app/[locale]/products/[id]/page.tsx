@@ -60,8 +60,12 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   }
 
   const localizedProduct = mapProductForLocale(product, locale);
+  const safeLocalizedProduct = {
+    ...product,
+    ...localizedProduct,
+  };
 
-  if (!localizedProduct?.name) {
+  if (!safeLocalizedProduct?.name) {
     notFound();
   }
 
@@ -74,13 +78,13 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
     <PageLayout
       className={styles.pageLayout}
       contentClassName={styles.content}
-      title={localizedProduct.name}
+      title={safeLocalizedProduct.name}
     >
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>
           <Image
             src={resolvedImage ?? "/images/cuvshinExample.png"}
-            alt={localizedProduct.name}
+            alt={safeLocalizedProduct.name}
             className={styles.image}
             width={400}
             height={400}
@@ -88,10 +92,10 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
           />
         </div>
         <ProductInformationBlock
-          productId={localizedProduct.id}
-          price={localizedProduct.price}
-          inStock={localizedProduct.inStock}
-          oldPrice={localizedProduct.oldPrice}
+          productId={safeLocalizedProduct.id}
+          price={safeLocalizedProduct.price}
+          inStock={safeLocalizedProduct.inStock}
+          oldPrice={safeLocalizedProduct.oldPrice}
         />
       </div>
       <div className={styles.additionalInfoBlock}>
@@ -100,7 +104,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
             {locale === "ru" ? "Технические характеристики:" : "Specificații tehnice:"}
           </h3>
           <ul className={styles.characteristicsInformation}>
-            {Object.entries(localizedProduct.characteristics as Record<string, string>)
+            {Object.entries(safeLocalizedProduct.characteristics as Record<string, string>)
               .filter(([_, value]) => value !== null && value !== undefined && value !== "")
               .map(([key, value]) => (
                 <li className={styles.characteristicsItem} key={key}>
@@ -114,7 +118,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
           <h3 className={styles.descriptionTitle}>
             {locale === "ru" ? "Описание:" : "Descriere:"}
           </h3>
-          <div className={styles.descriptionInformation}>{localizedProduct.description}</div>
+          <div className={styles.descriptionInformation}>{safeLocalizedProduct.description}</div>
         </div>
       </div>
     </PageLayout>
