@@ -194,24 +194,91 @@ type GetProductsParams = {
 };
 
 export const getProducts = async ({ locale, ...params }: GetProductsParams) => {
-  const searchParams = new URLSearchParams();
+  const baseSearchParams = new URLSearchParams();
 
-  if (params.query) searchParams.set("query", params.query);
-  if (params.brand) searchParams.set("brand", params.brand);
-  if (params.type) searchParams.set("type", params.type);
-  if (params.minPrice !== undefined) searchParams.set("minPrice", String(params.minPrice));
-  if (params.maxPrice !== undefined) searchParams.set("maxPrice", String(params.maxPrice));
-  if (params.sortOrder && params.sortOrder !== "default") searchParams.set("sortOrder", params.sortOrder);
+  if (params.query) baseSearchParams.set("query", params.query);
+  if (params.brand) baseSearchParams.set("brand", params.brand);
+  if (params.type) baseSearchParams.set("type", params.type);
+  if (params.minPrice !== undefined) baseSearchParams.set("minPrice", String(params.minPrice));
+  if (params.maxPrice !== undefined) baseSearchParams.set("maxPrice", String(params.maxPrice));
+  if (params.sortOrder && params.sortOrder !== "default") {
+    baseSearchParams.set("sortOrder", params.sortOrder);
+  }
 
-  searchParams.set("page", String(params.page));
-  searchParams.set("limit", String(params.limit));
+  const limit = params.limit ?? 100;
+  const startPage = Math.max(1, params.page ?? 1);
 
-  const url = `${buildApiUrl("products", locale)}?${searchParams.toString()}`;
-  const res = await fetch(url);
+  const fetchPage = async (page: number) => {
+    const searchParams = new URLSearchParams(baseSearchParams);
+    searchParams.set("page", String(page));
+    searchParams.set("limit", String(limit));
 
-  if (!res.ok) throw new Error("Failed to fetch products");
+    const url = `${buildApiUrl("products", locale)}?${searchParams.toString()}`;
+    const res = await fetch(url);
 
-  return res.json();
+    if (!res.ok) throw new Error("Failed to fetch products");
+
+    return res.json();
+  };
+
+  // Для запросов с первой страницы собираем все элементы, чтобы обойти ограничение API в 10 записей.
+  if (startPage > 1) {
+    return fetchPage(startPage);
+  }
+
+  const aggregatedItems: unknown[] = [];
+  let firstResponse: Awaited<ReturnType<typeof fetchPage>> | null = null;
+  let total: number | null = null;
+  let effectiveLimit = limit;
+  let currentPage = startPage;
+
+  while (true) {
+    const pageData = await fetchPage(currentPage);
+
+    if (!firstResponse) {
+      firstResponse = pageData;
+    }
+
+    const items = Array.isArray(pageData.items) ? pageData.items : [];
+    aggregatedItems.push(...items);
+
+    if (typeof pageData.total === "number") {
+      total = pageData.total;
+    }
+
+    const currentLimit =
+      typeof pageData.limit === "number" && !Number.isNaN(pageData.limit)
+        ? pageData.limit
+        : effectiveLimit;
+    effectiveLimit = currentLimit;
+
+    const nextPage = currentPage + 1;
+    const hasMoreByTotalPages =
+      typeof pageData.totalPages === "number" ? nextPage <= pageData.totalPages : false;
+    const hasMoreByCount = items.length > 0 && items.length === currentLimit;
+
+    if (!hasMoreByTotalPages && !hasMoreByCount) {
+      break;
+    }
+
+    currentPage = nextPage;
+
+    if (currentPage - startPage > 1000) {
+      console.warn("Превышен безопасный лимит страниц при загрузке товаров на витрину");
+      break;
+    }
+  }
+
+  const effectiveTotal = typeof total === "number" ? total : aggregatedItems.length;
+
+  return {
+    ...(firstResponse ?? {}),
+    items: aggregatedItems,
+    total: effectiveTotal,
+    limit: effectiveLimit,
+    totalPages: 1,
+    page: startPage,
+  };
 };
 
 export const getProductById = async (id: string, locale?: string) => {
