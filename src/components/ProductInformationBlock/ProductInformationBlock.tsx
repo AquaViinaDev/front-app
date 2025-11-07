@@ -48,7 +48,7 @@ export const ProductInformationBlock = ({
 
     router.push(`/${locale}/cart`);
   };
-
+console.log(oldPrice)
   return (
     <>
       <div className={styles.root}>
@@ -104,9 +104,11 @@ export const ProductInformationBlock = ({
         </div>
         <div className={styles.rightBlock}>
           <div className={styles.priceBlock}>
-            <p className={styles.saleInfo}>
-              {oldPrice} {t("ProductsPageInformation.price")}
-            </p>
+            {oldPrice && (
+              <p className={styles.saleInfo}>
+                {oldPrice} {t("ProductsPageInformation.price")}
+              </p>
+            )}
             <p className={styles.priceInfo}>
               {price} {t("ProductsPageInformation.price")}
             </p>

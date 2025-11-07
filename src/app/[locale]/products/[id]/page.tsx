@@ -74,6 +74,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const shouldDisableOptimization =
     !!resolvedImage &&
     (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
+  console.log(safeLocalizedProduct.characteristics, safeLocalizedProduct.description);
   return (
     <PageLayout
       className={styles.pageLayout}
@@ -99,27 +100,31 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
         />
       </div>
       <div className={styles.additionalInfoBlock}>
-        <div className={styles.characteristics}>
-          <h3 className={styles.characteristicsTitle}>
-            {locale === "ru" ? "Технические характеристики:" : "Specificații tehnice:"}
-          </h3>
-          <ul className={styles.characteristicsInformation}>
-            {Object.entries(safeLocalizedProduct.characteristics as Record<string, string>)
-              .filter(([_, value]) => value !== null && value !== undefined && value !== "")
-              .map(([key, value]) => (
-                <li className={styles.characteristicsItem} key={key}>
-                  <span className={styles.key}>{key}</span>
-                  <span className={styles.value}>{value}</span>
-                </li>
-              ))}
-          </ul>
-        </div>
-        <div className={styles.description}>
-          <h3 className={styles.descriptionTitle}>
-            {locale === "ru" ? "Описание:" : "Descriere:"}
-          </h3>
-          <div className={styles.descriptionInformation}>{safeLocalizedProduct.description}</div>
-        </div>
+        {safeLocalizedProduct.characteristics && (
+          <div className={styles.characteristics}>
+            <h3 className={styles.characteristicsTitle}>
+              {locale === "ru" ? "Технические характеристики:" : "Specificații tehnice:"}
+            </h3>
+            <ul className={styles.characteristicsInformation}>
+              {Object.entries(safeLocalizedProduct.characteristics as Record<string, string>)
+                .filter(([_, value]) => value !== null && value !== undefined && value !== "")
+                .map(([key, value]) => (
+                  <li className={styles.characteristicsItem} key={key}>
+                    <span className={styles.key}>{key}</span>
+                    <span className={styles.value}>{value}</span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+        {safeLocalizedProduct.description && (
+          <div className={styles.description}>
+            <h3 className={styles.descriptionTitle}>
+              {locale === "ru" ? "Описание:" : "Descriere:"}
+            </h3>
+            <div className={styles.descriptionInformation}>{safeLocalizedProduct.description}</div>
+          </div>
+        )}
       </div>
     </PageLayout>
   );
