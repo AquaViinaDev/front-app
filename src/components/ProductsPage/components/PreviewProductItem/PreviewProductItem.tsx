@@ -45,7 +45,9 @@ const PreviewProductItem = memo(
             className={styles.itemImage}
             unoptimized={shouldDisableOptimization}
           />
-          <h3 className={styles.title}>{title}</h3>
+          <h3 className={styles.title} title={title}>
+            {title}
+          </h3>
           </Link>
         <div className={styles.bottomBlockWrapper}>
           <p

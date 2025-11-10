@@ -53,7 +53,12 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const { id, locale } = await params;
-  const product = await getProductById(id, locale);
+  let product: Awaited<ReturnType<typeof getProductById>> = null;
+  try {
+    product = await getProductById(id, locale);
+  } catch (err) {
+    console.error("Failed to load product:", err);
+  }
 
   if (!product) {
     notFound();
