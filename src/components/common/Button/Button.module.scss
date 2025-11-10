@@ -22,8 +22,23 @@
   &.disabled {
     color: #bdbdbd;
     background-color: #e9e8e8;
+    border:0;
     opacity: .8;
     cursor: default;
+  }
+}
+
+.rootSecondary {
+  background-color: $bg-white;
+  color:$bg-blue;
+  border: 1px solid $bg-blue;
+
+  &:hover:not(.disabled) {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &:active:not(.disabled) {
+    background-color: rgba(0, 0, 0, 0.08);
   }
 }
 

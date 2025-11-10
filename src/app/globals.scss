@@ -1,0 +1,36 @@
+@use "../../styles/variables" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: $font-default;
+  color: $text-black;
+  background-color: $bg-gray;
+  color-scheme: light;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: $bg-gray;
+  color: $text-black;
+  font-family: $font-default;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

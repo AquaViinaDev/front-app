@@ -38,7 +38,7 @@ const PreviewProductItem = memo(
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={resolvedImage ?? "/images/cuvshinExample.png"}
+            src={resolvedImage ?? "/images/placeholder.svg"}
             alt={title}
             width={180}
             height={180}

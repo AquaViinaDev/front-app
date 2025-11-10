@@ -95,6 +95,7 @@
       "brand": "Бренд",
       "price": "Цена",
       "chapter": "Раздел",
+      "applyFilter": "Найти",
       "clearFilter": "Очистить фильтр",
       "sortDefault": "Сортировка по умолчанию",
       "sortDesc": "По цене: от дорогих",

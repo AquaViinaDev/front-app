@@ -39,7 +39,7 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
     <div className={styles.root}>
       <Link className={styles.link} href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
         <Image
-          src={resolvedImage ?? "/images/cuvshinExample.png"}
+          src={resolvedImage ?? "/images/placeholder.svg"}
           alt={name?.ro ?? "Product Image"}
           width={81}
           height={81}

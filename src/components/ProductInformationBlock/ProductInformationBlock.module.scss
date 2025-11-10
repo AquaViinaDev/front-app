@@ -18,6 +18,15 @@
   justify-content: space-between;
 }
 
+.leftBlockHeader{
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.withOldPrice{
+gap:70px
+}
+
 .rightBlock {
   width: 49%;
   display: flex;
@@ -38,6 +47,7 @@
 .stockInfo {
   font-size: $font-md;
   font-weight: $font-semi-bold;
+  height: 37px;
 }
 
 .additionalContent {
@@ -177,7 +187,7 @@
   margin-left: auto;
 }
 
-@media (max-width: $tabletScreen) {
+@media (max-width: $laptopScreen) {
   .root {
     width: 100%;
     gap: 10px;
@@ -191,11 +201,14 @@
     font-size: $font-3xl;
     font-weight: $font-semi-bold;
   }
+  .stockInfo{
+    height: 27px;
+  }
 }
 
 @media (max-width: 650px) {
   .root {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .leftBlock {
@@ -206,5 +219,8 @@
   .rightBlock {
     order: 1;
     width: 100%;
+  }
+  .withOldPrice{
+  gap:40px
   }
 }
