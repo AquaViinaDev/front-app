@@ -74,7 +74,9 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const shouldDisableOptimization =
     !!resolvedImage &&
     (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
-  console.log(safeLocalizedProduct.characteristics, safeLocalizedProduct.description);
+  console.log(
+    "ok"
+  );
   return (
     <PageLayout
       className={styles.pageLayout}

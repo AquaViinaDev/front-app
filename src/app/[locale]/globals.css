@@ -3,11 +3,22 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+}
+
+input,
+textarea,
+select {
+  background: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border-color: #ccc !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #666 !important;
 }
 
 html,

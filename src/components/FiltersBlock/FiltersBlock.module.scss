@@ -37,17 +37,28 @@
   border: none;
   font-size: 14px;
   font-weight: 500;
-  background-color: transparent;
   width: 100%;
   text-align: start;
   padding: 3px;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+
+  color-scheme: light;
+
   &:hover {
     background-color: $bg-gray;
   }
+
   &.active {
     background-color: $bg-gray;
   }
+
+  -webkit-tap-highlight-color: transparent;
 }
+
 
 .sliderRoot {
   position: relative;
