@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { useLocale, useTranslations } from "use-intl";
 import classNames from "classnames";
-import { useRouter, useSearchParams } from "next/navigation";
-import { RoutesEnum } from "@types";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button, Skeleton } from "@components/common";
 
 import styles from "./FiltersBlock.module.scss";
@@ -43,6 +42,7 @@ const FiltersBlock = ({
   const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const langKey: keyof FilterOption = locale === "ru" ? "ru" : "ro";
 
   const safeFilters = {
@@ -54,23 +54,66 @@ const FiltersBlock = ({
     },
   };
 
-  const params = useMemo(
-    () => Object.fromEntries(new URLSearchParams(searchParams.toString())),
-    [searchParams]
-  );
+  const params = useMemo(() => {
+    const current = new URLSearchParams(searchParams.toString());
+    return {
+      brand: current.get("brand"),
+      type: current.get("type"),
+      minPrice: current.get("minPrice"),
+      maxPrice: current.get("maxPrice"),
+    };
+  }, [searchParams]);
+
+  const parsePriceParam = (value: string | null, fallback: number) => {
+    if (value === null || value === undefined) return fallback;
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : fallback;
+  };
 
   const activeBrand = params.brand || null;
   const activeType = params.type || null;
+  const appliedMinPrice = parsePriceParam(params.minPrice, safeFilters.price.low);
+  const appliedMaxPrice = parsePriceParam(params.maxPrice, safeFilters.price.more);
+
+  const [pendingBrand, setPendingBrand] = useState<string | null>(activeBrand);
+  const [pendingType, setPendingType] = useState<string | null>(activeType);
+
+  useEffect(() => {
+    setPendingBrand(activeBrand);
+  }, [activeBrand]);
+
+  useEffect(() => {
+    setPendingType(activeType);
+  }, [activeType]);
 
   const isFilterActive = useMemo(() => {
-    const urlParams = Object.fromEntries(new URLSearchParams(searchParams.toString()));
     return (
-      range?.[0] !== safeFilters.price.low ||
-      range?.[1] !== safeFilters.price.more ||
-      !!urlParams.brand ||
-      !!urlParams.type
+      appliedMinPrice !== safeFilters.price.low ||
+      appliedMaxPrice !== safeFilters.price.more ||
+      !!activeBrand ||
+      !!activeType
     );
-  }, [range, safeFilters.price.low, safeFilters.price.more, searchParams]);
+  }, [activeBrand, activeType, appliedMinPrice, appliedMaxPrice, safeFilters.price.low, safeFilters.price.more]);
+
+  const [rangeMin, rangeMax] = range;
+
+  const hasPendingChanges = useMemo(() => {
+    return (
+      pendingBrand !== activeBrand ||
+      pendingType !== activeType ||
+      rangeMin !== appliedMinPrice ||
+      rangeMax !== appliedMaxPrice
+    );
+  }, [
+    pendingBrand,
+    activeBrand,
+    pendingType,
+    activeType,
+    rangeMin,
+    rangeMax,
+    appliedMinPrice,
+    appliedMaxPrice,
+  ]);
 
   const updateParams = (params: Record<string, string | number | null>) => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -83,25 +126,45 @@ const FiltersBlock = ({
       }
     });
 
-    router.replace(`?${newParams.toString()}`);
+    const queryString = newParams.toString();
+    router.replace(queryString ? `${pathname}?${queryString}` : pathname);
   };
 
   useEffect(() => {
     if (!filtersData?.price) return;
 
-    const paramsString = searchParams.toString();
-    const params = Object.fromEntries(new URLSearchParams(paramsString));
-
-    const minPrice = params.minPrice ? Number(params.minPrice) : filtersData.price.low;
-    const maxPrice = params.maxPrice ? Number(params.maxPrice) : filtersData.price.more;
-
     setRange((prev) => {
-      if (prev[0] !== minPrice || prev[1] !== maxPrice) {
-        return [minPrice, maxPrice];
+      if (prev[0] === appliedMinPrice && prev[1] === appliedMaxPrice) {
+        return prev;
       }
-      return prev;
+      return [appliedMinPrice, appliedMaxPrice];
     });
-  }, [filtersData]);
+  }, [filtersData, appliedMinPrice, appliedMaxPrice, setRange]);
+
+  const handleApplyFilters = () => {
+    const normalizedMin = Math.min(Math.max(rangeMin, safeFilters.price.low), safeFilters.price.more);
+    const normalizedMax = Math.max(Math.min(rangeMax, safeFilters.price.more), safeFilters.price.low);
+    const finalMin = Math.min(normalizedMin, normalizedMax);
+    const finalMax = Math.max(normalizedMin, normalizedMax);
+
+    if (finalMin !== rangeMin || finalMax !== rangeMax) {
+      setRange([finalMin, finalMax]);
+    }
+
+    updateParams({
+      brand: pendingBrand,
+      type: pendingType,
+      minPrice: finalMin === safeFilters.price.low ? null : finalMin,
+      maxPrice: finalMax === safeFilters.price.more ? null : finalMax,
+    });
+  };
+
+  const handleResetFilters = () => {
+    setPendingBrand(null);
+    setPendingType(null);
+    setRange([safeFilters.price.low, safeFilters.price.more]);
+    router.replace(pathname);
+  };
 
   if (error) {
     return (
@@ -129,12 +192,10 @@ const FiltersBlock = ({
               <li className={styles.item} key={id}>
                 <button
                   className={classNames(styles.filterButton, {
-                    [styles.active]: activeBrand === item.ro,
+                    [styles.active]: pendingBrand === item.ro,
                   })}
                   onClick={() =>
-                    updateParams({
-                      brand: activeBrand === item.ro ? null : item.ro,
-                    })
+                    setPendingBrand((prev) => (prev === item.ro ? null : item.ro))
                   }
                 >
                   {item[langKey]}
@@ -159,13 +220,7 @@ const FiltersBlock = ({
             <Slider.Root
               className={styles.sliderRoot}
               value={range}
-              onValueChange={(val) => setRange(val)}
-              onValueCommit={(val) => {
-                updateParams({
-                  minPrice: val[0],
-                  maxPrice: val[1],
-                });
-              }}
+              onValueChange={(val: number[]) => setRange(val)}
               min={safeFilters.price.low}
               max={safeFilters.price.more}
               step={1}
@@ -181,28 +236,26 @@ const FiltersBlock = ({
                 type="number"
                 name="minPrice"
                 className={styles.priceValue}
-                value={range[0]}
+                value={rangeMin}
                 onChange={(e) => {
                   const newValue = Number(e.target.value);
                   if (!isNaN(newValue)) {
-                    setRange([newValue, range[1]]);
+                    setRange([newValue, rangeMax]);
                   }
                 }}
-                onBlur={() => updateParams({ minPrice: range[0], maxPrice: range[1] })}
               />
               -
               <input
                 type="number"
                 name="maxPrice"
                 className={styles.priceValue}
-                value={range[1]}
+                value={rangeMax}
                 onChange={(e) => {
                   const newValue = Number(e.target.value);
                   if (!isNaN(newValue)) {
-                    setRange([range[0], newValue]);
+                    setRange([rangeMin, newValue]);
                   }
                 }}
-                onBlur={() => updateParams({ minPrice: range[0], maxPrice: range[1] })}
               />
             </div>
           </>
@@ -224,9 +277,9 @@ const FiltersBlock = ({
               <li className={styles.item} key={id}>
                 <button
                   className={classNames(styles.filterButton, {
-                    [styles.active]: activeType === item.ro,
+                    [styles.active]: pendingType === item.ro,
                   })}
-                  onClick={() => updateParams({ type: activeType === item.ro ? null : item.ro })}
+                  onClick={() => setPendingType((prev) => (prev === item.ro ? null : item.ro))}
                 >
                   {item[langKey]}
                 </button>
@@ -235,15 +288,19 @@ const FiltersBlock = ({
           </ul>
         )}
       </div>
-      <Button
-        buttonType={"smallButton"}
-        disabled={!isFilterActive}
-        onClick={() => {
-          router.replace(`/${locale}${RoutesEnum.Products}`);
-        }}
-      >
-        {t("clearFilter")}
-      </Button>
+      <div className={styles.actions}>
+        <Button
+          buttonType={"smallButton"}
+          disabled={!hasPendingChanges}
+          onClick={handleApplyFilters}
+          style={{width:"100%"}}
+        >
+          {t("applyFilter")}
+        </Button>
+        <Button buttonType={"smallButton"} theme="secondary" style={{width:"100%"}} disabled={!isFilterActive && !hasPendingChanges} onClick={handleResetFilters}>
+          {t("clearFilter")}
+        </Button>
+      </div>
     </div>
   );
 };

@@ -53,6 +53,7 @@ console.log(oldPrice)
     <>
       <div className={styles.root}>
         <div className={styles.leftBlock}>
+          <div className={classNames(styles.leftBlockHeader, { [styles.withOldPrice]: oldPrice })}>
           <p
             className={classNames(styles.stockInfo, {
               [styles.inStock]: inStock,
@@ -73,6 +74,7 @@ console.log(oldPrice)
               }
             }}
           />
+          </div>
           <div className={styles.additionalContent}>
             <div
               className={styles.deliveryBlock}

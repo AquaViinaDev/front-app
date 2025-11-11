@@ -292,7 +292,12 @@ export const getProductById = async (id: string, locale?: string) => {
       return null;
     }
 
-    return res.json();
+    try {
+      return await res.json();
+    } catch (parseError) {
+      console.error("Failed to parse product JSON:", parseError);
+      return null;
+    }
   } catch (error) {
     console.error("Error receiving product:", error);
     return null;

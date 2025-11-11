@@ -9,33 +9,49 @@ export type CartAmountProps = {
   className?: string;
 };
 
+const MIN_AMOUNT = 1;
+
 const CartAmount = memo(({ value, onChange, className }: CartAmountProps) => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value);
+    const newValue = Number(e.target.value.replace(/,/g, "."));
 
     if (!isNaN(newValue)) {
-      onChange(Math.max(1, newValue));
+      onChange(Math.max(MIN_AMOUNT, Math.floor(newValue)));
     }
   };
 
+  const handleDecrement = () => onChange(Math.max(MIN_AMOUNT, value - 1));
+  const handleIncrement = () => onChange(value + 1);
+  const isDecreaseDisabled = value <= MIN_AMOUNT;
+
   return (
-    <div className={classNames(className, styles.root)}>
+    <div className={classNames(styles.root, className)}>
       <button
         type="button"
-        className={styles.decrementAmount}
-        onClick={() => onChange(Math.max(1, value - 1))}
+        className={classNames(styles.controlButton, styles.decrementAmount)}
+        onClick={handleDecrement}
+        aria-label="Уменьшить количество"
+        disabled={isDecreaseDisabled}
       >
         -
       </button>
       <input
         className={styles.inputAmount}
         type="number"
+        inputMode="numeric"
+        pattern="[0-9]*"
         name="cartAmount"
         value={value}
-        min={1}
+        min={MIN_AMOUNT}
         onChange={handleInputChange}
+        aria-label="Количество товара"
       />
-      <button type="button" className={styles.incrementAmount} onClick={() => onChange(value + 1)}>
+      <button
+        type="button"
+        className={classNames(styles.controlButton, styles.incrementAmount)}
+        onClick={handleIncrement}
+        aria-label="Увеличить количество"
+      >
         +
       </button>
     </div>

@@ -38,14 +38,16 @@ const PreviewProductItem = memo(
       <li className={styles.root} {...props}>
         <Link href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>
           <Image
-            src={resolvedImage ?? "/images/cuvshinExample.png"}
+            src={resolvedImage ?? "/images/placeholder.svg"}
             alt={title}
             width={180}
             height={180}
             className={styles.itemImage}
             unoptimized={shouldDisableOptimization}
           />
-          <h3 className={styles.title}>{title}</h3>
+          <h3 className={styles.title} title={title}>
+            {title}
+          </h3>
           </Link>
         <div className={styles.bottomBlockWrapper}>
           <p
