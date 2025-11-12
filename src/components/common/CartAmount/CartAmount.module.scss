@@ -14,20 +14,20 @@
 }
 
 .controlButton {
-  flex: 0 0 auto;
+  flex: 0 0 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 56px;
-  padding: 0 18px;
   border: none;
   background: transparent;
-  font-size: $font-2xl;
-  font-weight: $font-bold;
+  font-size: 32px; // попробуй явно задать, чтобы убедиться, что плюс не "схлопывается"
+  font-weight: 700;
+  line-height: 0; // <- ВАЖНО! чтобы символ был ровно по центру
   color: $text-black;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
-  outline: none;
+  user-select: none;
+  overflow: visible; // <- на случай если + выходит за границы
 
   &:hover:not(:disabled) {
     color: $text-blue;
