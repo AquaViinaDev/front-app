@@ -3,6 +3,8 @@
 import { CSSProperties, HtmlHTMLAttributes, memo, ReactNode } from "react";
 import classNames from "classnames";
 import { ClipLoader } from "react-spinners";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import styles from "./PageLayout.module.scss";
 
@@ -18,24 +20,38 @@ export type PageLayoutTypeProps = HtmlHTMLAttributes<HTMLDivElement> & {
   className?: string;
   wrapperClassName?: string;
   contentClassName?: string;
+  backButtonClassName?: string;
   title?: string;
+  showArrowBack?: boolean;
 };
 
 const PageLayout = memo(
   ({
     wrapperClassName,
     contentClassName,
+    backButtonClassName,
     className,
+    showArrowBack = false,
     title,
     children,
     isLoading,
     ...props
   }: PageLayoutTypeProps) => {
+    const router = useRouter();
+
+    const handleBackClick = () => {
+      router.back();
+    };
     return (
       <div className={classNames(className, styles.root)} {...props}>
         <div className={classNames(wrapperClassName, styles.wrapper)}>
           {title ? (
             <div className={styles.headerPage}>
+              {showArrowBack && (
+                <button className={classNames(backButtonClassName, styles.backButton)} onClick={handleBackClick}>
+                  <Image src={"/arrow-back.svg"} alt={"ArrowBack"} width={40} height={40}/>
+                </button>
+              )}
               <h1 className={styles.title}>{title}</h1>
             </div>
           ) : null}

@@ -93,6 +93,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       className={styles.pageLayout}
       contentClassName={styles.content}
       title={safeLocalizedProduct.name}
+      showArrowBack={true}
     >
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>

@@ -188,6 +188,7 @@ const CartPage = () => {
       contentClassName={styles.contentWrapper}
       title={t("mainTitle")}
       isLoading={ids === null}
+      showArrowBack={true}
     >
       <div className={styles.topWrapper}>
         <CartProductsBlock productItems={products} />
