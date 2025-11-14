@@ -10,6 +10,9 @@
 .title {
   font-size: $font-md;
   font-weight: $font-semi-bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .link {

@@ -56,11 +56,6 @@ const CartPage = () => {
         validationErrors.phone = t("Validation.phoneInvalid");
       }
 
-      const email = info.email.trim();
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        validationErrors.email = t("Validation.emailInvalid");
-      }
-
       if (!info.region.trim()) {
         validationErrors.region = t("Validation.regionRequired");
       }
@@ -156,9 +151,7 @@ const CartPage = () => {
       userInfo: {
         name: `${userInfo.name} - язык (${local})`,
         phone: normalizedPhone,
-        email: userInfo.email || null,
         address: fullAddress,
-        companyName: userInfo.companyName || null,
         description: userInfo.description || null,
       },
       totalAmount: Number(totalAmount + deliveryPrice),

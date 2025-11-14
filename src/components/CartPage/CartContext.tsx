@@ -18,8 +18,6 @@ export type CartProduct = {
 export type UserInfo = {
   name: string;
   phone: string;
-  email: string;
-  companyName: string;
   description: string;
   region: string;
   suburb: string;
@@ -48,8 +46,6 @@ type CartContextType = {
 const initialUserInfo: UserInfo = {
   name: "",
   phone: "",
-  email: "",
-  companyName: "",
   description: "",
   region: "",
   suburb: "",

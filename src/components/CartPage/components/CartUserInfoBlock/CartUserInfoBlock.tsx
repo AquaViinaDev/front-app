@@ -24,6 +24,16 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   const [delivery, setDelivery] = useState("delivery");
   const { setUserInfo, userInfo, setDeliveryZone, deliveryZone } = useOrder();
 
+  const handlePhoneInput = (val: string | null) => {
+    let v = val ?? "";
+
+    if (!v.startsWith("+373")) {
+      v = "+373" + v.replace(/^\+?373/, "");
+    }
+
+    handleChange("phone", v);
+  };
+
   const handleChange = <K extends keyof UserInfo>(field: K, value: string | null) => {
     setUserInfo((prev) => ({
       ...prev,
@@ -45,16 +55,6 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         <h3 className={styles.title}>{t("title")}</h3>
         <div className={styles.userForm}>
           <TextInput
-            textInputClassName={styles.emailInput}
-            type="email"
-            placeholder="E-mail"
-            isLabel={false}
-            value={userInfo.email}
-            error={Boolean(errors.email)}
-            errorMessage={errors.email}
-            onChange={(value) => handleChange("email", value)}
-          />
-          <TextInput
             error={Boolean(errors.name)}
             errorMessage={errors.name}
             textInputClassName={styles.userNameInput}
@@ -63,19 +63,12 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
             value={userInfo.name}
             onChange={(value) => handleChange("name", value)}
           />
-          <TextInput
-            textInputClassName={styles.companyInput}
-            placeholder={t("company")}
-            isLabel={false}
-            value={userInfo.companyName}
-            onChange={(value) => handleChange("companyName", value)}
-          />
           <PhoneInput
             value={userInfo.phone}
             error={Boolean(errors.phone)}
             errorMessage={errors.phone}
             label={false}
-            onChange={(value) => handleChange("phone", value)}
+            onChange={handlePhoneInput}
           />
         </div>
       </div>

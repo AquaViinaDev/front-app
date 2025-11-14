@@ -1,9 +1,9 @@
 import { CartProductItem } from "../CartProductItem";
 import { CartProductItemType } from "../CartProductItem/CartProductItem";
 import { getTotalQty } from "@components/utils";
+import { useTranslations } from "use-intl";
 
 import styles from "./CartProductsBlock.module.scss";
-import { useTranslations } from "use-intl";
 
 export type CartProductsBlockProps = {
   productItems: CartProductItemType[];
