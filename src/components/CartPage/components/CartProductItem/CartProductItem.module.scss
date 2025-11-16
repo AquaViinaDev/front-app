@@ -13,6 +13,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .link {
@@ -23,7 +24,6 @@
 }
 
 .counter {
-  width: 48%;
   display: flex;
   align-items: center;
   gap: 25px;
@@ -31,7 +31,6 @@
 
 .cartAmount {
   max-height: 53px;
-  width: 77%;
 }
 
 .onePrice {
@@ -59,7 +58,7 @@
   }
 }
 
-@media (max-width: $mobileScreen) {
+@media (max-width: 655px) {
   .root {
     display: grid;
     grid-template-columns: 1fr auto;
