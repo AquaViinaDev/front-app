@@ -24,9 +24,11 @@ export type FiltersResponse = {
 export type FiltersBlockProps = {
   filtersData: FiltersResponse;
   isLoading: boolean;
-  error: Error | null;
+  error: string | null;
   range: number[];
-  setRange: Dispatch<SetStateAction<number[]>>;
+  setRange: React.Dispatch<React.SetStateAction<number[]>>;
+  onBrandChange?: (brand: string) => void;
+  onTypeChange?: (type: string) => void;
   className?: string;
 };
 

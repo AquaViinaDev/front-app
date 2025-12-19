@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aquaviina.md/sitemap.xml

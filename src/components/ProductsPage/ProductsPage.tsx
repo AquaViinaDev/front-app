@@ -1,7 +1,7 @@
-import { ProductsListWrapper } from "./components/ProductsListWrapper";
-
-const ProductsPage = async () => {
-  return <ProductsListWrapper />;
-};
-
-export default ProductsPage;
+// import { ProductsListWrapper } from "./components/ProductsListWrapper";
+//
+// const ProductsPage = async () => {
+//   return <ProductsListWrapper />;
+// };
+//
+// export default ProductsPage;

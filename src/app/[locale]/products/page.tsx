@@ -1,10 +1,25 @@
-import { ProductsPage } from "@components/ProductsPage";
+export const dynamic = "force-dynamic";
+
+import { ProductsListWrapper } from "@components/ProductsPage/components/ProductsListWrapper";
+import { getProducts, getFilters } from "@lib/api";
 import { Metadata } from "next";
+
+type PageProps = {
+  params: Promise<{ locale: "ru" | "ro" }>;
+  searchParams: Promise<{
+    brand?: string;
+    type?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    query?: string;
+    sortOrder?: "asc" | "desc";
+  }>;
+};
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: "ru" | "ro" }>;
 }): Promise<Metadata> {
-  const { locale } = await props.params; // ✅ ждем params
+  const { locale } = await props.params;
 
   const meta = {
     ru: {
@@ -39,8 +54,43 @@ export async function generateMetadata(props: {
   };
 }
 
-const Products = () => {
-  return <ProductsPage />;
+const Products = async (props: PageProps) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+
+  const { locale } = params;
+
+  const {
+    brand,
+    type,
+    query,
+    minPrice,
+    maxPrice,
+    sortOrder = "desc",
+  } = searchParams;
+
+  const filters = await getFilters(locale);
+
+  const productsResponse = await getProducts({
+    locale,
+    brand,
+    type,
+    query,
+    minPrice: minPrice ? Number(minPrice) : filters.price.low,
+    maxPrice: maxPrice ? Number(maxPrice) : filters.price.more,
+    sortOrder,
+    page: 1,
+    limit: 100,
+  });
+
+  return (
+    <ProductsListWrapper
+      locale={locale}
+      initialFilters={filters}
+      initialProducts={productsResponse.items}
+      totalCount={productsResponse.total}
+    />
+  );
 };
 
 export default Products;
