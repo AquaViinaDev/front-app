@@ -184,9 +184,9 @@ export const resolveMediaUrl = (path?: string | null): string | null => {
   const isLocalHost =
     hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 
-  const normalizedSegments = isLocalHost
-    ? filteredSegments.filter((segment) => segment.toLowerCase() !== "api")
-    : filteredSegments;
+  const normalizedSegments = filteredSegments.filter(
+    (segment) => segment.toLowerCase() !== "api"
+  );
 
   const basePathname = normalizedSegments.length ? `/${normalizedSegments.join("/")}` : "";
 
