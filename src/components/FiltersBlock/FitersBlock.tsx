@@ -24,22 +24,20 @@ export type FiltersResponse = {
 export type FiltersBlockProps = {
   filtersData: FiltersResponse;
   isLoading: boolean;
-  error: string | null;
+  error: Error | null;
   range: number[];
-  setRange: React.Dispatch<React.SetStateAction<number[]>>;
-  onBrandChange?: (brand: string) => void;
-  onTypeChange?: (type: string) => void;
+  setRange: Dispatch<SetStateAction<number[]>>;
   className?: string;
 };
 
 const FiltersBlock = ({
-  filtersData,
-  isLoading,
-  error,
-  range,
-  setRange,
-  className,
-}: FiltersBlockProps) => {
+                        filtersData,
+                        isLoading,
+                        error,
+                        range,
+                        setRange,
+                        className,
+                      }: FiltersBlockProps) => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");
   const locale = useLocale();
   const router = useRouter();
