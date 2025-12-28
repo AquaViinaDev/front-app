@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import styles from "./PageLayout.module.scss";
+import {useLocale} from "use-intl";
 
 const override: CSSProperties = {
   display: "block",
@@ -38,9 +39,10 @@ const PageLayout = memo(
     ...props
   }: PageLayoutTypeProps) => {
     const router = useRouter();
+    const locale = useLocale();
 
     const handleBackClick = () => {
-      router.back();
+      router.push(`/${locale}/products`);
     };
     return (
       <div className={classNames(className, styles.root)} {...props}>
