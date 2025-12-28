@@ -14,6 +14,18 @@ const resolveLocale = (locale?: string | null, fallback?: string | null): Suppor
 const DEFAULT_LOCAL_API_URL = "http://localhost:3000";
 const DEFAULT_PUBLIC_API_URL = "https://aquaviina.md/api";
 
+const isLocalHostUrl = (value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  try {
+    const parsed = new URL(trimmed, "http://localhost");
+    const hostname = parsed.hostname.toLowerCase();
+    return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+  } catch {
+    return /(?:^|[/:])(?:localhost|127\\.0\\.0\\.1|::1)(?:$|[/:])/i.test(trimmed);
+  }
+};
+
 const resolveRawBaseUrl = () => {
   const isServer = typeof window === "undefined";
   const isProduction = process.env.NODE_ENV === "production";
@@ -25,7 +37,10 @@ const resolveRawBaseUrl = () => {
     : [process.env.NEXT_PUBLIC_API_URL, defaultForEnvironment];
 
   const raw = candidates.find(
-    (value): value is string => typeof value === "string" && value.trim().length > 0
+    (value): value is string =>
+      typeof value === "string" &&
+      value.trim().length > 0 &&
+      (!isProduction || !isLocalHostUrl(value))
   );
 
   if (!raw) {
@@ -119,7 +134,10 @@ const resolveMediaBaseUrl = () => {
   ];
 
   const raw = candidates.find(
-    (value): value is string => typeof value === "string" && value.trim().length > 0
+    (value): value is string =>
+      typeof value === "string" &&
+      value.trim().length > 0 &&
+      (!isProduction || !isLocalHostUrl(value))
   );
 
   if (!raw) {
@@ -166,9 +184,9 @@ export const resolveMediaUrl = (path?: string | null): string | null => {
   const isLocalHost =
     hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 
-  const normalizedSegments = isLocalHost
-    ? filteredSegments.filter((segment) => segment.toLowerCase() !== "api")
-    : filteredSegments;
+  const normalizedSegments = filteredSegments.filter(
+    (segment) => segment.toLowerCase() !== "api"
+  );
 
   const basePathname = normalizedSegments.length ? `/${normalizedSegments.join("/")}` : "";
 
