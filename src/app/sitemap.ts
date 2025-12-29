@@ -21,7 +21,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		next: { revalidate: 3600 },
 	}).then((r) => r.json()).catch(() => []);
 
-	const productPages = products.map((p: any) => ({
+	const productsData = Array.isArray(products)
+		? products
+		: Array.isArray((products as any)?.items)
+			? (products as any).items
+			: [];
+
+	const productPages = productsData.map((p: any) => ({
 		url: `${SITE_URL}/products/${p.slug}`,
 		lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
 		changeFrequency: "monthly",
