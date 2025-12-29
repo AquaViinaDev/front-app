@@ -1,7 +1,7 @@
+import { NextResponse } from "next/server";
+
 export const runtime = "nodejs";
 
-export const GET = async () =>
-  new Response(JSON.stringify({ status: "ok" }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+export function GET() {
+  return NextResponse.json({ ok: true });
+}
