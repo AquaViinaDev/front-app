@@ -8,11 +8,14 @@ export function mapProductForLocale<T extends Record<string, any>>(
     if (translatedKeys.includes(key) && value && typeof value === "object") {
       const localizedValue = value[locale];
 
-      if (localizedValue === null) {
+      if (localizedValue === null || localizedValue === undefined) {
         return acc;
       }
 
       if (key === "characteristics") {
+        if (!localizedValue || typeof localizedValue !== "object") {
+          return acc;
+        }
         const filteredCharacteristics = Object.entries(localizedValue).reduce(
           (charAcc, [charKey, charValue]) => {
             if (charValue !== null) {

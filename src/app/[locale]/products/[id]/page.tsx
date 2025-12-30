@@ -116,7 +116,14 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   }
 
   const mainImage = product.images?.[0];
-  const resolvedImage = typeof mainImage === "string" ? resolveMediaUrl(mainImage) : null;
+  let resolvedImage: string | null = null;
+  if (typeof mainImage === "string") {
+    try {
+      resolvedImage = resolveMediaUrl(mainImage);
+    } catch {
+      resolvedImage = null;
+    }
+  }
   const shouldDisableOptimization =
     !!resolvedImage &&
     (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
