@@ -47,6 +47,9 @@ export async function generateMetadata(props: {
       card: "summary_large_image",
       images: ["/images/home-image.jpg"],
     },
+    verification: {
+      google: "tBQCnfa7dmLgkogvoSqXPCW9uS5NOcI_XTQvEwMC2Cg",
+    },
     icons: {
       icon: "/favicon.ico",
     },
