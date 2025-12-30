@@ -55,7 +55,14 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
       ? `Filtru de apă ${localizedProduct.name} cu livrare în Chișinău și Moldova.`
       : `Фильтр для воды ${localizedProduct.name} с доставкой по Кишинёву и Молдове.`;
   const mainImage = product.images?.[0];
-  const resolvedImage = typeof mainImage === "string" ? resolveMediaUrl(mainImage) : null;
+  let resolvedImage: string | null = null;
+  if (typeof mainImage === "string") {
+    try {
+      resolvedImage = resolveMediaUrl(mainImage);
+    } catch {
+      resolvedImage = null;
+    }
+  }
 
   return {
     title,
@@ -126,14 +133,23 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const skuKey = locale === "ro" ? "Cod produs (SKU)" : "Артикул (SKU)";
   const skuEntry = normalizedCharacteristics.find(([key]) => key === skuKey);
   const sku = skuEntry ? skuEntry[1] : undefined;
+  const descriptionText =
+    typeof safeLocalizedProduct.description === "string"
+      ? safeLocalizedProduct.description
+      : String(safeLocalizedProduct.description ?? "");
+  const brandText =
+    typeof safeLocalizedProduct.brand === "string"
+      ? safeLocalizedProduct.brand
+      : String(safeLocalizedProduct.brand ?? "");
+
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: safeLocalizedProduct.name,
-    description: safeLocalizedProduct.description,
+    description: descriptionText,
     image: resolvedImage ? [resolvedImage] : undefined,
-    brand: safeLocalizedProduct.brand
-      ? { "@type": "Brand", name: safeLocalizedProduct.brand }
+    brand: brandText
+      ? { "@type": "Brand", name: brandText }
       : undefined,
     sku,
     offers: {
