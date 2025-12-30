@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 
   const localizedProduct = mapProductForLocale(product, locale);
 
-  if (!localizedProduct?.name) {
+  if (!localizedProduct?.name || typeof localizedProduct.name !== "string") {
     return {
       title: "Товар не найден",
       description: "Запрошенный фильтр не найден.",
@@ -111,7 +111,10 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
     ...localizedProduct,
   };
 
-  if (!safeLocalizedProduct?.name) {
+  const productName =
+    typeof safeLocalizedProduct.name === "string" ? safeLocalizedProduct.name : "";
+
+  if (!productName) {
     notFound();
   }
 
@@ -152,7 +155,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: safeLocalizedProduct.name,
+    name: productName,
     description: descriptionText,
     image: resolvedImage ? [resolvedImage] : undefined,
     brand: brandText
@@ -189,7 +192,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       {
         "@type": "ListItem",
         position: 3,
-        name: safeLocalizedProduct.name,
+        name: productName,
         item: `https://aquaviina.md/${locale}/products/${safeLocalizedProduct.id}`,
       },
     ],
@@ -198,7 +201,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
     <PageLayout
       className={styles.pageLayout}
       contentClassName={styles.content}
-      title={safeLocalizedProduct.name}
+      title={productName}
       showArrowBack={true}
     >
       <script
@@ -217,7 +220,7 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
         <div className={styles.imageWrapper}>
           <Image
             src={resolvedImage ?? "/images/placeholder.svg"}
-            alt={safeLocalizedProduct.name}
+            alt={productName}
             className={styles.image}
             width={400}
             height={400}
@@ -226,9 +229,13 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
         </div>
         <ProductInformationBlock
           productId={safeLocalizedProduct.id}
-          price={safeLocalizedProduct.price}
-          inStock={safeLocalizedProduct.inStock}
-          oldPrice={safeLocalizedProduct.oldPrice}
+          price={Number(safeLocalizedProduct.price ?? 0)}
+          inStock={Boolean(safeLocalizedProduct.inStock)}
+          oldPrice={
+            safeLocalizedProduct.oldPrice !== undefined && safeLocalizedProduct.oldPrice !== null
+              ? Number(safeLocalizedProduct.oldPrice)
+              : undefined
+          }
         />
       </div>
       <div className={styles.additionalInfoBlock}>
