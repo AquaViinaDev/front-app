@@ -27,18 +27,24 @@ export async function generateMetadata({
       follow: true,
     },
     alternates: {
-      canonical: `https://aqua-viina.md/${locale}/cart`,
+      canonical: `https://aquaviina.md/${locale}/cart`,
       languages: {
-        ru: "https://aqua-viina.md/ru/cart",
-        ro: "https://aqua-viina.md/ro/cart",
+        ru: "https://aquaviina.md/ru/cart",
+        ro: "https://aquaviina.md/ro/cart",
+        "x-default": "https://aquaviina.md/ro/cart",
       },
     },
     openGraph: {
       title: meta[locale].title,
       description: meta[locale].description,
-      url: `https://aqua-viina.md/${locale}/cart`,
+      url: `https://aquaviina.md/${locale}/cart`,
       siteName: "AquaViina",
       type: "website",
+    },
+    twitter: {
+      title: meta[locale].title,
+      description: meta[locale].description,
+      card: "summary_large_image",
     },
   };
 }

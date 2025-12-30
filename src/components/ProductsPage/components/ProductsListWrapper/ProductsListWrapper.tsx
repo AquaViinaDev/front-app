@@ -15,7 +15,19 @@ import { RoutesEnum } from "@types";
 
 import styles from "./ProductListWrapper.module.scss";
 
-const ProductsListWrapper = () => {
+type ProductsListWrapperProps = {
+  defaultBrand?: string | null;
+  defaultType?: string | null;
+  basePathname?: string | null;
+  resetPathname?: string | null;
+};
+
+const ProductsListWrapper = ({
+  defaultBrand,
+  defaultType,
+  basePathname,
+  resetPathname,
+}: ProductsListWrapperProps) => {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const locale = useLocale();
@@ -29,8 +41,8 @@ const ProductsListWrapper = () => {
   );
 
   const params = useMemo(() => {
-    const brand = searchParams.get("brand") ?? undefined;
-    const type = searchParams.get("type") ?? undefined;
+    const brand = searchParams.get("brand") ?? defaultBrand ?? undefined;
+    const type = searchParams.get("type") ?? defaultType ?? undefined;
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
     const query = searchParams.get("query") ?? undefined;
@@ -49,6 +61,8 @@ const ProductsListWrapper = () => {
   const openFilters = () => setIsMobileFiltersOpen(true);
   const closeFilters = () => setIsMobileFiltersOpen(false);
 
+  const effectiveBasePath = basePathname ?? `/${locale}${RoutesEnum.Products}`;
+
   useEffect(() => {
     const handler = setTimeout(() => {
       const currentParams = new URLSearchParams(window.location.search);
@@ -59,15 +73,11 @@ const ProductsListWrapper = () => {
         currentParams.delete("query");
       }
 
-      window.history.replaceState(
-        null,
-        "",
-        `/${locale}${RoutesEnum.Products}?${currentParams.toString()}`
-      );
+      window.history.replaceState(null, "", `${effectiveBasePath}?${currentParams.toString()}`);
     }, 500);
 
     return () => clearTimeout(handler);
-  }, [searchValue, locale]);
+  }, [searchValue, effectiveBasePath]);
 
   useEffect(() => {
     const currentParams = new URLSearchParams(window.location.search);
@@ -78,12 +88,8 @@ const ProductsListWrapper = () => {
       currentParams.delete("sortOrder");
     }
 
-    window.history.replaceState(
-      null,
-      "",
-      `/${locale}${RoutesEnum.Products}?${currentParams.toString()}`
-    );
-  }, [sortOrder, locale]);
+    window.history.replaceState(null, "", `${effectiveBasePath}?${currentParams.toString()}`);
+  }, [sortOrder, effectiveBasePath]);
 
   const {
     data: filters = {
@@ -164,6 +170,9 @@ const ProductsListWrapper = () => {
             range={range}
             setRange={setRange}
             className={styles.filter}
+            defaultBrand={defaultBrand}
+            defaultType={defaultType}
+            resetPathname={resetPathname}
           />
           <ProductsList data={products} isFetched={isFetched} isLoading={isProductsLoading} />
         </div>
@@ -191,6 +200,9 @@ const ProductsListWrapper = () => {
               range={range}
               setRange={setRange}
               className={styles.filtersModal}
+              defaultBrand={defaultBrand}
+              defaultType={defaultType}
+              resetPathname={resetPathname}
             />
           </div>
         </div>

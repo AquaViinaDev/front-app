@@ -35,19 +35,53 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
     };
   }
 
-  const title = `${localizedProduct.name} — фильтр для воды`;
-  let desc = localizedProduct.description.trim();
+  const isRo = locale === "ro";
+  const title = isRo
+    ? `${localizedProduct.name} — filtru de apă`
+    : `${localizedProduct.name} — фильтр для воды`;
+  let desc = String(localizedProduct.description ?? "").trim();
   if (desc.length > 140) {
     desc = desc.slice(0, 140);
     const lastSpace = desc.lastIndexOf(" ");
     if (lastSpace > 0) desc = desc.slice(0, lastSpace);
     desc += "...";
   }
-  const description = `Купить с доставкой в Кишинёве ${localizedProduct.name}. ${desc}`;
+  const hasDesc = desc.length > 0;
+  const description = hasDesc
+    ? isRo
+      ? `Cumpără cu livrare în Chișinău ${localizedProduct.name}. ${desc}`
+      : `Купить с доставкой в Кишинёве ${localizedProduct.name}. ${desc}`
+    : isRo
+      ? `Filtru de apă ${localizedProduct.name} cu livrare în Chișinău și Moldova.`
+      : `Фильтр для воды ${localizedProduct.name} с доставкой по Кишинёву и Молдове.`;
+  const mainImage = product.images?.[0];
+  const resolvedImage = typeof mainImage === "string" ? resolveMediaUrl(mainImage) : null;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://aquaviina.md/${locale}/products/${id}`,
+      languages: {
+        ru: `https://aquaviina.md/ru/products/${id}`,
+        ro: `https://aquaviina.md/ro/products/${id}`,
+        "x-default": `https://aquaviina.md/ro/products/${id}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://aquaviina.md/${locale}/products/${id}`,
+      siteName: "AquaViina",
+      type: "product",
+      images: resolvedImage ? [resolvedImage] : undefined,
+    },
+    twitter: {
+      title,
+      description,
+      card: "summary_large_image",
+      images: resolvedImage ? [resolvedImage] : undefined,
+    },
   };
 }
 
@@ -88,6 +122,55 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
           .map(([key, value]) => [key, (value as string).trim()] as [string, string])
       : [];
   const hasCharacteristics = normalizedCharacteristics.length > 0;
+
+  const skuKey = locale === "ro" ? "Cod produs (SKU)" : "Артикул (SKU)";
+  const skuEntry = normalizedCharacteristics.find(([key]) => key === skuKey);
+  const sku = skuEntry ? skuEntry[1] : undefined;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: safeLocalizedProduct.name,
+    description: safeLocalizedProduct.description,
+    image: resolvedImage ? [resolvedImage] : undefined,
+    brand: safeLocalizedProduct.brand
+      ? { "@type": "Brand", name: safeLocalizedProduct.brand }
+      : undefined,
+    sku,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "MDL",
+      price: safeLocalizedProduct.price,
+      availability: safeLocalizedProduct.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: `https://aquaviina.md/${locale}/products/${safeLocalizedProduct.id}`,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: locale === "ro" ? "Acasă" : "Главная",
+        item: `https://aquaviina.md/${locale}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: locale === "ro" ? "Catalog" : "Каталог",
+        item: `https://aquaviina.md/${locale}/products`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: safeLocalizedProduct.name,
+        item: `https://aquaviina.md/${locale}/products/${safeLocalizedProduct.id}`,
+      },
+    ],
+  };
   return (
     <PageLayout
       className={styles.pageLayout}
@@ -95,6 +178,18 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       title={safeLocalizedProduct.name}
       showArrowBack={true}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       <div className={styles.contentWrapper}>
         <div className={styles.imageWrapper}>
           <Image

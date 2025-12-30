@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import { ProductsListWrapper } from "@components/ProductsPage/components/ProductsListWrapper";
-import { getProducts, getFilters } from "@lib/api";
 import { Metadata } from "next";
 
 type PageProps = {
@@ -18,8 +17,10 @@ type PageProps = {
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: "ru" | "ro" }>;
+  searchParams?: Promise<{ brand?: string; type?: string; query?: string }>;
 }): Promise<Metadata> {
   const { locale } = await props.params;
+  const searchParams = (await props.searchParams) ?? {};
 
   const meta = {
     ru: {
@@ -34,62 +35,85 @@ export async function generateMetadata(props: {
     },
   };
 
+  const brandOrType = [searchParams.brand, searchParams.type]
+    .filter((value) => typeof value === "string" && value.trim().length > 0)
+    .join(" ");
+  const querySuffix =
+    typeof searchParams.query === "string" && searchParams.query.trim().length > 0
+      ? searchParams.query.trim()
+      : null;
+
+  const localizedTitle = brandOrType
+    ? locale === "ro"
+      ? `Filtre de apă ${brandOrType} — AquaViina`
+      : `Фильтры для воды ${brandOrType} — AquaViina`
+    : meta[locale].title;
+  const localizedDescription = querySuffix
+    ? locale === "ro"
+      ? `Căutare: ${querySuffix}. ${meta[locale].description}`
+      : `Поиск: ${querySuffix}. ${meta[locale].description}`
+    : meta[locale].description;
+
   return {
-    title: meta[locale].title,
-    description: meta[locale].description,
+    title: localizedTitle,
+    description: localizedDescription,
     alternates: {
-      canonical: `https://aqua-viina.md/${locale}/products`,
+      canonical: `https://aquaviina.md/${locale}/products`,
       languages: {
-        ru: "https://aqua-viina.md/ru/products",
-        ro: "https://aqua-viina.md/ro/products",
+        ru: "https://aquaviina.md/ru/products",
+        ro: "https://aquaviina.md/ro/products",
+        "x-default": "https://aquaviina.md/ro/products",
       },
     },
     openGraph: {
-      title: meta[locale].title,
-      description: meta[locale].description,
-      url: `https://aqua-viina.md/${locale}/products`,
+      title: localizedTitle,
+      description: localizedDescription,
+      url: `https://aquaviina.md/${locale}/products`,
       siteName: "AquaViina",
       type: "website",
+    },
+    twitter: {
+      title: localizedTitle,
+      description: localizedDescription,
+      card: "summary_large_image",
     },
   };
 }
 
 const Products = async (props: PageProps) => {
   const params = await props.params;
-  const searchParams = await props.searchParams;
 
   const { locale } = params;
 
-  const {
-    brand,
-    type,
-    query,
-    minPrice,
-    maxPrice,
-    sortOrder = "desc",
-  } = searchParams;
-
-  const filters = await getFilters(locale);
-
-  const productsResponse = await getProducts({
-    locale,
-    brand,
-    type,
-    query,
-    minPrice: minPrice ? Number(minPrice) : filters.price.low,
-    maxPrice: maxPrice ? Number(maxPrice) : filters.price.more,
-    sortOrder,
-    page: 1,
-    limit: 100,
-  });
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: locale === "ro" ? "Acasă" : "Главная",
+        item: `https://aquaviina.md/${locale}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: locale === "ro" ? "Catalog" : "Каталог",
+        item: `https://aquaviina.md/${locale}/products`,
+      },
+    ],
+  };
 
   return (
-    <ProductsListWrapper
-      locale={locale}
-      initialFilters={filters}
-      initialProducts={productsResponse.items}
-      totalCount={productsResponse.total}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <ProductsListWrapper />
+    </>
   );
 };
 

@@ -25,24 +25,104 @@ export async function generateMetadata(props: {
     title: current.title,
     description: current.description,
     alternates: {
-      canonical: `https://aqua-viina.md/${locale}`,
+      canonical: `https://aquaviina.md/${locale}`,
       languages: {
-        ru: "https://aqua-viina.md/ru",
-        ro: "https://aqua-viina.md/ro",
+        ru: "https://aquaviina.md/ru",
+        ro: "https://aquaviina.md/ro",
+        "x-default": "https://aquaviina.md/ro",
       },
     },
     openGraph: {
       title: current.title,
       description: current.description,
-      url: `https://aqua-viina.md/${locale}`,
+      url: `https://aquaviina.md/${locale}`,
       siteName: "AquaViina",
       type: "website",
+    },
+    twitter: {
+      title: current.title,
+      description: current.description,
+      card: "summary_large_image",
     },
   };
 }
 
-const Home = () => {
-  return <HomePage />;
+const Home = ({ params }: { params: { locale: "ru" | "ro" } }) => {
+  const faq = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Какие фильтры для воды вы продаете?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "В нашем каталоге есть кувшины, проточные фильтры, обратный осмос и сменные картриджи.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Есть ли доставка по Молдове?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Да, доставляем по Кишинёву и по всей Молдове.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Помогаете с установкой фильтров?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Да, выполняем установку и обслуживание фильтров для воды.",
+        },
+      },
+    ],
+  };
+
+  const faqRo = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Ce tipuri de filtre de apă vindeți?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "În catalog găsiți căni filtrante, filtre de debit, osmoză inversă și cartușe.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Livrați în toată Moldova?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Da, livrăm în Chișinău și în toată Moldova.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Oferiți instalare pentru filtre?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Da, oferim instalare și service pentru filtrele de apă.",
+        },
+      },
+    ],
+  };
+
+  const schema = params.locale === "ro" ? faqRo : faq;
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+      <HomePage />
+    </>
+  );
 };
 
 export default Home;

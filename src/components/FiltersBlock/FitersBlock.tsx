@@ -28,6 +28,9 @@ export type FiltersBlockProps = {
   range: number[];
   setRange: Dispatch<SetStateAction<number[]>>;
   className?: string;
+  defaultBrand?: string | null;
+  defaultType?: string | null;
+  resetPathname?: string | null;
 };
 
 const FiltersBlock = ({
@@ -37,6 +40,9 @@ const FiltersBlock = ({
                         range,
                         setRange,
                         className,
+                        defaultBrand,
+                        defaultType,
+                        resetPathname,
                       }: FiltersBlockProps) => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");
   const locale = useLocale();
@@ -70,8 +76,8 @@ const FiltersBlock = ({
     return Number.isFinite(numeric) ? numeric : fallback;
   };
 
-  const activeBrand = params.brand || null;
-  const activeType = params.type || null;
+  const activeBrand = params.brand || defaultBrand || null;
+  const activeType = params.type || defaultType || null;
   const appliedMinPrice = parsePriceParam(params.minPrice, safeFilters.price.low);
   const appliedMaxPrice = parsePriceParam(params.maxPrice, safeFilters.price.more);
 
@@ -163,6 +169,10 @@ const FiltersBlock = ({
     setPendingBrand(null);
     setPendingType(null);
     setRange([safeFilters.price.low, safeFilters.price.more]);
+    if (resetPathname) {
+      router.replace(resetPathname);
+      return;
+    }
     router.replace(pathname);
   };
 
