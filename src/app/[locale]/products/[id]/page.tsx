@@ -17,23 +17,24 @@ export type ProductPageTypeProps = {
 
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
   const { id, locale } = await params;
-  const product = await getProductById(id, locale);
+  try {
+    const product = await getProductById(id, locale);
 
-  if (!product) {
-    return {
-      title: "Товар не найден",
-      description: "Запрошенный фильтр не найден.",
-    };
-  }
+    if (!product) {
+      return {
+        title: "Товар не найден",
+        description: "Запрошенный фильтр не найден.",
+      };
+    }
 
-  const localizedProduct = mapProductForLocale(product, locale);
+    const localizedProduct = mapProductForLocale(product, locale);
 
-  if (!localizedProduct?.name || typeof localizedProduct.name !== "string") {
-    return {
-      title: "Товар не найден",
-      description: "Запрошенный фильтр не найден.",
-    };
-  }
+    if (!localizedProduct?.name || typeof localizedProduct.name !== "string") {
+      return {
+        title: "Товар не найден",
+        description: "Запрошенный фильтр не найден.",
+      };
+    }
 
   const isRo = locale === "ro";
   const title = isRo
@@ -64,36 +65,44 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
     }
   }
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `https://aquaviina.md/${locale}/products/${id}`,
-      languages: {
-        ru: `https://aquaviina.md/ru/products/${id}`,
-        ro: `https://aquaviina.md/ro/products/${id}`,
-        "x-default": `https://aquaviina.md/ro/products/${id}`,
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: `https://aquaviina.md/${locale}/products/${id}`,
+        languages: {
+          ru: `https://aquaviina.md/ru/products/${id}`,
+          ro: `https://aquaviina.md/ro/products/${id}`,
+          "x-default": `https://aquaviina.md/ro/products/${id}`,
+        },
       },
-    },
-    openGraph: {
-      title,
-      description,
-      url: `https://aquaviina.md/${locale}/products/${id}`,
-      siteName: "AquaViina",
-      type: "product",
-      images: resolvedImage ? [resolvedImage] : undefined,
-    },
-    twitter: {
-      title,
-      description,
-      card: "summary_large_image",
-      images: resolvedImage ? [resolvedImage] : undefined,
-    },
-  };
+      openGraph: {
+        title,
+        description,
+        url: `https://aquaviina.md/${locale}/products/${id}`,
+        siteName: "AquaViina",
+        type: "product",
+        images: resolvedImage ? [resolvedImage] : undefined,
+      },
+      twitter: {
+        title,
+        description,
+        card: "summary_large_image",
+        images: resolvedImage ? [resolvedImage] : undefined,
+      },
+    };
+  } catch (error) {
+    console.error("Product metadata failed", { id, locale, error });
+    return {
+      title: "Товар не найден",
+      description: "Запрошенный фильтр не найден.",
+    };
+  }
 }
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const { id, locale } = await params;
+  try {
   let product: Awaited<ReturnType<typeof getProductById>> = null;
   try {
     product = await getProductById(id, locale);
@@ -269,6 +278,12 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       </div>
     </PageLayout>
   );
+  } catch (error) {
+    console.error("Product page render failed", { id, locale, error });
+    notFound();
+  }
+
+  return null;
 };
 
 export default ProductPage;
