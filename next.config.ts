@@ -36,10 +36,22 @@ const remotePatterns: RemotePattern[] = [
     hostname: 'aquaviina.md',
     pathname: '/api/**',
   },
+  // Production WWW domain с HTTPS
+  {
+    protocol: 'https',
+    hostname: 'www.aquaviina.md',
+    pathname: '/api/**',
+  },
   // Production domain с HTTP (на случай если нет SSL)
   {
     protocol: 'http',
     hostname: 'aquaviina.md',
+    pathname: '/api/**',
+  },
+  // Production WWW domain с HTTP (на случай если нет SSL)
+  {
+    protocol: 'http',
+    hostname: 'www.aquaviina.md',
     pathname: '/api/**',
   },
   // Любые изображения с aquaviina.md
@@ -48,9 +60,20 @@ const remotePatterns: RemotePattern[] = [
     hostname: 'aquaviina.md',
     pathname: '/**',
   },
+  // Любые изображения с www.aquaviina.md
+  {
+    protocol: 'https',
+    hostname: 'www.aquaviina.md',
+    pathname: '/**',
+  },
   {
     protocol: 'http',
     hostname: 'aquaviina.md',
+    pathname: '/**',
+  },
+  {
+    protocol: 'http',
+    hostname: 'www.aquaviina.md',
     pathname: '/**',
   },
 ];
