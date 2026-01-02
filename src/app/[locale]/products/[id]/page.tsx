@@ -15,6 +15,9 @@ export type ProductPageTypeProps = {
   };
 };
 
+const stringifyJsonLd = (value: unknown) =>
+  JSON.stringify(value, (_key, val) => (typeof val === "bigint" ? val.toString() : val));
+
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
   const { id, locale } = await params;
   try {
@@ -174,7 +177,11 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
     offers: {
       "@type": "Offer",
       priceCurrency: "MDL",
-      price: safeLocalizedProduct.price,
+      price:
+        typeof safeLocalizedProduct.price === "number" ||
+        typeof safeLocalizedProduct.price === "string"
+          ? safeLocalizedProduct.price
+          : String(safeLocalizedProduct.price ?? ""),
       availability: safeLocalizedProduct.inStock
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
@@ -216,13 +223,13 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(productSchema),
+          __html: stringifyJsonLd(productSchema),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
+          __html: stringifyJsonLd(breadcrumbSchema),
         }}
       />
       <div className={styles.contentWrapper}>
