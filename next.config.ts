@@ -93,6 +93,10 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   // Avoid SWC minifier edge-case that can emit invalid tokens (returnNaN).
   swcMinify: false,
+  // Disable server minification to prevent SWC "returnNaN" runtime errors in RSC.
+  experimental: {
+    serverMinification: false,
+  },
 
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
