@@ -78,44 +78,41 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   if (!messages) notFound();
 
   return (
-    <html
-      lang={locale}
+    <div
       data-scroll-behavior="smooth"
       className={montserrat.variable}
       suppressHydrationWarning
     >
-      <body suppressHydrationWarning>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              name: "AquaViina",
-              description:
-                locale === "ro"
-                  ? "Filtre de apă, cartușe și sisteme de osmoză inversă în Moldova."
-                  : "Фильтры для воды, картриджи и системы обратного осмоса в Молдове.",
-              url: "https://aquaviina.md",
-              telephone: "+37367177889",
-              areaServed: "MD",
-              address: {
-                "@type": "PostalAddress",
-                addressCountry: "MD",
-              },
-              sameAs: ["https://www.instagram.com/aqua_viina/"],
-            }),
-          }}
-        />
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ToastProvider />
-          <CartProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </CartProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "AquaViina",
+            description:
+              locale === "ro"
+                ? "Filtre de apă, cartușe și sisteme de osmoză inversă în Moldova."
+                : "Фильтры для воды, картриджи и системы обратного осмоса в Молдове.",
+            url: "https://aquaviina.md",
+            telephone: "+37367177889",
+            areaServed: "MD",
+            address: {
+              "@type": "PostalAddress",
+              addressCountry: "MD",
+            },
+            sameAs: ["https://www.instagram.com/aqua_viina/"],
+          }),
+        }}
+      />
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <ToastProvider />
+        <CartProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </CartProvider>
+      </NextIntlClientProvider>
+    </div>
   );
 }
