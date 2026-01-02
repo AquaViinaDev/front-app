@@ -91,8 +91,6 @@ const nextConfig: NextConfig = {
 
   // ✅ Standalone output for Docker
   output: 'standalone',
-  // Avoid SWC minifier edge-case that can emit invalid tokens (returnNaN).
-  swcMinify: false,
   // Disable server minification to prevent SWC "returnNaN" runtime errors in RSC.
   experimental: {
     serverMinification: false,

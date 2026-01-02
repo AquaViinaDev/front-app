@@ -1,9 +1,7 @@
 import { getProductById, resolveMediaUrl } from "@lib/api";
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
+import ProductPageClient from "./ProductPageClient";
 import { mapProductForLocale } from "./utils";
-
-const ProductPageClient = dynamic(() => import("./ProductPageClient"), { ssr: false });
 
 export type ProductPageTypeProps = {
   params: {
