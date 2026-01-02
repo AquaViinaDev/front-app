@@ -56,11 +56,25 @@ const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("aquaCart");
-      return saved ? JSON.parse(saved) : [];
+    if (typeof window === "undefined") {
+      return [];
     }
-    return [];
+    try {
+      const saved = localStorage.getItem("aquaCart");
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(
+        (item) =>
+          item &&
+          typeof item === "object" &&
+          typeof item.id === "string" &&
+          typeof item.qty === "number"
+      );
+    } catch (error) {
+      console.warn("Failed to read aquaCart from localStorage", error);
+      return [];
+    }
   });
   const [deliveryZone, setDeliveryZone] = useState<"chisinau" | "moldova">("chisinau");
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
@@ -70,7 +84,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const resetUserInfo = () => setUserInfo(initialUserInfo);
 
   useEffect(() => {
-    localStorage.setItem("aquaCart", JSON.stringify(items));
+    try {
+      localStorage.setItem("aquaCart", JSON.stringify(items));
+    } catch (error) {
+      console.warn("Failed to write aquaCart to localStorage", error);
+    }
   }, [items]);
 
   const addProduct = (id: string, qty: number = 1) => {
