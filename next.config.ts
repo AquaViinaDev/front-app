@@ -91,6 +91,8 @@ const nextConfig: NextConfig = {
 
   // ✅ Standalone output for Docker
   output: 'standalone',
+  // Avoid SWC minifier edge-case that can emit invalid tokens (returnNaN).
+  swcMinify: false,
 
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
