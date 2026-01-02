@@ -91,10 +91,8 @@ const nextConfig: NextConfig = {
 
   // ✅ Standalone output for Docker
   output: 'standalone',
-  // Disable server minification to prevent SWC "returnNaN" runtime errors in RSC.
-  experimental: {
-    serverMinification: false,
-  },
+  // Disable SWC minifier to avoid "returnNaN" runtime errors in production.
+  swcMinify: false,
 
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
