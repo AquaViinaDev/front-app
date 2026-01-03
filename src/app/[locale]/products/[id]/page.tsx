@@ -1,5 +1,6 @@
 import { getProductById, resolveMediaUrl } from "@lib/api";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import ProductPageClient from "./ProductPageClient";
 import { mapProductForLocale } from "./utils";
 
@@ -11,8 +12,18 @@ export type ProductPageTypeProps = {
 };
 
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
-  const { id, locale } = await params;
   try {
+    const id = params?.id;
+    const locale = params?.locale;
+
+    if (!id || !locale) {
+      console.error("Product metadata missing params", { params });
+      return {
+        title: "Товар не найден",
+        description: "Запрошенный фильтр не найден.",
+      };
+    }
+
     const product = await getProductById(id, locale);
 
     if (!product) {
@@ -87,7 +98,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
       },
     };
   } catch (error) {
-    console.error("Product metadata failed", { id, locale, error });
+    console.error("Product metadata failed", { params, error });
     return {
       title: "Товар не найден",
       description: "Запрошенный фильтр не найден.",
@@ -96,7 +107,14 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 }
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
-  const { id, locale } = await params;
+  const id = params?.id;
+  const locale = params?.locale;
+
+  if (!id || !locale) {
+    console.error("Product page missing params", { params });
+    notFound();
+  }
+
   return <ProductPageClient id={id} locale={locale} />;
 };
 
