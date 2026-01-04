@@ -223,7 +223,7 @@ export const getProducts = async ({ locale, ...params }: GetProductsParams) => {
     baseSearchParams.set("sortOrder", params.sortOrder);
   }
 
-  const limit = params.limit ?? 100;
+  const limit = params.limit ?? 16;
   const startPage = Math.max(1, params.page ?? 1);
 
   const fetchPage = async (page: number) => {
@@ -239,64 +239,7 @@ export const getProducts = async ({ locale, ...params }: GetProductsParams) => {
     return res.json();
   };
 
-  // Для запросов с первой страницы собираем все элементы, чтобы обойти ограничение API в 10 записей.
-  if (startPage > 1) {
-    return fetchPage(startPage);
-  }
-
-  const aggregatedItems: unknown[] = [];
-  let firstResponse: Awaited<ReturnType<typeof fetchPage>> | null = null;
-  let total: number | null = null;
-  let effectiveLimit = limit;
-  let currentPage = startPage;
-
-  while (true) {
-    const pageData = await fetchPage(currentPage);
-
-    if (!firstResponse) {
-      firstResponse = pageData;
-    }
-
-    const items = Array.isArray(pageData.items) ? pageData.items : [];
-    aggregatedItems.push(...items);
-
-    if (typeof pageData.total === "number") {
-      total = pageData.total;
-    }
-
-    const currentLimit =
-      typeof pageData.limit === "number" && !Number.isNaN(pageData.limit)
-        ? pageData.limit
-        : effectiveLimit;
-    effectiveLimit = currentLimit;
-
-    const nextPage = currentPage + 1;
-    const hasMoreByTotalPages =
-      typeof pageData.totalPages === "number" ? nextPage <= pageData.totalPages : false;
-    const hasMoreByCount = items.length > 0 && items.length === currentLimit;
-
-    if (!hasMoreByTotalPages && !hasMoreByCount) {
-      break;
-    }
-
-    currentPage = nextPage;
-
-    if (currentPage - startPage > 1000) {
-      console.warn("Превышен безопасный лимит страниц при загрузке товаров на витрину");
-      break;
-    }
-  }
-
-  const effectiveTotal = typeof total === "number" ? total : aggregatedItems.length;
-
-  return {
-    ...(firstResponse ?? {}),
-    items: aggregatedItems,
-    total: effectiveTotal,
-    limit: effectiveLimit,
-    totalPages: 1,
-    page: startPage,
-  };
+  return fetchPage(startPage);
 };
 
 export const getProductById = async (id: string, locale?: string) => {
