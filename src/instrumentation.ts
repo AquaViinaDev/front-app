@@ -1,10 +1,16 @@
 export function register() {
   process.on("uncaughtException", (error) => {
     console.error("uncaughtException", error);
+    if (error instanceof Error) {
+      console.error("uncaughtException.stack", error.stack);
+    }
   });
 
   process.on("unhandledRejection", (reason) => {
     console.error("unhandledRejection", reason);
+    if (reason instanceof Error) {
+      console.error("unhandledRejection.stack", reason.stack);
+    }
   });
 }
 
@@ -19,4 +25,7 @@ export function onRequestError(
     routeType: context?.routeType,
     error,
   });
+  if (error instanceof Error) {
+    console.error("onRequestError.stack", error.stack);
+  }
 }
