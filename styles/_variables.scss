@@ -12,7 +12,7 @@ $bg-blue: #04559b;
 $bg-gray: #eeeeee;
 
 // font family
-$font-default: var(--font-montserrat), sans-serif;
+$font-default: var(--font-montserrat), "Montserrat", "Montserrat Fallback", sans-serif;
 
 // font weight
 $font-light: 300;
