@@ -112,6 +112,11 @@ const nextConfig: NextConfig = {
   },
 
   webpack(config) {
+    if (config.optimization) {
+      // Disable all minimization to avoid "returnNaN" runtime errors in production bundles.
+      config.optimization.minimize = false;
+    }
+
     const fileLoaderRule = config.module.rules.find(
       (rule) => rule.test instanceof RegExp && rule.test.test(".svg")
     );
