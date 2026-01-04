@@ -5,16 +5,15 @@ import ProductPageClient from "./ProductPageClient";
 import { mapProductForLocale } from "./utils";
 
 export type ProductPageTypeProps = {
-  params: {
+  params: Promise<{
     id: string;
     locale: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
   try {
-    const id = params?.id;
-    const locale = params?.locale;
+    const { id, locale } = await params;
 
     if (!id || !locale) {
       console.error("Product metadata missing params", { params });
@@ -87,7 +86,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
         description,
         url: `https://aquaviina.md/${locale}/products/${id}`,
         siteName: "AquaViina",
-        type: "product",
+        type: "website",
         images: resolvedImage ? [resolvedImage] : undefined,
       },
       twitter: {
@@ -107,8 +106,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 }
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
-  const id = params?.id;
-  const locale = params?.locale;
+  const { id, locale } = await params;
 
   if (!id || !locale) {
     console.error("Product page missing params", { params });
