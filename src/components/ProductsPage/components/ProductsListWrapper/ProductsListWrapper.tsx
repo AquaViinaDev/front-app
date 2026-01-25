@@ -146,7 +146,7 @@ const ProductsListWrapper = ({
         maxPrice: params.maxPrice ?? filters.price.more,
         sortOrder: appliedSort,
         page: pageParam,
-        limit: 100,
+        limit: 16,
       });
     },
     getNextPageParam: (lastPage) =>

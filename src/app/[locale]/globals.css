@@ -35,7 +35,7 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: "Montserrat", "Montserrat Fallback", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

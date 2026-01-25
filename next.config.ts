@@ -91,6 +91,8 @@ const nextConfig: NextConfig = {
 
   // ✅ Standalone output for Docker
   output: 'standalone',
+  // Disable SWC minifier to avoid "returnNaN" runtime errors in production.
+  swcMinify: false,
 
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
@@ -109,7 +111,24 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60,
   },
 
-  webpack(config) {
+  experimental: {
+    // Emit server source maps to get real stacks in production.
+    serverSourceMaps: true,
+  },
+
+  webpack(config, { isServer }) {
+    if (isServer) {
+      config.devtool = "source-map";
+    }
+
+    if (config.optimization) {
+      // Disable all minimization to avoid "returnNaN" runtime errors in production bundles.
+      config.optimization.minimize = false;
+      config.optimization.minimizer = [];
+      // Avoid scope hoisting that can also collapse "return" + "NaN".
+      config.optimization.concatenateModules = false;
+    }
+
     const fileLoaderRule = config.module.rules.find(
       (rule) => rule.test instanceof RegExp && rule.test.test(".svg")
     );
