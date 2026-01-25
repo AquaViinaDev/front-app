@@ -1,18 +1,17 @@
-export const dynamic = "force-dynamic";
-
 import { ProductsListWrapper } from "@components/ProductsPage/components/ProductsListWrapper";
 import { Metadata } from "next";
+import { getProducts, getFilters } from "@lib/api";
 
 type PageProps = {
-  params: Promise<{ locale: "ru" | "ro" }>;
-  searchParams: Promise<{
+  params: { locale: "ru" | "ro" };
+  searchParams: {
     brand?: string;
     type?: string;
     minPrice?: string;
     maxPrice?: string;
     query?: string;
     sortOrder?: "asc" | "desc";
-  }>;
+  };
 };
 
 export async function generateMetadata(props: {
@@ -81,9 +80,22 @@ export async function generateMetadata(props: {
 }
 
 const Products = async (props: PageProps) => {
-  const params = await props.params;
+  const { locale } = await props.params;
+  const searchParams = await props.searchParams;
 
-  const { locale } = params;
+  const products = await getProducts({
+    locale,
+    brand: searchParams.brand,
+    type: searchParams.type,
+    minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
+    maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
+    query: searchParams.query,
+    sortOrder: searchParams.sortOrder ?? "desc",
+    page: 1,
+    limit: 100,
+  });
+
+  const filters = await getFilters(locale);
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -108,11 +120,13 @@ const Products = async (props: PageProps) => {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ProductsListWrapper />
+
+      <ProductsListWrapper
+        initialProducts={products}
+        initialFilters={filters}
+      />
     </>
   );
 };

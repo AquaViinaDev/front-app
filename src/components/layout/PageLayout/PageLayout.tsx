@@ -44,6 +44,7 @@ const PageLayout = memo(
     const handleBackClick = () => {
       router.push(`/${locale}/products`);
     };
+
     return (
       <div className={classNames(className, styles.root)} {...props}>
         <div className={classNames(wrapperClassName, styles.wrapper)}>

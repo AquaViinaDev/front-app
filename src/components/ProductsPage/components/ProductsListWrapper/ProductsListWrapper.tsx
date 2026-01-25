@@ -20,17 +20,28 @@ type ProductsListWrapperProps = {
   defaultType?: string | null;
   basePathname?: string | null;
   resetPathname?: string | null;
+
+  initialProducts: {
+    items: any[];
+    total: number;
+    page: number;
+    totalPages: number;
+  };
+
+  initialFilters: FiltersResponse;
 };
 
 const ProductsListWrapper = ({
-  defaultBrand,
-  defaultType,
-  basePathname,
-  resetPathname,
-}: ProductsListWrapperProps) => {
+                               defaultBrand,
+                               defaultType,
+                               basePathname,
+                               resetPathname,
+                               initialProducts,
+                               initialFilters,
+                             }: ProductsListWrapperProps) => {
   const t = useTranslations();
-  const searchParams = useSearchParams();
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const [range, setRange] = useState<number[]>([0, 0]);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -54,15 +65,13 @@ const ProductsListWrapper = ({
       maxPrice: maxPrice !== null ? Number(maxPrice) : undefined,
       query,
     };
-  }, [searchParams]);
+  }, [searchParams, defaultBrand, defaultType]);
 
   const [searchValue, setSearchValue] = useState(params.query ?? "");
 
-  const openFilters = () => setIsMobileFiltersOpen(true);
-  const closeFilters = () => setIsMobileFiltersOpen(false);
-
   const effectiveBasePath = basePathname ?? `/${locale}${RoutesEnum.Products}`;
 
+  // 🔎 поиск
   useEffect(() => {
     const handler = setTimeout(() => {
       const currentParams = new URLSearchParams(window.location.search);
@@ -73,12 +82,17 @@ const ProductsListWrapper = ({
         currentParams.delete("query");
       }
 
-      window.history.replaceState(null, "", `${effectiveBasePath}?${currentParams.toString()}`);
+      window.history.replaceState(
+        null,
+        "",
+        `${effectiveBasePath}?${currentParams.toString()}`
+      );
     }, 500);
 
     return () => clearTimeout(handler);
   }, [searchValue, effectiveBasePath]);
 
+  // 🔃 сортировка
   useEffect(() => {
     const currentParams = new URLSearchParams(window.location.search);
 
@@ -88,22 +102,25 @@ const ProductsListWrapper = ({
       currentParams.delete("sortOrder");
     }
 
-    window.history.replaceState(null, "", `${effectiveBasePath}?${currentParams.toString()}`);
+    window.history.replaceState(
+      null,
+      "",
+      `${effectiveBasePath}?${currentParams.toString()}`
+    );
   }, [sortOrder, effectiveBasePath]);
 
+  // 🧩 фильтры (с initialData)
   const {
-    data: filters = {
-      brand: [],
-      productType: [],
-      price: { low: 0, more: 0 },
-    },
-    error,
-    isLoading,
+    data: filters,
+    isLoading: isFiltersLoading,
+    error: filtersError,
   } = useQuery<FiltersResponse>({
     queryKey: ["getFilters", locale],
     queryFn: () => getFilters(locale),
+    initialData: initialFilters,
   });
 
+  // 📦 товары (SSR + infinite scroll)
   const {
     data,
     fetchNextPage,
@@ -112,7 +129,12 @@ const ProductsListWrapper = ({
     isFetched,
   } = useInfiniteQuery({
     queryKey: ["products", locale, params, sortOrder],
+    initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => {
+      if (pageParam === 1) {
+        return Promise.resolve(initialProducts);
+      }
+
       const appliedSort = sortOrder === "default" ? "desc" : sortOrder;
 
       return getProducts({
@@ -127,14 +149,8 @@ const ProductsListWrapper = ({
         limit: 100,
       });
     },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.page < lastPage.totalPages) {
-        return lastPage.page + 1;
-      }
-      return undefined;
-    },
-    enabled: true,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
   });
 
   const products = data?.pages.flatMap((page) => page.items) ?? [];
@@ -146,27 +162,34 @@ const ProductsListWrapper = ({
         <div className={styles.filtersWrapper}>
           <div className={styles.mobileFilter}>
             <Button
-              buttonType={"smallButton"}
+              buttonType="smallButton"
               className={styles.filtersButton}
-              onClick={openFilters}
+              onClick={() => setIsMobileFiltersOpen(true)}
             >
-              <span className={styles.buttonTitle}>{t("ProductsPageInformation.filters")}</span>
-              <Image src={"/filters-icon.svg"} alt={"Filter Icon"} width={20} height={20} />
+              <span className={styles.buttonTitle}>
+                {t("ProductsPageInformation.filters")}
+              </span>
+              <Image src="/filters-icon.svg" alt="Filter Icon" width={20} height={20} />
             </Button>
           </div>
+
           <div className={styles.sortWrapper}>
             <div className={styles.titleWrapper}>
-              <h1 className={styles.title}>{t("ProductsPageInformation.title")}</h1>
+              <h1 className={styles.title}>
+                {t("ProductsPageInformation.title")}
+              </h1>
             </div>
-            <SearchForm value={searchValue} onSearch={(val) => setSearchValue(val)} />
+
+            <SearchForm value={searchValue} onSearch={setSearchValue} />
             <Sort value={sortOrder} onChange={setSortOrder} />
           </div>
         </div>
+
         <div className={styles.contentFilterWrapper}>
           <FiltersBlock
             filtersData={filters}
-            isLoading={isLoading}
-            error={error}
+            isLoading={isFiltersLoading}
+            error={filtersError}
             range={range}
             setRange={setRange}
             className={styles.filter}
@@ -174,29 +197,46 @@ const ProductsListWrapper = ({
             defaultType={defaultType}
             resetPathname={resetPathname}
           />
-          <ProductsList data={products} isFetched={isFetched} isLoading={isProductsLoading} />
+
+          <ProductsList
+            data={products}
+            isFetched={isFetched}
+            isLoading={isProductsLoading}
+          />
         </div>
-        {products.length < totalCount ? (
+
+        {products.length < totalCount && (
           <Button
             className={styles.loadMoreBtn}
-            buttonType={"bigButton"}
+            buttonType="bigButton"
             onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage || products.length >= totalCount}
+            disabled={isFetchingNextPage}
           >
             {t("ProductsPageInformation.loadMore")}
           </Button>
-        ) : null}
+        )}
       </div>
+
       {isMobileFiltersOpen && (
-        <div className={styles.mobileFiltersOverlay} onClick={closeFilters}>
-          <div className={styles.mobileFiltersContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeButton} onClick={closeFilters}>
-              <Image src={"/close.svg"} alt={"Close Button"} width={30} height={30} />
+        <div
+          className={styles.mobileFiltersOverlay}
+          onClick={() => setIsMobileFiltersOpen(false)}
+        >
+          <div
+            className={styles.mobileFiltersContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.closeButton}
+              onClick={() => setIsMobileFiltersOpen(false)}
+            >
+              <Image src="/close.svg" alt="Close" width={30} height={30} />
             </button>
+
             <FiltersBlock
               filtersData={filters}
-              isLoading={isLoading}
-              error={error}
+              isLoading={isFiltersLoading}
+              error={filtersError}
               range={range}
               setRange={setRange}
               className={styles.filtersModal}
