@@ -7,22 +7,21 @@ import {
   CommunicationSection,
 } from "./components";
 
-import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useLocale } from "use-intl";
+import { RoutesEnum } from "@types";
 import styles from "./HomePage.module.scss";
 
 const HomePage = () => {
-  const stepperRef = useRef<HTMLElement | null>(null);
-
-  const scrollToStepper = () => {
-    stepperRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const router = useRouter();
+  const locale = useLocale();
 
   return (
     <div className={styles.root}>
-      <HeroSection onConsultClick={scrollToStepper} />
+      <HeroSection onConsultClick={() => router.push(`/${locale}${RoutesEnum.Products}`)} />
       <CategoriesSection />
       <WorkStepperSection />
-      <CommunicationSection ref={stepperRef} />
+      <CommunicationSection />
     </div>
   );
 };

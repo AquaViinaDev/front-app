@@ -18,7 +18,11 @@
     "featureService": "Întreținere pe viață",
     "videoTitle": "Cum funcționează filtrele noastre",
     "videoPlaceholder": "Video despre funcționarea filtrelor",
-    "videoCta": "Vezi catalogul"
+    "videoCta": "Vezi catalogul",
+    "statLeftTitle": "Curățare",
+    "statLeftSubtitle": "de impurități",
+    "statRightTitle": "Clienți",
+    "statRightSubtitle": "ne aleg"
   },
   "CategoriesSection": {
     "title": "Ce filtru să alegi?",
@@ -165,7 +169,44 @@
     },
     "modalGuaranteeInfo": {
       "title": "Garanție și returnare în termen de 14 zile"
-    }
+    },
+    "backToCatalog": "Înapoi la catalog",
+    "hitLabel": "Bestseller",
+    "benefitsTitle": "Avantaje principale:",
+    "savings": "Economisești {amount} {currency}",
+    "reviewsCountInline": "({count} recenzii)",
+    "tabs": {
+      "specs": "Specificații",
+      "description": "Descriere",
+      "reviews": "Recenzii ({count})",
+      "specsTitle": "Specificații tehnice",
+      "descriptionTitle": "Descriere produs",
+      "reviewsTitle": "Recenzii"
+    },
+    "mockReviews": {
+      "0": {
+        "name": "Marina C.",
+        "date": "acum 2 săptămâni",
+        "text": "Apa a devenit vizibil mai curată și gustoasă. Instalarea a fost rapidă, totul a fost explicat."
+      },
+      "1": {
+        "name": "Ion P.",
+        "date": "acum 1 lună",
+        "text": "Calitate bună, service comod. Diferență vizibilă după instalare."
+      },
+      "2": {
+        "name": "Alex R.",
+        "date": "acum 3 luni",
+        "text": "Filtrul funcționează stabil, consumabilele sunt disponibile. Recomand."
+      }
+    },
+    "brandLabel": "Brand",
+    "skuLabel": "Cod produs",
+    "notFoundTitle": "Produsul nu a fost găsit",
+    "notFoundDescription": "Produsul solicitat nu a fost găsit.",
+    "errorTitle": "Ceva nu a mers bine",
+    "errorText": "Nu s-a putut încărca pagina produsului. Încercați din nou.",
+    "retry": "Reîncearcă"
   },
   "AboutPage": {
     "badge": "Despre companie",
@@ -290,6 +331,16 @@
     "repairFilters": {
       "title": "Repararea și întreținerea filtrelor",
       "description": "Programați vizita unui tehnician pentru repararea sau întreținerea filtrelor. Reparăm scurgeri, efectuăm service și reparăm pompa, înlocuim piesele defecte și repunem sistemul în stare de funcționare. Tariful de deplasare al unui tehnician este de 250 de lei (diagnosticare și reparații până la 1 oră). Dacă reparația durează mai mult de o oră, tariful de deplasare este de 400 de lei. Toate piesele și consumabilele necesare se facturează separat, la prețul afișat în magazinul nostru sau pe site-ul nostru web. Timpul mediu de răspuns al unui tehnician este de 30-60 de minute. Pentru piese rare, este posibilă o vizită ulterioară. De asemenea, efectuăm diagnosticarea pompelor, analiza durității apei și inspecții preventive ale sistemului. Toate lucrările beneficiază de o garanție de 6 luni."
+    }
+  },
+  "Common": {
+    "breadcrumbHome": "Acasă",
+    "catalogLabel": "Catalog",
+    "phoneLabel": "Telefon",
+    "cartAmount": {
+      "decrease": "Scade cantitatea",
+      "increase": "Crește cantitatea",
+      "label": "Cantitatea produsului"
     }
   }
 }

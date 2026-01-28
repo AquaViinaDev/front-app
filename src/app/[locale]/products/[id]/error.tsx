@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLocale } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import Link from "next/link";
 import { Button } from "@components/common";
 
@@ -13,6 +13,7 @@ export default function ProductError({
   reset: () => void;
 }) {
   const locale = useLocale();
+  const t = useTranslations("ProductPage");
 
   useEffect(() => {
     console.error("Product page error:", error);
@@ -20,15 +21,15 @@ export default function ProductError({
 
   return (
     <div style={{ padding: "24px 0", textAlign: "center" }}>
-      <h2 style={{ marginBottom: 8 }}>Что-то пошло не так</h2>
+      <h2 style={{ marginBottom: 8 }}>{t("errorTitle")}</h2>
       <p style={{ marginBottom: 16 }}>
-        Не удалось загрузить страницу товара. Попробуйте еще раз.
+        {t("errorText")}
       </p>
       <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
         <Button onClick={reset} type="button">
-          Повторить
+          {t("retry")}
         </Button>
-        <Link href={`/${locale}/products`}>Вернуться в каталог</Link>
+        <Link href={`/${locale}/products`}>{t("backToCatalog")}</Link>
       </div>
     </div>
   );

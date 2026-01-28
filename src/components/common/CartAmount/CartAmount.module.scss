@@ -13,6 +13,21 @@
   font-family: $font-default;
 }
 
+.compact {
+  min-height: 40px;
+  border-radius: 10px;
+}
+
+.compact .controlButton {
+  flex: 0 0 40px;
+  font-size: 20px;
+}
+
+.compact .inputAmount {
+  width: 54px;
+  font-size: $font-md;
+}
+
 .controlButton {
   flex: 0 0 56px;
   display: flex;

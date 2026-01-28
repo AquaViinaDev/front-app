@@ -1,5 +1,8 @@
+"use client";
+
 import { ChangeEvent, memo } from "react";
 import classNames from "classnames";
+import { useTranslations } from "use-intl";
 
 import styles from "./CartAmount.module.scss";
 
@@ -7,11 +10,13 @@ export type CartAmountProps = {
   value: number;
   onChange: (amount: number) => void;
   className?: string;
+  size?: "default" | "compact";
 };
 
 const MIN_AMOUNT = 1;
 
-const CartAmount = memo(({ value, onChange, className }: CartAmountProps) => {
+const CartAmount = memo(({ value, onChange, className, size = "default" }: CartAmountProps) => {
+  const t = useTranslations("Common.cartAmount");
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value.replace(/,/g, "."));
 
@@ -25,12 +30,12 @@ const CartAmount = memo(({ value, onChange, className }: CartAmountProps) => {
   const isDecreaseDisabled = value <= MIN_AMOUNT;
 
   return (
-    <div className={classNames(styles.root, className)}>
+    <div className={classNames(styles.root, styles[size], className)}>
       <button
         type="button"
         className={classNames(styles.controlButton, styles.decrementAmount)}
         onClick={handleDecrement}
-        aria-label="Уменьшить количество"
+        aria-label={t("decrease")}
         disabled={isDecreaseDisabled}
       >
         -
@@ -44,13 +49,13 @@ const CartAmount = memo(({ value, onChange, className }: CartAmountProps) => {
         value={value}
         min={MIN_AMOUNT}
         onChange={handleInputChange}
-        aria-label="Количество товара"
+        aria-label={t("label")}
       />
       <button
         type="button"
         className={classNames(styles.controlButton, styles.incrementAmount)}
         onClick={handleIncrement}
-        aria-label="Увеличить количество"
+        aria-label={t("increase")}
       >
         +
       </button>

@@ -6,7 +6,7 @@ import {
   PhoneInputProps as BasePhoneInputProps,
 } from "react-phone-input-2";
 import { ChangeEvent, memo, useCallback } from "react";
-import { useLocale } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 
 import styles from "./PhoneInput.module.scss";
 
@@ -22,7 +22,8 @@ export type PhoneInputProps = {
 
 const PhoneInput = memo(
   ({ label = true, error = false, value, errorMessage, onChange, ...props }: PhoneInputProps) => {
-    const locale = useLocale();
+  const locale = useLocale();
+  const t = useTranslations("Common");
     const wrappedOnChange = useCallback(
       (value: string, event: ChangeEvent<HTMLInputElement>) => {
         onChange?.(value || null, event || null);
@@ -32,7 +33,7 @@ const PhoneInput = memo(
 
     return (
       <div className={styles.root}>
-        {label && <label className={styles.label}>{locale === "ru" ? "Телефон" : "Telefon"}</label>}
+        {label && <label className={styles.label}>{t("phoneLabel")}</label>}
         <BasePhoneInput
           country="md"
           value={value || ""}

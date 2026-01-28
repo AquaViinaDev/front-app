@@ -3,63 +3,59 @@
 
 .root {
   position: relative;
+  width: 100%;
   min-height: 100vh;
-  padding: 32px 40px 80px;
   overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    rgba(248, 250, 252, 1) 0%,
-    rgba(224, 242, 254, 1) 45%,
-    rgba(239, 246, 255, 0) 100%
-  );
+  background: linear-gradient(135deg, #f8fafc 0%, rgba(236, 254, 255, 0.3) 40%, rgba(239, 246, 255, 0.5) 100%);
 }
 
 .decor {
   position: absolute;
   inset: 0;
+  opacity: 0.3;
   pointer-events: none;
-  opacity: 0.6;
 }
 
-.glowOne,
-.glowTwo,
-.glowRadial {
+.glowOne {
   position: absolute;
+  top: 80px;
+  left: 40px;
+  width: 288px;
+  height: 288px;
+  background: rgba(165, 243, 252, 0.9);
   border-radius: 999px;
   filter: blur(60px);
 }
 
-.glowOne {
-  top: 40px;
-  left: 40px;
-  width: 240px;
-  height: 240px;
-  background: rgba(103, 232, 249, 0.5);
-}
-
 .glowTwo {
-  bottom: 40px;
+  position: absolute;
+  bottom: 80px;
   right: 40px;
-  width: 320px;
-  height: 320px;
-  background: rgba(147, 197, 253, 0.5);
+  width: 384px;
+  height: 384px;
+  background: rgba(191, 219, 254, 0.9);
+  border-radius: 999px;
+  filter: blur(70px);
 }
 
 .glowRadial {
+  position: absolute;
   top: 50%;
   left: 50%;
-  width: 560px;
-  height: 560px;
+  width: 800px;
+  height: 800px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(125, 211, 252, 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(207, 250, 254, 0.5), transparent 70%);
+  border-radius: 999px;
 }
 
 .container {
+  max-width: 1536px;
+  margin: 0 auto;
+  padding: 64px 16px 96px;
   position: relative;
   z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: calc(100vh - 112px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
 }
@@ -74,20 +70,20 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
+  gap: 32px;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(207, 250, 254, 0.8);
   border-radius: 999px;
-  background: rgba(56, 189, 248, 0.18);
   color: #0e7490;
   font-size: 14px;
   font-weight: 600;
+  width: fit-content;
 }
 
 .badgeDot {
@@ -95,7 +91,7 @@
   height: 8px;
   border-radius: 999px;
   background: #06b6d4;
-  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+  animation: pulse 2s ease infinite;
 }
 
 .badgeText {
@@ -104,53 +100,62 @@
 
 .title {
   font-size: clamp(32px, 4vw, 56px);
-  font-weight: $font-bold;
-  line-height: 1.05;
-  max-width: 520px;
+  font-weight: 700;
   color: #0f172a;
+  line-height: 1.1;
 }
 
 .titleAccent {
   display: block;
-  background: linear-gradient(120deg, #06b6d4 0%, #2563eb 100%);
+  background: linear-gradient(90deg, #06b6d4 0%, #2563eb 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .subtitle {
-  font-size: $font-xl;
-  font-weight: $font-regular;
+  font-size: 18px;
   line-height: 1.6;
   color: #475569;
-  max-width: 460px;
+  max-width: 560px;
 }
 
 .actions {
   display: flex;
   gap: 16px;
-  align-items: center;
+  flex-wrap: wrap;
 }
 
-.button {
-  align-self: flex-start;
+.primaryButton {
+  padding: 0 32px;
+  height: 40px;
+  border-radius: 8px;
 }
 
 .secondaryButton {
-  padding: 16px 26px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(255, 255, 255, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 8px;
+  border: 1px solid #cbd5f5;
+  background: #ffffff;
   color: #0f172a;
-  font-size: $font-lg;
   font-weight: 600;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .secondaryButton:hover {
-  border-color: rgba(14, 116, 144, 0.6);
-  background: rgba(224, 242, 254, 0.7);
-  transform: translateY(-1px);
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.arrowIcon,
+.playIcon {
+  width: 18px;
+  height: 18px;
 }
 
 .features {
@@ -163,20 +168,23 @@
 .featureItem {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .featureIcon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 999px;
-  background: rgba(6, 182, 212, 0.15);
-  color: #0e7490;
+  background: rgba(207, 250, 254, 0.8);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
+}
+
+.checkIcon {
+  width: 12px;
+  height: 12px;
+  color: #0891b2;
 }
 
 .featureText {
@@ -186,38 +194,84 @@
 
 .media {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .mediaCard {
   position: relative;
   z-index: 1;
-  background: $bg-white;
-  border-radius: 28px;
-  padding: 18px;
-  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.18);
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
 }
 
 .mediaImage {
-  position: relative;
-  width: min(520px, 90vw);
-  aspect-ratio: 4 / 3;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.image {
+  width: 100%;
+  height: 420px;
+  border-radius: 18px;
   object-fit: cover;
   object-position: center;
 }
 
+.statCardLeft,
+.statCardRight {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 12px 16px;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+}
+
+.statCardLeft {
+  left: -24px;
+  bottom: -24px;
+}
+
+.statCardRight {
+  right: -24px;
+  top: -24px;
+}
+
+.statIconCyan,
+.statIconBlue {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.statIconCyan {
+  background: rgba(207, 250, 254, 0.9);
+  color: #0891b2;
+}
+
+.statIconBlue {
+  background: rgba(219, 234, 254, 0.9);
+  color: #2563eb;
+}
+
+.statTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.statSubtitle {
+  font-size: 12px;
+  color: #64748b;
+}
+
 .ring {
   position: absolute;
-  width: 115%;
-  height: 115%;
-  border: 2px dashed rgba(14, 116, 144, 0.35);
+  inset: -10%;
+  border: 2px dashed rgba(14, 116, 144, 0.25);
   border-radius: 50%;
   animation: spin-slow 30s linear infinite;
 }
@@ -252,9 +306,25 @@
   }
 }
 
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
 @media (max-width: $tabletScreen) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .media {
+    order: -1;
   }
 
   .content {
@@ -262,17 +332,8 @@
     text-align: center;
   }
 
-  .badge {
-    justify-content: center;
-  }
-
   .actions {
     justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .subtitle {
-    max-width: 520px;
   }
 
   .features {
@@ -281,35 +342,18 @@
 }
 
 @media (max-width: $mobileScreen) {
-  .root {
-    padding: 24px 16px 56px;
+  .container {
+    padding: 48px 16px 72px;
   }
 
-  .title {
-    font-size: 30px;
-    max-width: 100%;
+  .mediaImage {
+    height: 320px;
   }
 
-  .subtitle {
-    font-size: $font-lg;
-  }
-
-  .button {
-    padding: 16px 24px;
-    font-size: $font-lg;
-  }
-
-  .secondaryButton {
-    padding: 14px 22px;
-    font-size: $font-md;
-  }
-
-  .features {
-    gap: 12px 18px;
-  }
-
-  .mediaCard {
-    padding: 14px;
+  .statCardLeft,
+  .statCardRight {
+    position: static;
+    margin-top: 16px;
   }
 
   .ring {

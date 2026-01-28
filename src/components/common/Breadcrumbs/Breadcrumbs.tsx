@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "use-intl";
 
 const Breadcrumbs = () => {
   const pathname = usePathname(); // например, /products/filters
+  const t = useTranslations("Common");
   const pathParts = pathname.split("/").filter(Boolean);
 
   const crumbs = pathParts.map((part, index) => {
@@ -17,7 +19,7 @@ const Breadcrumbs = () => {
       <ul className="flex space-x-2">
         <li>
           <Link href="/" className="text-blue-500 hover:underline">
-            Главная
+            {t("breadcrumbHome")}
           </Link>
           <span>/</span>
         </li>

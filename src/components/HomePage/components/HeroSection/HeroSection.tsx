@@ -20,6 +20,10 @@ const HeroSection = memo(({ onConsultClick }: HeroSectionProps) => {
     t("MainSection.featureWarranty"),
     t("MainSection.featureService"),
   ];
+  const statLeftTitle = t("MainSection.statLeftTitle");
+  const statLeftSubtitle = t("MainSection.statLeftSubtitle");
+  const statRightTitle = t("MainSection.statRightTitle");
+  const statRightSubtitle = t("MainSection.statRightSubtitle");
   return (
     <section className={styles.root}>
       <div className={styles.decor}>
@@ -40,21 +44,68 @@ const HeroSection = memo(({ onConsultClick }: HeroSectionProps) => {
             </h1>
             <p className={styles.subtitle}>{t("MainSection.subtitle")}</p>
             <div className={styles.actions}>
-              <Button className={styles.button} onClick={onConsultClick}>
+              <Button className={styles.primaryButton} onClick={onConsultClick}>
                 {t("MainSection.textButton")}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={styles.arrowIcon}
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
               </Button>
               {/* <button
                 className={styles.secondaryButton}
                 type="button"
                 onClick={() => setIsVideoOpen(true)}
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={styles.playIcon}
+                  aria-hidden="true"
+                >
+                  <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+                </svg>
                 {t("MainSection.textButtonSecondary")}
               </button> */}
             </div>
             <div className={styles.features}>
               {features.map((feature) => (
                 <div key={feature} className={styles.featureItem}>
-                  <span className={styles.featureIcon}>✓</span>
+                  <span className={styles.featureIcon}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={styles.checkIcon}
+                      aria-hidden="true"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  </span>
                   <span className={styles.featureText}>{feature}</span>
                 </div>
               ))}
@@ -62,15 +113,31 @@ const HeroSection = memo(({ onConsultClick }: HeroSectionProps) => {
           </div>
           <div className={styles.media}>
             <div className={styles.mediaCard}>
-              <div className={styles.mediaImage}>
-                <Image
-                  src="/images/home-image.jpg"
-                  alt="Water filters"
-                  fill
-                  priority
-                  sizes="(max-width: 900px) 100vw, 520px"
-                  className={styles.image}
-                />
+              <Image
+                src="/images/home-image.jpg"
+                alt="AquaPure Filter"
+                width={640}
+                height={480}
+                className={styles.mediaImage}
+                priority
+              />
+              <div className={styles.statCardLeft}>
+                <div className={styles.statIconCyan}>
+                  <span>99%</span>
+                </div>
+                <div>
+                  <p className={styles.statTitle}>{statLeftTitle}</p>
+                  <p className={styles.statSubtitle}>{statLeftSubtitle}</p>
+                </div>
+              </div>
+              <div className={styles.statCardRight}>
+                <div className={styles.statIconBlue}>
+                  <span>50K+</span>
+                </div>
+                <div>
+                  <p className={styles.statTitle}>{statRightTitle}</p>
+                  <p className={styles.statSubtitle}>{statRightSubtitle}</p>
+                </div>
               </div>
             </div>
             <div className={styles.ring} />
