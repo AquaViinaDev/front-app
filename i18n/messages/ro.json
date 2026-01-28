@@ -7,9 +7,18 @@
     "cart": "Coş"
   },
   "MainSection": {
-    "title": "Filtre de apă în Moldova",
-    "subtitle": "Instalare, garanție, întreținere pe viață la cel mai bun preț.",
-    "textButton": "Consultație gratuită"
+    "badge": "Livrare gratuită de la 1000 lei",
+    "title": "Apă curată pentru",
+    "titleAccent": "o viață sănătoasă",
+    "subtitle": "Filtre moderne de apă premium. Eliminăm până la 99% din impurități, păstrând mineralele utile. Garanție de calitate și livrare rapidă în toată Moldova.",
+    "textButton": "Alege filtrul",
+    "textButtonSecondary": "Vezi video",
+    "featureInstall": "Instalare",
+    "featureWarranty": "Garanție",
+    "featureService": "Întreținere pe viață",
+    "videoTitle": "Cum funcționează filtrele noastre",
+    "videoPlaceholder": "Video despre funcționarea filtrelor",
+    "videoCta": "Vezi catalogul"
   },
   "CategoriesSection": {
     "title": "Ce filtru să alegi?",
@@ -78,14 +87,30 @@
     },
     "contacts": {
       "title": "Contacte",
+      "phoneLabel": "Telefon",
+      "phoneValue": "+373 67 732 092",
+      "emailLabel": "Email",
+      "emailValue": "info@aquaviina.md",
+      "addressLabel": "Adresă",
       "location": "Chișinău, Moldova"
-    }
+    },
+    "support": {
+      "title": "Servicii",
+      "hoursLabel": "Program",
+      "hoursValue": "Lun–Sâm 09:00–20:00",
+      "deliveryLabel": "Livrare",
+      "deliveryValue": "În toată Moldova",
+      "consultationLabel": "Consultanță",
+      "consultationValue": "Gratuit prin telefon"
+    },
+    "copyright": "Toate drepturile rezervate."
   },
   "ProductsPageInformation": {
     "title": "Catalog de filtre de apă",
     "isInStock": "În stoc",
     "isn'tInStock": "Nu este disponibil",
     "cartButton": "Adaugă in coş",
+    "moreInfo": "Detalii",
     "quickPurchaseButton": "Achiziție rapidă",
     "price": "lei/bucată",
     "productAddedSuccess": "Produsul a fost adăugat cu succes",
@@ -143,20 +168,42 @@
     }
   },
   "AboutPage": {
+    "badge": "Despre companie",
+    "heading": "AquaPure — partenerul tău de încredere în purificarea apei",
+    "paragraphs": {
+      "first": "Din 2009 dezvoltăm și producem sisteme premium de filtrare a apei. Misiunea noastră este să oferim fiecărei familii apă potabilă curată și sigură.",
+      "second": "Folosim doar materiale certificate de la furnizori de încredere și tehnologii proprii de filtrare. Fiecare filtru trece un control strict al calității înainte de livrare.",
+      "third": "Echipa noastră este formată din ingineri și specialiști experimentați care îmbunătățesc constant produsele și implementează tehnologii noi de purificare a apei."
+    },
+    "points": {
+      "iso": "Certificare ISO 9001",
+      "sanpin": "Conform SanPiN",
+      "gost": "Standarde GOST"
+    },
+    "stats": {
+      "clientsValue": "50K+",
+      "clientsLabel": "Clienți mulțumiți",
+      "yearsValue": "15",
+      "yearsLabel": "Ani pe piață",
+      "qualityValue": "99%",
+      "qualityLabel": "Calitate a filtrării",
+      "installsValue": "100K+",
+      "installsLabel": "Filtre instalate"
+    },
     "title": "Ne pasă de ceea ce beți în fiecare zi",
     "textButton": " Consultație gratuită",
     "sendButton": "Confirma",
     "modalTitle": "Obțineți o consultație gratuită",
     "WhoWeAre": {
-      "title": "1. Cine suntem",
+      "title": "Cine suntem",
       "text": "Am creat AQUA VIINA pentru a rezolva o sarcină simplă, dar importantă: să oferim oamenilor acces la apă de calitate acasă și la birou. Fără complicații, fără cheltuieli inutile — doar filtre sigure și un serviciu corect."
     },
     "WhyChooseUs": {
       "title": "2. De ce ne aleg clienții",
-      "textFirstLine": "- La cheie: de la livrare până la schimbarea cartușelor.",
-      "textSecondLine": "- Simplu: vă reamintim de service, nu trebuie să vă gândiți la termene.",
-      "textThirdLine": "- Sigur: garanție pentru echipament și lucrări.",
-      "textFourthLine": "- Corect: fără plăți ascunse, doar condiții transparente."
+      "textFirstLine": "La cheie: de la livrare până la schimbarea cartușelor.",
+      "textSecondLine": "Simplu: vă reamintim de service, nu trebuie să vă gândiți la termene.",
+      "textThirdLine": "Sigur: garanție pentru echipament și lucrări.",
+      "textFourthLine": "Corect: fără plăți ascunse, doar condiții transparente."
     },
     "OurExpertise": {
       "title": "3. Expertiza noastră",
@@ -225,6 +272,8 @@
   "ServicePage": {
     "title": "Instalarea filtrelor de apă",
     "button": "Comanda",
+    "readMore": "Citește mai mult",
+    "readLess": "Ascunde",
     "from": "de la",
     "currency": "lei",
     "modalHeader": "Comanda: ",

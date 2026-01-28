@@ -1,9 +1,18 @@
 @use "variables" as *;
 
 .root {
-  background-color: transparent;
-  border: none;
-  color: #b2b2b2;
+  background-color: rgba(15, 118, 110, 0.08);
+  border: 1px solid rgba(14, 116, 144, 0.2);
+  color: #0f172a;
   cursor: pointer;
-  font-size: $font-lg;
+  font-size: $font-md;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.root:hover {
+  background-color: rgba(14, 116, 144, 0.15);
+  border-color: rgba(14, 116, 144, 0.35);
 }

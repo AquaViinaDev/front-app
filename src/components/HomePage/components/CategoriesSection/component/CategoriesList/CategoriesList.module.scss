@@ -3,11 +3,11 @@
 
 .root {
   display: grid;
-  gap: 16px;
+  gap: 24px;
   justify-items: center;
   align-items: start;
   grid-template-columns: repeat(4, 1fr);
-  max-width: $max-width;
+  max-width: 1200px;
   width: 100%;
 
 

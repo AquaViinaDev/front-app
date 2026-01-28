@@ -4,29 +4,46 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  background-color: $bg-white;
-  border-radius: 16px;
-  padding: 16px;
+  gap: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 24px;
+  padding: 20px 22px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
 }
 
 .title {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   font-size: $font-2xl;
   font-weight: $font-bold;
+  color: #0f172a;
+}
+
+.userInfoWrapper,
+.deliveryInfoWrapper,
+.paymentMethodWrapper,
+.userDescriptionWrapper {
+  padding: 16px 16px 18px;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .deliveryTypeRow {
   display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
 .radioLabel {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .userForm, .deliveryInputsWrapper {
@@ -39,20 +56,21 @@
 }
 
 .emailInput, .userNameInput, .companyInput {
-  background-color: $bg-gray !important;
+  background-color: rgba(248, 250, 252, 0.9) !important;
 }
 
 .userDescription {
   outline: none;
   resize: none;
-  border: none;
+  border: 1px solid rgba(148, 163, 184, 0.35);
   width: 100%;
   padding: 17px 20px;
-  background: $bg-gray !important;
-  border-radius: 4px;
+  background: rgba(248, 250, 252, 0.9) !important;
+  border-radius: 16px;
   height: 88px;
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 @media (max-width: $mobileScreen) {
@@ -61,5 +79,10 @@
     > div {
       width: 100%;
     }
+  }
+
+  .deliveryTypeRow {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

@@ -3,7 +3,7 @@ import * as Slider from "@radix-ui/react-slider";
 import { useLocale, useTranslations } from "use-intl";
 import classNames from "classnames";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Button, Skeleton } from "@components/common";
+import { Button, SearchForm, Skeleton, Sort } from "@components/common";
 
 import styles from "./FiltersBlock.module.scss";
 
@@ -31,19 +31,27 @@ export type FiltersBlockProps = {
   defaultBrand?: string | null;
   defaultType?: string | null;
   resetPathname?: string | null;
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
+  sortOrder?: "asc" | "desc" | "default";
+  onSortChange?: (value: "asc" | "desc" | "default") => void;
 };
 
 const FiltersBlock = ({
-                        filtersData,
-                        isLoading,
-                        error,
-                        range,
-                        setRange,
-                        className,
-                        defaultBrand,
-                        defaultType,
-                        resetPathname,
-                      }: FiltersBlockProps) => {
+  filtersData,
+  isLoading,
+  error,
+  range,
+  setRange,
+  className,
+  defaultBrand,
+  defaultType,
+  resetPathname,
+  searchValue,
+  onSearchChange,
+  sortOrder,
+  onSortChange,
+}: FiltersBlockProps) => {
   const t = useTranslations("ProductsPageInformation.filterAndSort");
   const locale = useLocale();
   const router = useRouter();
@@ -186,7 +194,20 @@ const FiltersBlock = ({
 
   return (
     <div className={classNames(className, styles.root)}>
-      <div className={styles.brandWrapper}>
+      {onSearchChange ? (
+        <div className={styles.controls}>
+          <div className={styles.controlItem}>
+            <SearchForm className={styles.search} value={searchValue ?? ""} onSearch={onSearchChange} />
+          </div>
+          {onSortChange ? (
+            <div className={styles.controlItem}>
+              <Sort value={sortOrder ?? "default"} onChange={onSortChange} />
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+      <div className={styles.filtersRow}>
+        <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("brand")}</h3>
         {isLoading ? (
           <ul className={classNames(styles.list, styles.skeletonList)}>
@@ -215,7 +236,7 @@ const FiltersBlock = ({
           </ul>
         )}
       </div>
-      <div className={styles.priceWrapper}>
+        <div className={styles.priceWrapper}>
         <h3 className={styles.title}>{t("price")}</h3>
         {isLoading ? (
           <div className={styles.priceSkeleton}>
@@ -271,7 +292,7 @@ const FiltersBlock = ({
           </>
         )}
       </div>
-      <div className={styles.brandWrapper}>
+        <div className={styles.brandWrapper}>
         <h3 className={styles.title}>{t("chapter")}</h3>
         {isLoading ? (
           <ul className={classNames(styles.list, styles.skeletonList)}>
@@ -298,16 +319,21 @@ const FiltersBlock = ({
           </ul>
         )}
       </div>
-      <div className={styles.actions}>
+      </div>
+      <div className={styles.actionsRow}>
         <Button
           buttonType={"smallButton"}
           disabled={!hasPendingChanges}
           onClick={handleApplyFilters}
-          style={{width:"100%"}}
         >
           {t("applyFilter")}
         </Button>
-        <Button buttonType={"smallButton"} theme="secondary" style={{width:"100%"}} disabled={!isFilterActive && !hasPendingChanges} onClick={handleResetFilters}>
+        <Button
+          buttonType={"smallButton"}
+          theme="secondary"
+          disabled={!isFilterActive && !hasPendingChanges}
+          onClick={handleResetFilters}
+        >
           {t("clearFilter")}
         </Button>
       </div>

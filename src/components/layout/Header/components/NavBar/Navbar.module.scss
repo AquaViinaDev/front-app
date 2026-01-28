@@ -2,12 +2,19 @@
 
 .nav {
   display: flex;
-  gap: 30px;
+  gap: 24px;
+  align-items: center;
 }
 
 .nav a {
   text-decoration: none;
-  color: $text-black;
-  font-size: $font-xl;
-  font-weight: $font-regular;
+  color: #0f172a;
+  font-size: $font-lg;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #0e7490;
 }

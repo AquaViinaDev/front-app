@@ -1,20 +1,19 @@
 "use client";
 
-// import { useEffect, useState } from "react";
-// import { Button } from "@components/common/Button";
-// import SearchIcon from "@assets/icons/search-icon.svg";
+import classNames from "classnames";
 
 import styles from "./SearchForm.module.scss";
 
 export type SearchFormProps = {
   value: string;
   onSearch: (query: string) => void;
+  className?: string;
 };
 
-const SearchForm = ({ onSearch, value }: SearchFormProps) => {
+const SearchForm = ({ onSearch, value, className }: SearchFormProps) => {
   return (
     <form
-      className={styles.searchForm}
+      className={classNames(styles.searchForm, className)}
       onSubmit={(e) => {
         e.preventDefault();
         onSearch(value);

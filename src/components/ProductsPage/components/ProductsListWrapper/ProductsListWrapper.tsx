@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import { PageLayout } from "@components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
-import { Button, SearchForm, Sort } from "@components/common";
+import { Button } from "@components/common";
 import { getProducts, getFilters } from "@lib/api";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { FiltersResponse } from "@components/FiltersBlock/FitersBlock";
@@ -180,8 +180,7 @@ const ProductsListWrapper = ({
               </h1>
             </div>
 
-            <SearchForm value={searchValue} onSearch={setSearchValue} />
-            <Sort value={sortOrder} onChange={setSortOrder} />
+            {/* controls moved to FiltersBlock */}
           </div>
         </div>
 
@@ -196,6 +195,10 @@ const ProductsListWrapper = ({
             defaultBrand={defaultBrand}
             defaultType={defaultType}
             resetPathname={resetPathname}
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            sortOrder={sortOrder}
+            onSortChange={setSortOrder}
           />
 
           <ProductsList

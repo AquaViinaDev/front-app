@@ -25,6 +25,7 @@ const CategoriesItem = memo(({ categoriesData, children }: CategoriesItemProps) 
         alt={title}
         width={260}
         height={286}
+        className={styles.image}
         style={{ width: "100%", height: "auto" }}
       />
       <div className={styles.infoBlock}>

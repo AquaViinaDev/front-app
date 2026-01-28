@@ -47,7 +47,7 @@ export async function generateMetadata(props: {
   };
 }
 
-const Home = ({ params }: { params: { locale: "ru" | "ro" } }) => {
+const Home = async ({ params }: { params: Promise<{ locale: "ru" | "ro" }> }) => {
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -110,7 +110,8 @@ const Home = ({ params }: { params: { locale: "ru" | "ro" } }) => {
     ],
   };
 
-  const schema = params.locale === "ro" ? faqRo : faq;
+  const { locale } = await params;
+  const schema = locale === "ro" ? faqRo : faq;
 
   return (
     <>

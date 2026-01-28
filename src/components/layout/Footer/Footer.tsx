@@ -10,14 +10,26 @@ import styles from "./Footer.module.scss";
 const Footer = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
+  const currentYear = new Date().getFullYear();
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <div>
+        <div className={styles.brandBlock}>
           <h2 className={styles.logo}>AQUA VIINA</h2>
           <p className={styles.description}>{t("mainText")}</p>
+          <div className={styles.socialRow}>
+            <Link
+              href="https://www.instagram.com/aqua_viina/?next=%2F"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialLink}
+            >
+              <Image src={"/instagram.svg"} alt={"Instagram"} width={20} height={20} />
+              Instagram
+            </Link>
+          </div>
         </div>
-        <div>
+        <div className={styles.section}>
           <h3 className={styles.title}>{t("navigation.title")}</h3>
           <ul className={styles.navList}>
             <li>
@@ -42,35 +54,48 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div>
+        <div className={styles.section}>
           <h3 className={styles.title}>{t("contacts.title")}</h3>
-          <p className={styles.contact}>
-            📞
-            <Link href="tel:+373 67 177 889" className={styles.link}>
-              +373 67 177 889
-            </Link>
-          </p>
-          <p className={styles.contact}>
-            <Link
-              href="https://www.instagram.com/aqua_viina/?next=%2F"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.instagramLink}
-            >
-              <Image
-                src={"/instagram.svg"}
-                alt={"Instagram-logo"}
-                width={20}
-                height={20}
-                className={styles.logo}
-              />
-              Aqua Viina
-            </Link>
-          </p>
-          <p className={styles.contact}>📍 {t("contacts.location")}</p>
+          <div className={styles.contactList}>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>{t("contacts.phoneLabel")}</span>
+              <Link href="tel:+37367732092" className={styles.link}>
+                {t("contacts.phoneValue")}
+              </Link>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>{t("contacts.emailLabel")}</span>
+              <Link href={`mailto:${t("contacts.emailValue")}`} className={styles.link}>
+                {t("contacts.emailValue")}
+              </Link>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>{t("contacts.addressLabel")}</span>
+              <span className={styles.contactText}>{t("contacts.location")}</span>
+            </div>
+          </div>
+        </div>
+        <div className={styles.section}>
+          <h3 className={styles.title}>{t("support.title")}</h3>
+          <div className={styles.contactList}>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>{t("support.hoursLabel")}</span>
+              <span className={styles.contactText}>{t("support.hoursValue")}</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>{t("support.deliveryLabel")}</span>
+              <span className={styles.contactText}>{t("support.deliveryValue")}</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span className={styles.contactLabel}>{t("support.consultationLabel")}</span>
+              <span className={styles.contactText}>{t("support.consultationValue")}</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className={styles.bottomBar}>© 2025 AQUA VIINA. Все права защищены.</div>
+      <div className={styles.bottomBar}>
+        © {currentYear} AQUA VIINA. {t("copyright")}
+      </div>
     </footer>
   );
 };

@@ -5,21 +5,32 @@
   display: flex;
   align-items: flex-start;
   gap: 24px;
-  max-width: 615px;
+  max-width: 640px;
+  padding: 20px 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.root:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.18);
 }
 
 .stepNumber {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1f5bff;
-  border: 2px solid #1f5bff;
-  min-width: 45px;
-  min-height: 45px;
-  background-color: #fff;
+  color: #0e7490;
+  border: 2px solid rgba(14, 116, 144, 0.35);
+  min-width: 46px;
+  min-height: 46px;
+  background: rgba(6, 182, 212, 0.12);
   border-radius: 50%;
-  font-size: $font-2xl;
-  font-weight: $font-semi-bold;
+  font-size: $font-xl;
+  font-weight: $font-bold;
 }
 
 .content {
@@ -32,14 +43,14 @@
 .title {
   font-size: $font-xl;
   font-weight: $font-semi-bold;
-  color: $text-black;
+  color: #0f172a;
 }
 
 .description {
   font-size: $font-lg;
   font-weight: $font-light;
   line-height: 1.55;
-  color: $text-black;
+  color: #475569;
 }
 
 @media (max-width: $mobileScreen) {

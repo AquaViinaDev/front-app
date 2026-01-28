@@ -20,7 +20,9 @@ export type Product = {
   brand: LocalizedString | null;
   description: LocalizedString;
   images: string[];
-  price: string;
+  price: string | number;
+  oldPrice?: string | number | null;
+  type?: LocalizedString;
   inStock: boolean;
   stockQty: number;
   deliveryAvailable: boolean;

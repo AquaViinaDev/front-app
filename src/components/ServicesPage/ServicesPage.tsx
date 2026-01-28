@@ -64,28 +64,39 @@ const ServicesPage = () => {
   };
 
   return (
-    <PageLayout>
-      <h1 className={styles.title}>{t("title")}</h1>
-      <ul className={styles.root}>
+    <PageLayout
+      className={styles.pageRoot}
+      wrapperClassName={styles.pageWrapper}
+      contentClassName={styles.content}
+    >
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>{t("title")}</h1>
+        </div>
+        <ul className={styles.root}>
         <ServiceItem
           title={t("osmosisInstallation.title")}
           description={t("osmosisInstallation.description")}
           price={400}
+          icon="install"
           handleModal={() => handleOrder(t("osmosisInstallation.title"))}
         />
         <ServiceItem
           title={t("replacingCartridges.title")}
           description={t("replacingCartridges.description")}
           price={650}
+          icon="replace"
           handleModal={() => handleOrder(t("replacingCartridges.title"))}
         />
         <ServiceItem
           title={t("repairFilters.title")}
           description={t("repairFilters.description")}
           price={250}
+          icon="repair"
           handleModal={() => handleOrder(t("repairFilters.title"))}
         />
-      </ul>
+        </ul>
+      </div>
       <Modal
         onClose={() => setIsOpenModal(false)}
         isOpen={isOpenModal}

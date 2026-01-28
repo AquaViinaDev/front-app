@@ -52,7 +52,7 @@ const CommunicationForm = () => {
         consultationMutation.mutate({ name: nameWithLang, phone });
       }}
     >
-      <TextInput required value={name} onChange={handleNameChange} />
+      <TextInput required value={name} onChange={handleNameChange}  />
       <PhoneInput value={phone} onChange={handlePhoneChange} />
       <Button
         className={styles.button}

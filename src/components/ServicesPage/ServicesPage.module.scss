@@ -1,17 +1,89 @@
 @use "variables" as *;
+@use "media" as *;
+
+.pageRoot {
+  min-height: 100vh;
+}
+
+.pageWrapper {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 45%, #eff6ff 100%);
+}
+
+.content::before,
+.content::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.content::before {
+  top: 60px;
+  left: 80px;
+  width: 260px;
+  height: 260px;
+  background: rgba(103, 232, 249, 0.45);
+}
+
+.content::after {
+  bottom: 80px;
+  right: 100px;
+  width: 320px;
+  height: 320px;
+  background: rgba(147, 197, 253, 0.45);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 112px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 16px 120px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  margin-bottom: 32px;
+  width: 100%;
+}
 
 .root {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
+  width: 100%;
 }
 
 .title {
-  font-size: $font-4xl;
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: $font-bold;
-  color: #04559b;
+  color: #0f172a;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .nameInput {
@@ -29,4 +101,10 @@
 .form {
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: $tabletScreen) {
+  .container {
+    padding: 70px 12px 100px;
+  }
 }

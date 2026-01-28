@@ -1,49 +1,76 @@
 @use "variables" as *;
 
 .root {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 24px 42px;
+  gap: 8px;
+  padding: 0 32px;
+  min-height: 40px;
+  height: 40px;
   font-family: $font-default;
-  font-size: $font-2xl;
-  font-weight: $font-bold;
+  font-size: $font-md;
+  font-weight: 500;
   color: $bg-white;
   white-space: nowrap;
   text-decoration: none;
-  border-radius: 16px;
-  background-color: $bg-blue;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #06b6d4 0%, #2563eb 100%);
   outline: none;
   border: none;
   cursor: pointer;
   user-select: none;
   pointer-events: all;
+  transition: all 0.2s ease;
+
+  svg {
+    flex-shrink: 0;
+    pointer-events: none;
+  }
 
   &.disabled {
-    color: #bdbdbd;
-    background-color: #e9e8e8;
-    border:0;
-    opacity: .8;
+    color: #e2e8f0;
+    background: #cbd5f5;
+    border: 0;
+    opacity: 0.7;
     cursor: default;
+    pointer-events: none;
   }
 }
 
 .rootSecondary {
-  background-color: $bg-white;
-  color:$bg-blue;
-  border: 1px solid $bg-blue;
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.5);
 
   &:hover:not(.disabled) {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(224, 242, 254, 0.6);
   }
 
   &:active:not(.disabled) {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(224, 242, 254, 0.9);
   }
 }
 
+.rootPrimary:hover:not(.disabled) {
+  background: linear-gradient(90deg, #0891b2 0%, #1d4ed8 100%);
+  box-shadow: 0 16px 30px rgba(37, 99, 235, 0.25);
+  transform: translateY(-1px);
+}
+
+.rootPrimary:active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+}
+
+.root:focus-visible {
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+}
+
 .smallButton {
-  border-radius: 8px;
-  padding: 16px 24px;
-  font-size: 16px;
+  padding: 0 20px;
+  min-height: 36px;
+  height: 36px;
+  font-size: 13px;
+  border-radius: 6px;
 }

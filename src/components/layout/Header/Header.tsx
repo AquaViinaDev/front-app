@@ -47,8 +47,13 @@ const Header = () => {
             <Image src={"/logo.svg"} alt="Logo Aqua Viina" width={150} height={50} />
           </Link>
         </div>
-        <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
+        <div>
+
           <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
+
+        </div>
+        <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
+<a href="tel:+37367732092">+37367732092</a>
           <Social links={socialLinks} onAction={() => setIsOpen(false)} />
           <Cart className={styles.cart} />
           <Local />

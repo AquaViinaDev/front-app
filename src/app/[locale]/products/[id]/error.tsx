@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useLocale } from "use-intl";
 import Link from "next/link";
+import { Button } from "@components/common";
 
 export default function ProductError({
   error,
@@ -24,9 +25,9 @@ export default function ProductError({
         Не удалось загрузить страницу товара. Попробуйте еще раз.
       </p>
       <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-        <button onClick={reset} type="button">
+        <Button onClick={reset} type="button">
           Повторить
-        </button>
+        </Button>
         <Link href={`/${locale}/products`}>Вернуться в каталог</Link>
       </div>
     </div>

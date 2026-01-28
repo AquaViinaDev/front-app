@@ -83,19 +83,39 @@ const Products = async (props: PageProps) => {
   const { locale } = await props.params;
   const searchParams = await props.searchParams;
 
-  const products = await getProducts({
-    locale,
-    brand: searchParams.brand,
-    type: searchParams.type,
-    minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
-    maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
-    query: searchParams.query,
-    sortOrder: searchParams.sortOrder ?? "desc",
+  const fallbackProducts = {
+    items: [],
+    total: 0,
     page: 1,
-    limit: 100,
-  });
+    totalPages: 1,
+  };
 
-  const filters = await getFilters(locale);
+  const fallbackFilters = {
+    brand: [],
+    productType: [],
+    price: {
+      low: 0,
+      more: 0,
+    },
+  };
+
+  const [productsResult, filtersResult] = await Promise.allSettled([
+    getProducts({
+      locale,
+      brand: searchParams.brand,
+      type: searchParams.type,
+      minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
+      maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
+      query: searchParams.query,
+      sortOrder: searchParams.sortOrder ?? "desc",
+      page: 1,
+      limit: 100,
+    }),
+    getFilters(locale),
+  ]);
+
+  const products = productsResult.status === "fulfilled" ? productsResult.value : fallbackProducts;
+  const filters = filtersResult.status === "fulfilled" ? filtersResult.value : fallbackFilters;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",

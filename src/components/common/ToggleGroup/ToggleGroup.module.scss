@@ -7,16 +7,25 @@
 }
 
 .button {
-  padding: 14px 16px;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 40px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
   border-radius: 6px;
-  background-color: $bg-white;
-  color: $text-black;
+  background-color: #ffffff;
+  color: #0f172a;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .active {
-  background-color: $bg-blue;
+  background: linear-gradient(90deg, #06b6d4 0%, #2563eb 100%);
   color: $text-white;
   border: none;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
 }

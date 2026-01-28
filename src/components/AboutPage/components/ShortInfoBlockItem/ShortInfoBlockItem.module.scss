@@ -1,11 +1,13 @@
 @use "variables" as *;
 
 .root {
+  width: 100%;
+  min-height: 176px;
   flex: 1;
   border: none;
   outline: none;
-  background: transparent;
-  padding: 0;
+  background: rgba(248, 250, 252, 0.9);
+  padding: 18px;
   margin: 0;
   text-decoration: none;
   color: inherit;
@@ -17,6 +19,15 @@
   text-align: center;
   gap: 10px;
   cursor: pointer;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.12);
 }
 
 .imageWrapper {
@@ -24,12 +35,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px;
-  border-radius: 50%;
-  background-color: $bg-gray;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(6, 182, 212, 0.12);
+  width: 64px;
+  height: 64px;
+}
+
+.imageWrapper :global(img) {
+  width: 28px !important;
+  height: 28px !important;
+  filter: invert(31%) sepia(76%) saturate(1640%) hue-rotate(163deg) brightness(95%)
+    contrast(92%);
 }
 
 .text {
   text-align: center;
   font-size: $font-md;
+  color: #0f172a;
+  font-weight: $font-semi-bold;
 }

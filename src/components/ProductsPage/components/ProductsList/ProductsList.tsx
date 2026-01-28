@@ -41,7 +41,10 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
           key={product.id}
           image={product.images[0]}
           title={product.name?.[locale]}
+          description={product.description?.[locale]}
+          typeLabel={product.type?.[locale]}
           price={product.price}
+          oldPrice={product.oldPrice}
           isInStock={product.inStock}
           link={`/products/${product.id}`}
         />

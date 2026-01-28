@@ -3,24 +3,71 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 20%;
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
   background-color: $bg-white;
-  height: fit-content;
-  padding: 15px;
-  border-radius: 16px;
+  padding: 20px 22px;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.controls {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+}
+
+.controlItem {
+  display: flex;
+  align-items: center;
+}
+
+.controlItem:first-child {
+  flex: 0 1 80%;
+}
+
+.filtersRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  width: 100%;
+}
+
+.search{
+  width: 100%;
+}
+.actionsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
+}
+.brandWrapper,
+.priceWrapper {
+  flex: 1 1 260px;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .title {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 0;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .list {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
 }
 
 .skeletonList {
@@ -34,26 +81,35 @@
 .filterButton {
   font-family: "Montserrat", sans-serif;
   cursor: pointer;
-  border: none;
+  border: 1px solid rgba(148, 163, 184, 0.45);
   font-size: 14px;
   font-weight: 500;
-  width: 100%;
-  text-align: start;
-  padding: 3px;
+  height: 40px;
+  width: auto;
+  text-align: center;
+  padding: 0 16px;
   border-radius: 6px;
-
   background: #ffffff;
-  color: #000000;
-  -webkit-text-fill-color: #000000;
+  color: #0f172a;
+  -webkit-text-fill-color: #0f172a;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   color-scheme: light;
 
   &:hover {
-    background-color: $bg-gray;
+    background-color: #f8fafc;
+    color: #0f172a;
   }
 
   &.active {
-    background-color: $bg-gray;
+    border-color: transparent;
+    background: linear-gradient(90deg, #06b6d4 0%, #2563eb 100%);
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
   }
 
   -webkit-tap-highlight-color: transparent;
@@ -69,7 +125,7 @@
 }
 
 .sliderTrack {
-  background: #ddd;
+  background: #e2e8f0;
   position: relative;
   flex-grow: 1;
   height: 4px;
@@ -78,7 +134,7 @@
 
 .sliderRange {
   position: absolute;
-  background: #0070f3;
+  background: #0ea5e9;
   height: 100%;
   border-radius: 9999px;
 }
@@ -88,7 +144,7 @@
   width: 16px;
   height: 16px;
   background: white;
-  border: 2px solid #0070f3;
+  border: 2px solid #0ea5e9;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -96,10 +152,11 @@
 .priceValues {
   width: 100%;
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 .priceSkeleton {
@@ -119,12 +176,13 @@
 }
 
 .priceValue {
-  width: 45%;
+  width: 100%;
+  max-width: 120px;
   padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
   background: #fff;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
   transition: all 0.2s ease;
   outline: none;
@@ -159,11 +217,4 @@
   background: $bg-white;
   padding: 15px;
   border-radius: 16px;
-}
-
-.actions {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 10px;
 }

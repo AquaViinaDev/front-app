@@ -2,14 +2,14 @@
 
 import { PageLayout } from "@components/layout/PageLayout";
 import { useLocale, useTranslations } from "use-intl";
-import { AboutDescriptionItem, ShortInfoBlockItem } from "@components/AboutPage/components";
 import { Button, LeadForm, Modal } from "@components/common";
 import { FormEvent, useState } from "react";
-import Link from "next/link";
-import { RoutesEnum } from "@types";
 import { sendConsultation } from "@lib/api";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import Link from "next/link";
+import { RoutesEnum } from "@types";
+import { ShortInfoBlockItem } from "@components/AboutPage/components";
 
 import styles from "./AboutPage.module.scss";
 
@@ -24,6 +24,13 @@ const AboutPage = () => {
     name: false,
     phone: false,
   });
+
+  const points = [
+    t("WhyChooseUs.textFirstLine"),
+    t("WhyChooseUs.textSecondLine"),
+    t("WhyChooseUs.textThirdLine"),
+    t("WhyChooseUs.textFourthLine"),
+  ];
 
   const { mutate: sendConsultationMutate } = useMutation({
     mutationFn: (payload: { name: string; phone: string }) => sendConsultation(payload, local),
@@ -58,46 +65,61 @@ const AboutPage = () => {
   };
 
   return (
-    <PageLayout contentClassName={styles.content}>
-      <h1 className={styles.title}>{t("title")}</h1>
-      <ul className={styles.description}>
-        <AboutDescriptionItem title={t("WhoWeAre.title")}>
-          <p className={styles.text}>{t("WhoWeAre.text")}</p>
-        </AboutDescriptionItem>
-        <AboutDescriptionItem title={t("WhyChooseUs.title")}>
-          <div className={styles.contentItemWrapper}>
-            <p className={styles.text}>{t("WhyChooseUs.textFirstLine")}</p>
-            <p className={styles.text}>{t("WhyChooseUs.textSecondLine")}</p>
-            <p className={styles.text}>{t("WhyChooseUs.textThirdLine")}</p>
-            <p className={styles.text}>{t("WhyChooseUs.textFourthLine")}</p>
+    <PageLayout
+      className={styles.pageRoot}
+      wrapperClassName={styles.pageWrapper}
+      contentClassName={styles.content}
+    >
+      <div className={styles.container}>
+        <div className={styles.grid}>
+          <div className={styles.left}>
+            {/* <span className={styles.badge}>{t("WhoWeAre.title")}</span> */}
+            <h2 className={styles.heading}>{t("title")}</h2>
+            <div className={styles.paragraphs}>
+              <p>{t("WhoWeAre.text")}</p>
+              <p>{t("OurExpertise.text")}</p>
+              <p>{t("OurPromise.text")}</p>
+            </div>
+            <div className={styles.points}>
+              {points.map((point) => (
+                <div key={point} className={styles.pointItem}>
+                  <span className={styles.pointIcon}>✓</span>
+                  <span>{point}</span>
+                </div>
+              ))}
+            </div>
+            <div className={styles.callout}>
+              <p>{t("CallToAction.text")}</p>
+              <Button  className={styles.button} onClick={() => setIsOpenModal(true)}>{t("textButton")}</Button>
+            </div>
           </div>
-        </AboutDescriptionItem>
-        <AboutDescriptionItem title={t("OurExpertise.title")}>
-          <p className={styles.text}>{t("OurExpertise.text")}</p>
-        </AboutDescriptionItem>
-        <AboutDescriptionItem title={t("OurPromise.title")}>
-          <p className={styles.text}>{t("OurPromise.text")}</p>
-        </AboutDescriptionItem>
-        <AboutDescriptionItem title={t("CallToAction.title")}>
-          <p className={styles.text}>{t("CallToAction.text")}</p>
-        </AboutDescriptionItem>
-      </ul>
-      <Button onClick={() => setIsOpenModal(true)}>{t("textButton")}</Button>
-      <ul className={styles.shortInfoBlock}>
-        <ShortInfoBlockItem image={"/delivery-truck.svg"} text={t("ShortInfoBlockItem.delivery")} />
-        <ShortInfoBlockItem image={"/return-icon.svg"} text={t("ShortInfoBlockItem.guarantee")} />
-        <ShortInfoBlockItem
-          onClick={() => setIsOpenModal(true)}
-          image={"/headphones-icon.svg"}
-          text={t("ShortInfoBlockItem.support")}
-        />
-        <ShortInfoBlockItem
-          as={Link}
-          href={`/${local}${RoutesEnum.Products}`}
-          image={"/cart-icon.svg"}
-          text={t("ShortInfoBlockItem.wideSelection")}
-        />
-      </ul>
+          <div className={styles.statsGrid}>
+            <ShortInfoBlockItem
+              className={styles.statCard}
+              image={"/delivery-truck.svg"}
+              text={t("ShortInfoBlockItem.delivery")}
+            />
+            <ShortInfoBlockItem
+              className={styles.statCard}
+              image={"/return-icon.svg"}
+              text={t("ShortInfoBlockItem.guarantee")}
+            />
+            <ShortInfoBlockItem
+              className={styles.statCard}
+              onClick={() => setIsOpenModal(true)}
+              image={"/headphones-icon.svg"}
+              text={t("ShortInfoBlockItem.support")}
+            />
+            <ShortInfoBlockItem
+              className={styles.statCard}
+              as={Link}
+              href={`/${local}${RoutesEnum.Products}`}
+              image={"/cart-icon.svg"}
+              text={t("ShortInfoBlockItem.wideSelection")}
+            />
+          </div>
+        </div>
+      </div>
       <Modal
         onClose={() => setIsOpenModal(false)}
         isOpen={isOpenModal}
@@ -120,4 +142,5 @@ const AboutPage = () => {
     </PageLayout>
   );
 };
+
 export default AboutPage;

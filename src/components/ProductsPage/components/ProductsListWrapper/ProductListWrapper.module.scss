@@ -3,17 +3,61 @@
 
 .pageLayout {
   height: 100%;
-  background-color: $bg-gray;
+  min-height: 100vh;
+  // background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 45%, #eff6ff 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-.contentFilterWrapper, .sortWrapper {
+.pageLayout::before,
+.pageLayout::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.pageLayout::before {
+  top: 60px;
+  left: 80px;
+  width: 260px;
+  height: 260px;
+  background: rgba(103, 232, 249, 0.45);
+}
+
+.pageLayout::after {
+  bottom: 80px;
+  right: 100px;
+  width: 320px;
+  height: 320px;
+  background: rgba(147, 197, 253, 0.45);
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0px 16px 120px;
+}
+
+.contentFilterWrapper,
+.sortWrapper {
   display: flex;
   gap: 16px;
+}
+
+.contentFilterWrapper {
+  flex-direction: column;
+  gap: 24px;
 }
 
 .sortWrapper {
   display: flex;
   width: 100%;
+  gap: 16px;
 }
 
 .titleWrapper {
@@ -21,23 +65,23 @@
 }
 
 .title {
-  font-size: $font-3xl;
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: $font-bold;
+  color: #0f172a;
 }
 
 .filtersWrapper {
   width: 100%;
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 24px;
 }
 
 .filtersButton {
-  display: flex;
+  display: inline-flex;
   gap: 10px;
-  padding: 10px;
 }
 
 .mobileFiltersOverlay {
@@ -78,7 +122,7 @@
 }
 
 .loadMoreBtn {
-  margin: 20px auto 0;
+  margin: 32px auto 0;
 }
 
 @keyframes slideIn {
@@ -98,6 +142,10 @@
 
 
 @media (max-width: $tabletScreen) {
+  .wrapper {
+    padding: 70px 12px 100px;
+  }
+
   .filter {
     display: none;
   }

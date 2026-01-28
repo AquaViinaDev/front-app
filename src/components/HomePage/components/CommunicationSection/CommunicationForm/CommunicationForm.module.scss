@@ -2,9 +2,14 @@
 
 .form {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 16px;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.form > * {
+  min-width: 220px;
 }
 
 @media (max-width: $tabletScreen) {
