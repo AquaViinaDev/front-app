@@ -28,7 +28,7 @@ const isLocalHostUrl = (value: string) => {
 
 const resolveRawBaseUrl = () => {
   const isServer = typeof window === "undefined";
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "development";
 
   const defaultForEnvironment = isProduction ? DEFAULT_PUBLIC_API_URL : DEFAULT_LOCAL_API_URL;
 
@@ -123,7 +123,7 @@ export const resolveApiBaseUrl = (locale?: string | null): string => {
 const isAbsoluteUrl = (path: string) => /^(?:[a-z][a-z\d+\-.]*:)?\/\//i.test(path);
 
 const resolveMediaBaseUrl = () => {
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "development";
   const defaultForEnvironment = isProduction ? DEFAULT_PUBLIC_API_URL : DEFAULT_LOCAL_API_URL;
 
   const candidates = [
@@ -196,6 +196,7 @@ export const resolveMediaUrl = (path?: string | null): string | null => {
 const buildApiUrl = (path: string, locale?: string | null) => {
   const base = resolveApiBaseUrl(locale);
   if (!path) return base;
+
   return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
 };
 

@@ -10,7 +10,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { FiltersResponse } from "@components/FiltersBlock/FitersBlock";
 import { FiltersBlock } from "@components/FiltersBlock";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import { RoutesEnum } from "@types";
 
 import styles from "./ProductListWrapper.module.scss";
@@ -71,10 +71,21 @@ const ProductsListWrapper = ({
 
   const effectiveBasePath = basePathname ?? `/${locale}${RoutesEnum.Products}`;
 
+  const isFiltersReady = !!initialFilters?.price;
+
+  const isInitialQuery =
+    !params.query &&
+    !params.brand &&
+    !params.type &&
+    !params.minPrice &&
+    !params.maxPrice &&
+    sortOrder === "default";
+
   // 🔎 поиск
+  const router = useRouter();
   useEffect(() => {
     const handler = setTimeout(() => {
-      const currentParams = new URLSearchParams(window.location.search);
+      const currentParams = new URLSearchParams(searchParams.toString());
 
       if (searchValue) {
         currentParams.set("query", searchValue);
@@ -82,19 +93,18 @@ const ProductsListWrapper = ({
         currentParams.delete("query");
       }
 
-      window.history.replaceState(
-        null,
-        "",
-        `${effectiveBasePath}?${currentParams.toString()}`
+      router.replace(
+        `${effectiveBasePath}?${currentParams.toString()}`,
+        { scroll: false }
       );
     }, 500);
 
     return () => clearTimeout(handler);
-  }, [searchValue, effectiveBasePath]);
+  }, [searchValue, effectiveBasePath, router, searchParams]);
 
   // 🔃 сортировка
   useEffect(() => {
-    const currentParams = new URLSearchParams(window.location.search);
+    const currentParams = new URLSearchParams(searchParams.toString());
 
     if (sortOrder && sortOrder !== "default") {
       currentParams.set("sortOrder", sortOrder);
@@ -102,12 +112,15 @@ const ProductsListWrapper = ({
       currentParams.delete("sortOrder");
     }
 
-    window.history.replaceState(
-      null,
-      "",
-      `${effectiveBasePath}?${currentParams.toString()}`
+    const queryString = currentParams.toString();
+
+    router.replace(
+      queryString
+        ? `${effectiveBasePath}?${queryString}`
+        : effectiveBasePath,
+      { scroll: false }
     );
-  }, [sortOrder, effectiveBasePath]);
+  }, [sortOrder, effectiveBasePath, router, searchParams]);
 
   // 🧩 фильтры (с initialData)
   const {
@@ -129,12 +142,12 @@ const ProductsListWrapper = ({
     isFetched,
   } = useInfiniteQuery({
     queryKey: ["products", locale, params, sortOrder],
-    initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) => {
-      if (pageParam === 1) {
-        return Promise.resolve(initialProducts);
-      }
 
+    enabled: isFiltersReady,
+
+    initialPageParam: 1,
+
+    queryFn: ({ pageParam = 1 }) => {
       const appliedSort = sortOrder === "default" ? "desc" : sortOrder;
 
       return getProducts({
@@ -142,13 +155,22 @@ const ProductsListWrapper = ({
         query: params.query,
         brand: params.brand,
         type: params.type,
-        minPrice: params.minPrice ?? filters.price.low,
-        maxPrice: params.maxPrice ?? filters.price.more,
+        minPrice: params.minPrice ?? filters!.price.low,
+        maxPrice: params.maxPrice ?? filters!.price.more,
         sortOrder: appliedSort,
         page: pageParam,
         limit: 16,
       });
     },
+
+    initialData:
+      isFiltersReady && isInitialQuery
+        ? {
+          pages: [initialProducts],
+          pageParams: [1],
+        }
+        : undefined,
+
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
   });

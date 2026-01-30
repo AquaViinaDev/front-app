@@ -75,6 +75,7 @@ const FiltersBlock = ({
       type: current.get("type"),
       minPrice: current.get("minPrice"),
       maxPrice: current.get("maxPrice"),
+      sortOrder: current.get("sortOrder"),
     };
   }, [searchParams]);
 

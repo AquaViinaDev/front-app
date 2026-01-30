@@ -131,10 +131,6 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
   const discount =
     oldPrice && oldPrice > price ? Math.max(oldPrice - price, 0) : undefined;
 
-    console.log('discount',discount)
-    console.log('oldPrice',oldPrice)
-    console.log('price',price)
-
   const imageSources = useMemo(() => {
     const list = Array.isArray(safeLocalizedProduct?.images)
       ? safeLocalizedProduct.images
@@ -144,12 +140,12 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
     }
     return list
       .map((img: unknown) => (typeof img === "string" ? img : null))
-      .filter((img): img is string => Boolean(img));
+      .filter((img: any): img is string => Boolean(img));
   }, [safeLocalizedProduct?.images, resolvedImage]);
 
   const resolvedImages = useMemo(
     () =>
-      imageSources.map((img) => {
+      imageSources.map((img: any) => {
         try {
           return resolveMediaUrl(img);
         } catch {
@@ -298,7 +294,6 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
     );
   }
 
-  console.log('discountLabel',discountLabel)
   return (
     <PageLayout
       className={styles.pageLayout}
@@ -408,7 +403,7 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
               </div>
               {resolvedImages.length > 1 && (
                 <div className={styles.thumbs}>
-                  {resolvedImages.map((img, index) => (
+                  {resolvedImages.map((img: any, index: number) => (
                     <button
                       key={`${img}-${index}`}
                       type="button"
