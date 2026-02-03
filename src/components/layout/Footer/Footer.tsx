@@ -59,7 +59,7 @@ const Footer = () => {
           <div className={styles.contactList}>
             <div className={styles.contactItem}>
               <span className={styles.contactLabel}>{t("contacts.phoneLabel")}</span>
-              <Link href="tel:+37367732092" className={styles.link}>
+              <Link href="tel:+37367177889" className={styles.link}>
                 {t("contacts.phoneValue")}
               </Link>
             </div>
