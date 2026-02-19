@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import Link from "next/link";
 import { RoutesEnum } from "@types";
@@ -11,12 +12,52 @@ const Footer = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
   const currentYear = new Date().getFullYear();
+  const [logoClicks, setLogoClicks] = useState(0);
+  const [showCreators, setShowCreators] = useState(false);
+
+  useEffect(() => {
+    if (!logoClicks) return;
+
+    const timer = setTimeout(() => {
+      setLogoClicks(0);
+    }, 1600);
+
+    return () => clearTimeout(timer);
+  }, [logoClicks]);
+
+  const handleLogoSecret = () => {
+    setLogoClicks((prev) => {
+      const next = prev + 1;
+      if (next >= 5) {
+        setShowCreators((current) => !current);
+        return 0;
+      }
+      return next;
+    });
+  };
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.brandBlock}>
-          <h2 className={styles.logo}>AQUA VIINA</h2>
+          <h2
+            className={styles.logo}
+            role="button"
+            tabIndex={0}
+            onClick={handleLogoSecret}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                handleLogoSecret();
+              }
+            }}
+            aria-label="Aqua Viina secret"
+          >
+            AQUA VIINA
+          </h2>
           <p className={styles.description}>{t("mainText")}</p>
+          <p className={`${styles.easterEgg} ${showCreators ? styles.easterEggVisible : ""}`}>
+            Created by Cavliuc Igor &amp; Bondarenco Nicolai
+          </p>
           <div className={styles.socialRow}>
             <Link
               href="https://www.instagram.com/aqua_viina/?next=%2F"
