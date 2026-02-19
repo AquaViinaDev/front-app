@@ -92,7 +92,7 @@
     "contacts": {
       "title": "Контакты",
       "phoneLabel": "Телефон",
-      "phoneValue": "+37367177889",
+      "phoneValue": "+373 67 177 889",
       "emailLabel": "Email",
       "emailValue": "info@aquaviina.md",
       "addressLabel": "Адрес",
@@ -101,7 +101,7 @@
     "support": {
       "title": "Сервис",
       "hoursLabel": "График",
-      "hoursValue": "Пн–Сб 09:00–20:00",
+      "hoursValue": "Понедельник-Пятница 8:00-18:00",
       "deliveryLabel": "Доставка",
       "deliveryValue": "По всей Молдове",
       "consultationLabel": "Консультация",

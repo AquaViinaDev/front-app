@@ -19,6 +19,42 @@ type ProductPageClientProps = {
 const stringifyJsonLd = (value: unknown) =>
   JSON.stringify(value, (_key, val) => (typeof val === "bigint" ? val.toString() : val));
 
+const normalizeCharacteristicKey = (key: string) =>
+  key
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+
+const isIdCharacteristicKey = (key: string) => {
+  const normalized = normalizeCharacteristicKey(key);
+  return normalized === "id" || normalized.startsWith("id ");
+};
+
+const isBrandCharacteristicKey = (key: string) => {
+  const normalized = normalizeCharacteristicKey(key);
+  return normalized.includes("бренд") || normalized.includes("brand");
+};
+
+const isTypeCharacteristicKey = (key: string) => {
+  const normalized = normalizeCharacteristicKey(key);
+  return (
+    normalized.includes("тип товара") ||
+    normalized.includes("tip produs") ||
+    normalized.includes("type produs") ||
+    normalized.includes("product type")
+  );
+};
+
+const isCountryCharacteristicKey = (key: string) => {
+  const normalized = normalizeCharacteristicKey(key);
+  return (
+    normalized.includes("страна производ") ||
+    normalized.includes("tara de origine") ||
+    normalized.includes("country of origin")
+  );
+};
+
 const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
   const activeLocale = useLocale();
   const t = useTranslations();
@@ -101,12 +137,6 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
       .map(([key, value]) => [key, (value as string).trim()] as [string, string]);
   }, [safeLocalizedProduct]);
 
-  const hasCharacteristics = normalizedCharacteristics.length > 0;
-  const skuKey = locale === "ro" ? "Cod produs (SKU)" : "Артикул (SKU)";
-  const skuEntry = normalizedCharacteristics.find(([key]) => key === skuKey);
-  const sku = skuEntry ? skuEntry[1] : undefined;
-  const currentItem = items.find((i) => i.id === id);
-
   const descriptionText =
     typeof safeLocalizedProduct?.description === "string"
       ? safeLocalizedProduct.description
@@ -119,17 +149,72 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
     typeof safeLocalizedProduct?.type === "string"
       ? safeLocalizedProduct.type
       : String(safeLocalizedProduct?.type ?? "");
+  const currentItem = items.find((i) => i.id === id);
+  const characteristicCollator = useMemo(
+    () => new Intl.Collator(activeLocale === "ro" ? "ro" : "ru"),
+    [activeLocale]
+  );
+
+  const orderedCharacteristics = useMemo(() => {
+    const entries = [...normalizedCharacteristics];
+    const used = new Set<number>();
+
+    const takeFirst = (
+      predicate: (key: string) => boolean
+    ): [string, string] | null => {
+      const idx = entries.findIndex(([key], entryIndex) => {
+        if (used.has(entryIndex)) return false;
+        return predicate(key);
+      });
+      if (idx === -1) return null;
+      used.add(idx);
+      return entries[idx];
+    };
+
+    const result: [string, string][] = [];
+    const idEntry = takeFirst(isIdCharacteristicKey);
+    const brandEntry = takeFirst(isBrandCharacteristicKey);
+    const typeEntry = takeFirst(isTypeCharacteristicKey);
+    const countryEntry = takeFirst(isCountryCharacteristicKey);
+
+    result.push(idEntry ?? ["Id", id]);
+
+    if (brandEntry) {
+      result.push(brandEntry);
+    } else if (brandText.trim()) {
+      result.push([locale === "ro" ? "Brand" : "Бренд", brandText.trim()]);
+    }
+
+    if (typeEntry) {
+      result.push(typeEntry);
+    } else if (typeText.trim()) {
+      result.push([locale === "ro" ? "Tip produs" : "Тип товара", typeText.trim()]);
+    }
+
+    if (countryEntry) {
+      result.push(countryEntry);
+    }
+
+    const alphabetic = entries
+      .filter((_, index) => !used.has(index))
+      .sort(([a], [b]) => characteristicCollator.compare(a, b));
+
+    return [...result, ...alphabetic];
+  }, [normalizedCharacteristics, brandText, typeText, id, locale, characteristicCollator]);
+
+  const hasCharacteristics = orderedCharacteristics.length > 0;
+  const skuKey = locale === "ro" ? "Cod produs (SKU)" : "Артикул (SKU)";
+  const skuEntry = normalizedCharacteristics.find(([key]) => key === skuKey);
+  const sku = skuEntry ? skuEntry[1] : undefined;
 
   const brandLabel = t("ProductPage.brandLabel");
   const skuLabel = t("ProductPage.skuLabel");
   const inStock = Boolean(safeLocalizedProduct?.inStock);
-  const oldPrice =
-    safeLocalizedProduct?.oldPrice !== undefined && safeLocalizedProduct?.oldPrice !== null
-      ? Number(safeLocalizedProduct.oldPrice)
-      : undefined;
   const price = Number(safeLocalizedProduct?.price ?? 0);
-  const discount =
-    oldPrice && oldPrice > price ? Math.max(oldPrice - price, 0) : undefined;
+  const parsedOldPrice = Number(safeLocalizedProduct?.oldPrice);
+  const hasDiscountPrice = Number.isFinite(parsedOldPrice) && parsedOldPrice > price;
+  const oldPrice = hasDiscountPrice ? parsedOldPrice : undefined;
+  const discount = oldPrice ? Math.max(oldPrice - price, 0) : undefined;
 
   const imageSources = useMemo(() => {
     const list = Array.isArray(safeLocalizedProduct?.images)
@@ -167,7 +252,7 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
   const shortDescription =
     descriptionText.length > 220 ? `${descriptionText.slice(0, 220).trim()}...` : descriptionText;
 
-  const benefitItems = normalizedCharacteristics.slice(0, 4).map(([key, value]) =>
+  const benefitItems = orderedCharacteristics.slice(0, 4).map(([key, value]) =>
     `${key}: ${value}`
   );
 
@@ -210,14 +295,6 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
       lower.includes("package")
     );
   };
-
-  const orderedCharacteristics = useMemo(() => {
-    if (!normalizedCharacteristics.length) return [];
-    const items = [...normalizedCharacteristics];
-    const packageItems = items.filter(([key]) => isPackageKey(key));
-    const otherItems = items.filter(([key]) => !isPackageKey(key));
-    return [...otherItems, ...packageItems];
-  }, [normalizedCharacteristics]);
 
   useEffect(() => {
     if (!hasCharacteristics && descriptionText.trim().length > 0) {

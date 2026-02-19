@@ -35,12 +35,14 @@
 .itemImage {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  object-fit: contain;
+  object-position: center;
+  background: #ffffff;
+  transition: transform 0.3s ease;
 }
 
 .root:hover .itemImage {
-  transform: scale(1.05);
+  transform: scale(1);
 }
 
 .badge {

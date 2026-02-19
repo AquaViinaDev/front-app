@@ -203,8 +203,8 @@ const buildApiUrl = (path: string, locale?: string | null) => {
 type GetProductsParams = {
   locale?: string;
   query?: string;
-  brand?: string;
-  type?: string;
+  brand?: string | string[];
+  type?: string | string[];
   minPrice?: number;
   maxPrice?: number;
   sortOrder?: "asc" | "desc" | "default";
@@ -214,10 +214,22 @@ type GetProductsParams = {
 
 export const getProducts = async ({ locale, ...params }: GetProductsParams) => {
   const baseSearchParams = new URLSearchParams();
+  const appendListParam = (key: string, value?: string | string[]) => {
+    if (!value) return;
+    if (Array.isArray(value)) {
+      const prepared = value.map((item) => item.trim()).filter(Boolean);
+      if (!prepared.length) return;
+      baseSearchParams.set(key, prepared.join(","));
+      return;
+    }
+    if (value.trim()) {
+      baseSearchParams.set(key, value.trim());
+    }
+  };
 
   if (params.query) baseSearchParams.set("query", params.query);
-  if (params.brand) baseSearchParams.set("brand", params.brand);
-  if (params.type) baseSearchParams.set("type", params.type);
+  appendListParam("brand", params.brand);
+  appendListParam("type", params.type);
   if (params.minPrice !== undefined) baseSearchParams.set("minPrice", String(params.minPrice));
   if (params.maxPrice !== undefined) baseSearchParams.set("maxPrice", String(params.maxPrice));
   if (params.sortOrder && params.sortOrder !== "default") {

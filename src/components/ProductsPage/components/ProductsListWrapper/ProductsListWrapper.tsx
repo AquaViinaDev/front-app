@@ -31,6 +31,20 @@ type ProductsListWrapperProps = {
   initialFilters: FiltersResponse;
 };
 
+const parseMultiFilterParam = (value: string | null | undefined, fallback?: string | null) => {
+  const source = value ?? fallback ?? null;
+  if (!source) return [];
+
+  return Array.from(
+    new Set(
+      source
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    )
+  );
+};
+
 const ProductsListWrapper = ({
                                defaultBrand,
                                defaultType,
@@ -52,8 +66,8 @@ const ProductsListWrapper = ({
   );
 
   const params = useMemo(() => {
-    const brand = searchParams.get("brand") ?? defaultBrand ?? undefined;
-    const type = searchParams.get("type") ?? defaultType ?? undefined;
+    const brand = parseMultiFilterParam(searchParams.get("brand"), defaultBrand ?? null);
+    const type = parseMultiFilterParam(searchParams.get("type"), defaultType ?? null);
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
     const query = searchParams.get("query") ?? undefined;
@@ -75,8 +89,8 @@ const ProductsListWrapper = ({
 
   const isInitialQuery =
     !params.query &&
-    !params.brand &&
-    !params.type &&
+    params.brand.length === 0 &&
+    params.type.length === 0 &&
     !params.minPrice &&
     !params.maxPrice &&
     sortOrder === "default";
@@ -153,8 +167,8 @@ const ProductsListWrapper = ({
       return getProducts({
         locale,
         query: params.query,
-        brand: params.brand,
-        type: params.type,
+        brand: params.brand.length ? params.brand : undefined,
+        type: params.type.length ? params.type : undefined,
         minPrice: params.minPrice ?? filters!.price.low,
         maxPrice: params.maxPrice ?? filters!.price.more,
         sortOrder: appliedSort,

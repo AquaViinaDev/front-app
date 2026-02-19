@@ -38,6 +38,7 @@ export const ProductInformationBlock = ({
   const currentItem = items.find((i) => i.id === productId);
 
   const t = useTranslations();
+  const hasDiscount = typeof oldPrice === "number" && Number.isFinite(oldPrice) && oldPrice > price;
 
   const handleQuickPurchase = () => {
     const currentItem = items.find((i) => i.id === productId);
@@ -53,7 +54,7 @@ export const ProductInformationBlock = ({
     <>
       <div className={styles.root}>
         <div className={styles.leftBlock}>
-          <div className={classNames(styles.leftBlockHeader, { [styles.withOldPrice]: oldPrice })}>
+          <div className={classNames(styles.leftBlockHeader, { [styles.withOldPrice]: hasDiscount })}>
           <p
             className={classNames(styles.stockInfo, {
               [styles.inStock]: inStock,
@@ -107,7 +108,7 @@ export const ProductInformationBlock = ({
         <div className={styles.rightBlock}>
           <div className={styles.priceBlock}>
             <p className={styles.saleInfo}>
-              {oldPrice && (
+              {hasDiscount && oldPrice && (
                 oldPrice + t("ProductsPageInformation.price")
               )}
             </p>

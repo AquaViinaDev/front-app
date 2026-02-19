@@ -53,7 +53,7 @@ const Header = () => {
 
         </div>
         <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
-<a href="tel:+37367177889">+37367177889</a>
+<a href="tel:+37367177889">+373 67 177 889</a>
           <Social links={socialLinks} onAction={() => setIsOpen(false)} />
           <Cart className={styles.cart} />
           <Local />

@@ -99,7 +99,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
                 ? "Filtre de apă, cartușe și sisteme de osmoză inversă în Moldova."
                 : "Фильтры для воды, картриджи и системы обратного осмоса в Молдове.",
             url: "https://aquaviina.md",
-            telephone: "+37367177889",
+            telephone: "+373 67 177 889",
             areaServed: "MD",
             address: {
               "@type": "PostalAddress",

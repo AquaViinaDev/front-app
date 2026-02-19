@@ -86,13 +86,13 @@
       "title": "Navigare",
       "main": "Acasă",
       "products": "Produse",
-      "services": "Услуги",
+      "services": "Servicii",
       "aboutUs": "Despre noi"
     },
     "contacts": {
       "title": "Contacte",
       "phoneLabel": "Telefon",
-      "phoneValue": "+37367177889",
+      "phoneValue": "+373 67 177 889",
       "emailLabel": "Email",
       "emailValue": "info@aquaviina.md",
       "addressLabel": "Adresă",
@@ -101,7 +101,7 @@
     "support": {
       "title": "Servicii",
       "hoursLabel": "Program",
-      "hoursValue": "Lun–Sâm 09:00–20:00",
+      "hoursValue": "Luni-Vineri 8:00-18:00",
       "deliveryLabel": "Livrare",
       "deliveryValue": "În toată Moldova",
       "consultationLabel": "Consultanță",

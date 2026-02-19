@@ -37,6 +37,39 @@ export type FiltersBlockProps = {
   onSortChange?: (value: "asc" | "desc" | "default") => void;
 };
 
+const parseMultiFilterParam = (value: string | null | undefined, fallback?: string | null) => {
+  const source = value ?? fallback ?? null;
+  if (!source) return [];
+
+  return Array.from(
+    new Set(
+      source
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    )
+  );
+};
+
+const toggleFilterValue = (values: string[], value: string) => {
+  if (values.includes(value)) {
+    return values.filter((item) => item !== value);
+  }
+  return [...values, value];
+};
+
+const normalizeSelection = (values: string[], locale: string) =>
+  Array.from(new Set(values.filter(Boolean))).sort((a, b) =>
+    a.localeCompare(b, locale === "ro" ? "ro" : "ru")
+  );
+
+const areSelectionsEqual = (left: string[], right: string[], locale: string) => {
+  const normalizedLeft = normalizeSelection(left, locale);
+  const normalizedRight = normalizeSelection(right, locale);
+  if (normalizedLeft.length !== normalizedRight.length) return false;
+  return normalizedLeft.every((value, index) => value === normalizedRight[index]);
+};
+
 const FiltersBlock = ({
   filtersData,
   isLoading,
@@ -85,55 +118,78 @@ const FiltersBlock = ({
     return Number.isFinite(numeric) ? numeric : fallback;
   };
 
-  const activeBrand = params.brand || defaultBrand || null;
-  const activeType = params.type || defaultType || null;
+  const activeBrands = useMemo(
+    () => parseMultiFilterParam(params.brand, defaultBrand ?? null),
+    [params.brand, defaultBrand]
+  );
+  const activeTypes = useMemo(
+    () => parseMultiFilterParam(params.type, defaultType ?? null),
+    [params.type, defaultType]
+  );
   const appliedMinPrice = parsePriceParam(params.minPrice, safeFilters.price.low);
   const appliedMaxPrice = parsePriceParam(params.maxPrice, safeFilters.price.more);
 
-  const [pendingBrand, setPendingBrand] = useState<string | null>(activeBrand);
-  const [pendingType, setPendingType] = useState<string | null>(activeType);
+  const [pendingBrands, setPendingBrands] = useState<string[]>(activeBrands);
+  const [pendingTypes, setPendingTypes] = useState<string[]>(activeTypes);
 
   useEffect(() => {
-    setPendingBrand(activeBrand);
-  }, [activeBrand]);
+    setPendingBrands(activeBrands);
+  }, [activeBrands]);
 
   useEffect(() => {
-    setPendingType(activeType);
-  }, [activeType]);
+    setPendingTypes(activeTypes);
+  }, [activeTypes]);
 
   const isFilterActive = useMemo(() => {
     return (
       appliedMinPrice !== safeFilters.price.low ||
       appliedMaxPrice !== safeFilters.price.more ||
-      !!activeBrand ||
-      !!activeType
+      activeBrands.length > 0 ||
+      activeTypes.length > 0
     );
-  }, [activeBrand, activeType, appliedMinPrice, appliedMaxPrice, safeFilters.price.low, safeFilters.price.more]);
+  }, [
+    activeBrands,
+    activeTypes,
+    appliedMinPrice,
+    appliedMaxPrice,
+    safeFilters.price.low,
+    safeFilters.price.more,
+  ]);
 
   const [rangeMin, rangeMax] = range;
 
   const hasPendingChanges = useMemo(() => {
     return (
-      pendingBrand !== activeBrand ||
-      pendingType !== activeType ||
+      !areSelectionsEqual(pendingBrands, activeBrands, locale) ||
+      !areSelectionsEqual(pendingTypes, activeTypes, locale) ||
       rangeMin !== appliedMinPrice ||
       rangeMax !== appliedMaxPrice
     );
   }, [
-    pendingBrand,
-    activeBrand,
-    pendingType,
-    activeType,
+    pendingBrands,
+    activeBrands,
+    pendingTypes,
+    activeTypes,
     rangeMin,
     rangeMax,
+    locale,
     appliedMinPrice,
     appliedMaxPrice,
   ]);
 
-  const updateParams = (params: Record<string, string | number | null>) => {
+  const updateParams = (params: Record<string, string | number | string[] | null>) => {
     const newParams = new URLSearchParams(searchParams.toString());
 
     Object.entries(params).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        if (value.length === 0) {
+          newParams.delete(key);
+          return;
+        }
+        newParams.set(key, value.join(","));
+        return;
+      }
+
       if (value === null || value === "") {
         newParams.delete(key);
       } else {
@@ -167,16 +223,16 @@ const FiltersBlock = ({
     }
 
     updateParams({
-      brand: pendingBrand,
-      type: pendingType,
+      brand: pendingBrands.length ? pendingBrands : null,
+      type: pendingTypes.length ? pendingTypes : null,
       minPrice: finalMin === safeFilters.price.low ? null : finalMin,
       maxPrice: finalMax === safeFilters.price.more ? null : finalMax,
     });
   };
 
   const handleResetFilters = () => {
-    setPendingBrand(null);
-    setPendingType(null);
+    setPendingBrands([]);
+    setPendingTypes([]);
     setRange([safeFilters.price.low, safeFilters.price.more]);
     if (resetPathname) {
       router.replace(resetPathname);
@@ -224,11 +280,9 @@ const FiltersBlock = ({
               <li className={styles.item} key={id}>
                 <button
                   className={classNames(styles.filterButton, {
-                    [styles.active]: pendingBrand === item.ro,
+                    [styles.active]: pendingBrands.includes(item.ro),
                   })}
-                  onClick={() =>
-                    setPendingBrand((prev) => (prev === item.ro ? null : item.ro))
-                  }
+                  onClick={() => setPendingBrands((prev) => toggleFilterValue(prev, item.ro))}
                 >
                   {item[langKey]}
                 </button>
@@ -309,9 +363,9 @@ const FiltersBlock = ({
               <li className={styles.item} key={id}>
                 <button
                   className={classNames(styles.filterButton, {
-                    [styles.active]: pendingType === item.ro,
+                    [styles.active]: pendingTypes.includes(item.ro),
                   })}
-                  onClick={() => setPendingType((prev) => (prev === item.ro ? null : item.ro))}
+                  onClick={() => setPendingTypes((prev) => toggleFilterValue(prev, item.ro))}
                 >
                   {item[langKey]}
                 </button>
