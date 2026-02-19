@@ -49,6 +49,10 @@ export async function generateMetadata(props: {
     },
     verification: {
       google: "tBQCnfa7dmLgkogvoSqXPCW9uS5NOcI_XTQvEwMC2Cg",
+      yandex: "cb9ffd70bf88210d",
+      other: {
+        "msvalidate.01": "F146DA38CA9262959FE12B8B6E56B19B",
+      },
     },
     icons: {
       icon: "/favicon.ico",
