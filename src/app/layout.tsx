@@ -22,6 +22,10 @@ export default function RootLayout({ children, params }: RootLayoutProps) {
       <head>
         <meta name="color-scheme" content="light" />
         <meta name="theme-color" content="#ffffff" />
+        <meta
+          name="google-site-verification"
+          content="uG9xJSgdzZUOz2gm_PeQYQSGqdVHM-tsMdeQQNM7RZw"
+        />
       </head>
       <body suppressHydrationWarning>
         <Script id="meta-pixel" strategy="afterInteractive">
