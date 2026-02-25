@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getFilters } from "@lib/api";
 import ProductsListWrapper from "@components/ProductsPage/components/ProductsListWrapper";
 
@@ -43,6 +43,10 @@ export async function generateMetadata(props: {
   const match = findBrand(filters, brand);
 
   const displayName = match ? (locale === "ro" ? match.ro : match.ru) : decodeURIComponent(brand);
+  const canonicalSlug = match
+    ? normalizeSlug(match.ro || match.ru || decodeURIComponent(brand))
+    : normalizeSlug(decodeURIComponent(brand));
+  const canonicalBrand = canonicalSlug || normalizeSlug(brand) || brand.toLowerCase();
   const title =
     locale === "ro"
       ? `Filtre de apă ${displayName} — AquaViina`
@@ -51,7 +55,7 @@ export async function generateMetadata(props: {
     locale === "ro"
       ? `Catalog de filtre de apă ${displayName} cu livrare în Moldova.`
       : `Каталог фильтров для воды ${displayName} с доставкой по Молдове.`;
-  const canonical = `https://aquaviina.md/${locale}/brands/${brand}`;
+  const canonical = `https://aquaviina.md/${locale}/brands/${canonicalBrand}`;
 
   return {
     title,
@@ -59,9 +63,9 @@ export async function generateMetadata(props: {
     alternates: {
       canonical,
       languages: {
-        ru: `https://aquaviina.md/ru/brands/${brand}`,
-        ro: `https://aquaviina.md/ro/brands/${brand}`,
-        "x-default": `https://aquaviina.md/ro/brands/${brand}`,
+        ru: `https://aquaviina.md/ru/brands/${canonicalBrand}`,
+        ro: `https://aquaviina.md/ro/brands/${canonicalBrand}`,
+        "x-default": `https://aquaviina.md/ru/brands/${canonicalBrand}`,
       },
     },
     openGraph: {
@@ -89,6 +93,11 @@ const BrandPage = async ({
 
   if (!match) {
     notFound();
+  }
+
+  const canonicalBrand = normalizeSlug(match.ro || match.ru || params.brand);
+  if (canonicalBrand && params.brand !== canonicalBrand) {
+    permanentRedirect(`/${params.locale}/brands/${canonicalBrand}`);
   }
 
   const defaultBrand = match.ro;

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getFilters } from "@lib/api";
 import ProductsListWrapper from "@components/ProductsPage/components/ProductsListWrapper";
 
@@ -43,6 +43,10 @@ export async function generateMetadata(props: {
   const match = findType(filters, type);
 
   const displayName = match ? (locale === "ro" ? match.ro : match.ru) : decodeURIComponent(type);
+  const canonicalSlug = match
+    ? normalizeSlug(match.ro || match.ru || decodeURIComponent(type))
+    : normalizeSlug(decodeURIComponent(type));
+  const canonicalType = canonicalSlug || normalizeSlug(type) || type.toLowerCase();
   const title =
     locale === "ro"
       ? `Filtre de apă ${displayName} — AquaViina`
@@ -51,7 +55,7 @@ export async function generateMetadata(props: {
     locale === "ro"
       ? `Catalog de filtre de apă ${displayName} cu livrare în Moldova.`
       : `Каталог фильтров для воды ${displayName} с доставкой по Молдове.`;
-  const canonical = `https://aquaviina.md/${locale}/types/${type}`;
+  const canonical = `https://aquaviina.md/${locale}/types/${canonicalType}`;
 
   return {
     title,
@@ -59,9 +63,9 @@ export async function generateMetadata(props: {
     alternates: {
       canonical,
       languages: {
-        ru: `https://aquaviina.md/ru/types/${type}`,
-        ro: `https://aquaviina.md/ro/types/${type}`,
-        "x-default": `https://aquaviina.md/ro/types/${type}`,
+        ru: `https://aquaviina.md/ru/types/${canonicalType}`,
+        ro: `https://aquaviina.md/ro/types/${canonicalType}`,
+        "x-default": `https://aquaviina.md/ru/types/${canonicalType}`,
       },
     },
     openGraph: {
@@ -89,6 +93,11 @@ const TypePage = async ({
 
   if (!match) {
     notFound();
+  }
+
+  const canonicalType = normalizeSlug(match.ro || match.ru || params.type);
+  if (canonicalType && params.type !== canonicalType) {
+    permanentRedirect(`/${params.locale}/types/${canonicalType}`);
   }
 
   const defaultType = match.ro;

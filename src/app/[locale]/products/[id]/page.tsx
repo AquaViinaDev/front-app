@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 
   const isRo = locale === "ro";
   const title = isRo
-    ? `${localizedProduct.name} — filtru de apă`
-    : `${localizedProduct.name} — фильтр для воды`;
+    ? `${localizedProduct.name} — filtru de apă AquaViina`
+    : `${localizedProduct.name} — фильтр для воды AquaViina`;
   let desc = String(localizedProduct.description ?? "").trim();
   if (desc.length > 140) {
     desc = desc.slice(0, 140);
@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
         languages: {
           ru: `https://aquaviina.md/ru/products/${id}`,
           ro: `https://aquaviina.md/ro/products/${id}`,
-          "x-default": `https://aquaviina.md/ro/products/${id}`,
+          "x-default": `https://aquaviina.md/ru/products/${id}`,
         },
       },
       openGraph: {

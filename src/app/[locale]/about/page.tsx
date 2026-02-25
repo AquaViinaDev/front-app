@@ -32,7 +32,7 @@ export async function generateMetadata(props: {
       languages: {
         ru: "https://aquaviina.md/ru/about",
         ro: "https://aquaviina.md/ro/about",
-        "x-default": "https://aquaviina.md/ro/about",
+        "x-default": "https://aquaviina.md/ru/about",
       },
     },
     twitter: {

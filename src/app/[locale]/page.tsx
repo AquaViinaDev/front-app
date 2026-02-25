@@ -8,9 +8,9 @@ export async function generateMetadata(props: {
 
   const meta = {
     ru: {
-      title: "Фильтры для воды в Молдове — AquaViina",
+      title: "Фильтр для воды в Молдове — купить в AquaViina",
       description:
-        "Интернет-магазин AquaViina: фильтры для воды, картриджи, системы обратного осмоса. Доставка по Кишинёву и всей Молдове. Чистая вода — залог здоровья!",
+        "Купить фильтр для воды в Молдове: кувшины, проточные системы и обратный осмос. AquaViina, доставка по Кишинёву и всей Молдове, установка и сервис.",
     },
     ro: {
       title: "Filtre de apă în Moldova — AquaViina",
@@ -29,7 +29,7 @@ export async function generateMetadata(props: {
       languages: {
         ru: "https://aquaviina.md/ru",
         ro: "https://aquaviina.md/ro",
-        "x-default": "https://aquaviina.md/ro",
+        "x-default": "https://aquaviina.md/ru",
       },
     },
     openGraph: {

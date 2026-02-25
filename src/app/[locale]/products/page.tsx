@@ -16,7 +16,14 @@ type PageProps = {
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: "ru" | "ro" }>;
-  searchParams?: Promise<{ brand?: string; type?: string; query?: string }>;
+  searchParams?: Promise<{
+    brand?: string;
+    type?: string;
+    query?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    sortOrder?: "asc" | "desc";
+  }>;
 }): Promise<Metadata> {
   const { locale } = await props.params;
   const searchParams = (await props.searchParams) ?? {};
@@ -41,6 +48,14 @@ export async function generateMetadata(props: {
     typeof searchParams.query === "string" && searchParams.query.trim().length > 0
       ? searchParams.query.trim()
       : null;
+  const hasFacetFilters = [
+    searchParams.brand,
+    searchParams.type,
+    searchParams.query,
+    searchParams.minPrice,
+    searchParams.maxPrice,
+    searchParams.sortOrder,
+  ].some((value) => typeof value === "string" && value.trim().length > 0);
 
   const localizedTitle = brandOrType
     ? locale === "ro"
@@ -61,7 +76,7 @@ export async function generateMetadata(props: {
       languages: {
         ru: "https://aquaviina.md/ru/products",
         ro: "https://aquaviina.md/ro/products",
-        "x-default": "https://aquaviina.md/ro/products",
+        "x-default": "https://aquaviina.md/ru/products",
       },
     },
     openGraph: {
@@ -76,6 +91,12 @@ export async function generateMetadata(props: {
       description: localizedDescription,
       card: "summary_large_image",
     },
+    robots: hasFacetFilters
+      ? {
+          index: false,
+          follow: true,
+        }
+      : undefined,
   };
 }
 
