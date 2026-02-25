@@ -77,21 +77,21 @@ const ServicesPage = () => {
         <ServiceItem
           title={t("osmosisInstallation.title")}
           description={t("osmosisInstallation.description")}
-          price={400}
+          price={500}
           icon="install"
           handleModal={() => handleOrder(t("osmosisInstallation.title"))}
         />
         <ServiceItem
           title={t("replacingCartridges.title")}
           description={t("replacingCartridges.description")}
-          price={650}
+          price={540}
           icon="replace"
           handleModal={() => handleOrder(t("replacingCartridges.title"))}
         />
         <ServiceItem
           title={t("repairFilters.title")}
           description={t("repairFilters.description")}
-          price={250}
+          price={300}
           icon="repair"
           handleModal={() => handleOrder(t("repairFilters.title"))}
         />

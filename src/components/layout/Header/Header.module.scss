@@ -25,10 +25,25 @@
   height: 100%;
 }
 
+.desktopNav {
+  display: flex;
+}
+
 .additionalWrapper {
   display: flex;
   gap: 24px;
   align-items: center;
+}
+
+.phone {
+  text-decoration: none;
+  color: #0f172a;
+  font-size: $font-md;
+  font-weight: 600;
+}
+
+.mobileNav {
+  display: none;
 }
 
 .mobileActions {
@@ -52,14 +67,19 @@
 }
 
 @media (max-width: $tabletScreen) {
+  .desktopNav {
+    display: none;
+  }
+
   .additionalWrapper {
-    position: absolute;
-    top: -1200%;
+    position: fixed;
+    top: 80px;
     left: 0;
     width: 100%;
-    height: auto;
+    max-height: calc(100dvh - 80px);
+    overflow-y: auto;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
     padding: 32px 24px;
     gap: 20px;
     background: rgba(255, 255, 255, 0.96);
@@ -67,15 +87,27 @@
     border-bottom: 1px solid rgba(148, 163, 184, 0.2);
     box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
     z-index: 999;
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s ease, opacity 0.2s ease;
   }
 
   .additionalWrapper.open {
-    top: calc(100% + 1px);
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  .nav {
+  .mobileNav {
+    display: flex;
+    width: 100%;
+  }
+
+  .mobileNav {
     flex-direction: column;
     align-items: center;
+    gap: 18px;
   }
 
   .cart {

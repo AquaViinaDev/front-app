@@ -47,13 +47,17 @@ const Header = () => {
             <Image src={"/logo.svg"} alt="Logo Aqua Viina" width={150} height={50} />
           </Link>
         </div>
-        <div>
-
-          <Navbar className={styles.nav} links={navLinks} onAction={() => setIsOpen(false)} />
-
+        <div className={styles.desktopNav}>
+          <Navbar links={navLinks} onAction={() => setIsOpen(false)} />
         </div>
-        <div className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}>
-<a href="tel:+37367177889">+373 67 177 889</a>
+        <div
+          id="mobile-menu"
+          className={`${styles.additionalWrapper} ${isOpen ? styles.open : ""}`}
+        >
+          <Navbar className={styles.mobileNav} links={navLinks} onAction={() => setIsOpen(false)} />
+          <a className={styles.phone} href="tel:+37367177889" onClick={() => setIsOpen(false)}>
+            +373 67 177 889
+          </a>
           <Social links={socialLinks} onAction={() => setIsOpen(false)} />
           <Cart className={styles.cart} />
           <Local />
@@ -63,7 +67,9 @@ const Header = () => {
           <button
             className={styles.burger}
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Menu open"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             <Image
               src={isOpen ? "/close.svg" : "/burger.svg"}

@@ -36,6 +36,17 @@
   margin-bottom: 18px;
 }
 
+.deliveryRates {
+  margin-bottom: 16px;
+  color: #334155;
+  font-size: $font-md;
+  line-height: 1.45;
+}
+
+.deliveryRates p {
+  margin: 0;
+}
+
 .radioLabel {
   display: flex;
   align-items: center;

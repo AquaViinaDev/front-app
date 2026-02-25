@@ -132,7 +132,7 @@ const HeroSection = memo(({ onConsultClick }: HeroSectionProps) => {
               </div>
               <div className={styles.statCardRight}>
                 <div className={styles.statIconBlue}>
-                  <span>50K+</span>
+                  <span>500+</span>
                 </div>
                 <div>
                   <p className={styles.statTitle}>{statRightTitle}</p>

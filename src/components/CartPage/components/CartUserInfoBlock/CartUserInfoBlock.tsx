@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { PhoneInput, TextInput, ToggleGroup } from "@components/common";
+import { useEffect } from "react";
+import { PhoneInput, TextInput } from "@components/common";
 import { useOrder, UserInfo } from "@components/CartPage/CartContext";
 import { useTranslations } from "use-intl";
 
@@ -19,9 +19,8 @@ export type CartUserInfoBlockProps = {
 };
 
 const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
-  const t = useTranslations("CartPage.CartUserInfoBlock");
+  const t = useTranslations();
 
-  const [delivery, setDelivery] = useState("delivery");
   const { setUserInfo, userInfo, setDeliveryZone, deliveryZone } = useOrder();
 
   const handlePhoneInput = (val: string | null) => {
@@ -45,20 +44,19 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
     if (resetKey === undefined) {
       return;
     }
-    setDelivery("delivery");
     setDeliveryZone("chisinau");
   }, [resetKey, setDeliveryZone]);
 
   return (
     <div className={styles.root}>
       <div className={styles.userInfoWrapper}>
-        <h3 className={styles.title}>{t("title")}</h3>
+        <h3 className={styles.title}>{t("CartPage.CartUserInfoBlock.title")}</h3>
         <div className={styles.userForm}>
           <TextInput
             error={Boolean(errors.name)}
             errorMessage={errors.name}
             textInputClassName={styles.userNameInput}
-            placeholder={t("name")}
+            placeholder={t("CartPage.CartUserInfoBlock.name")}
             isLabel={false}
             value={userInfo.name}
             onChange={(value) => handleChange("name", value)}
@@ -73,12 +71,11 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         </div>
       </div>
       <div className={styles.deliveryInfoWrapper}>
-        <h3 className={styles.title}>{t("deliveryTitle")}</h3>
-        <ToggleGroup
-          options={[{ value: "delivery", label: t("deliveryTitle") }]}
-          value={delivery}
-          onChange={setDelivery}
-        />
+        <h3 className={styles.title}>{t("CartPage.CartUserInfoBlock.deliveryTitle")}</h3>
+        <div className={styles.deliveryRates}>
+          <p>{t("CartPage.CartUserInfoBlock.deliveryRatesCountry")}</p>
+          <p>{t("CartPage.CartUserInfoBlock.deliveryRatesChisinau")}</p>
+        </div>
         <div className={styles.deliveryTypeRow}>
           <label className={styles.radioLabel}>
             <input
@@ -88,7 +85,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
               checked={deliveryZone === "chisinau"}
               onChange={() => setDeliveryZone("chisinau")}
             />
-            <span>{t("deliveryChisinau")}</span>
+            <span>{t("CartPage.CartUserInfoBlock.deliveryChisinau")}</span>
           </label>
           <label className={styles.radioLabel}>
             <input
@@ -98,7 +95,7 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
               checked={deliveryZone === "moldova"}
               onChange={() => setDeliveryZone("moldova")}
             />
-            <span>{t("deliveryMoldova")}</span>
+            <span>{t("CartPage.CartUserInfoBlock.deliveryMoldova")}</span>
           </label>
         </div>
         <div className={styles.deliveryInputsWrapper}>
@@ -106,21 +103,21 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
             error={Boolean(errors.region)}
             errorMessage={errors.region}
             textInputClassName={styles.companyInput}
-            placeholder={t("municipality")}
+            placeholder={t("CartPage.CartUserInfoBlock.municipality")}
             isLabel={false}
             value={userInfo.region}
             onChange={(value) => handleChange("region", value)}
           />
           <TextInput
             textInputClassName={styles.companyInput}
-            placeholder={t("suburb")}
+            placeholder={t("CartPage.CartUserInfoBlock.suburb")}
             isLabel={false}
             value={userInfo.suburb}
             onChange={(value) => handleChange("suburb", value)}
           />
           <TextInput
             textInputClassName={styles.companyInput}
-            placeholder={t("address")}
+            placeholder={t("CartPage.CartUserInfoBlock.address")}
             isLabel={false}
             value={userInfo.street}
             error={Boolean(errors.street)}
@@ -130,14 +127,14 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
         </div>
       </div>
       <div className={styles.paymentMethodWrapper}>
-        <h3 className={styles.title}>{t("paymentMethod")}</h3>
-        <p className={styles.paymentText}>{t("deliveryPlaceholder")}</p>
+        <h3 className={styles.title}>{t("CartPage.CartUserInfoBlock.paymentMethod")}</h3>
+        <p className={styles.paymentText}>{t("CartPage.CartUserInfoBlock.deliveryPlaceholder")}</p>
       </div>
       <div className={styles.userDescriptionWrapper}>
-        <h3 className={styles.title}>{t("finalityTitle")}</h3>
+        <h3 className={styles.title}>{t("CartPage.CartUserInfoBlock.finalityTitle")}</h3>
         <textarea
           className={styles.userDescription}
-          placeholder={t("finalityPlaceholder")}
+          placeholder={t("CartPage.CartUserInfoBlock.finalityPlaceholder")}
           value={userInfo.description}
           maxLength={250}
           onChange={(e) => setUserInfo((prev) => ({ ...prev, description: e.target.value }))}

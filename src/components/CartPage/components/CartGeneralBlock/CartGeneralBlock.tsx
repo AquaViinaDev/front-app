@@ -12,15 +12,17 @@ type CartGeneralBlockProps = {
 const CartGeneralBlock = ({ onBuy }: CartGeneralBlockProps) => {
   const { products, totalAmount, deliveryZone, setDeliveryPrice, deliveryPrice } = useOrder();
   const t = useTranslations("CartPage.TotalBlock");
+  const CHISINAU_FREE_FROM = 500;
+  const MOLDOVA_FREE_FROM = 1000;
 
   useEffect(() => {
     if (deliveryZone === "chisinau") {
-      setDeliveryPrice(totalAmount > 500 ? 0 : 80);
+      setDeliveryPrice(totalAmount >= CHISINAU_FREE_FROM ? 0 : 80);
       return;
     }
 
     if (deliveryZone === "moldova") {
-      setDeliveryPrice(totalAmount > 1000 ? 0 : 100);
+      setDeliveryPrice(totalAmount >= MOLDOVA_FREE_FROM ? 0 : 100);
       return;
     }
 

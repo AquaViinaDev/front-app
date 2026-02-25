@@ -222,7 +222,7 @@
       "gost": "Standarde GOST"
     },
     "stats": {
-      "clientsValue": "50K+",
+      "clientsValue": "500+",
       "clientsLabel": "Clienți mulțumiți",
       "yearsValue": "15",
       "yearsLabel": "Ani pe piață",
@@ -277,6 +277,8 @@
       "name": "Nemele Prenumele",
       "company": "Companie",
       "deliveryTitle": "Livrare",
+      "deliveryRatesCountry": "În țară: până la 1000 lei — 100 lei, peste — gratuit.",
+      "deliveryRatesChisinau": "În Chișinău: până la 500 lei — 80 lei, peste — gratuit.",
       "deliveryChisinau": "În jurul Chișinăului",
       "deliveryMoldova": "În toată Moldova",
       "municipality": "Municipiu/Raion",
@@ -322,15 +324,15 @@
     "errorOrder": "Eroare la trimitere, vă rugăm să încercați din nou.",
     "osmosisInstallation": {
       "title": "Instalarea unui filtru de osmoză inversă sau de flux",
-      "description": "Comandați instalarea filtrelor de la tehnicienii noștri. Dacă ați achiziționat un filtru de la noi, instalarea este gratuită. Instalarea pentru filtre de la terți începe de la 400 de lei (cu condiția ca toate piesele necesare să fie incluse). Singurul lucru care poate modifica prețul este dificultatea de a găuri un orificiu pentru baterie în chiuvetă. Instalarea durează aproximativ o oră. Piesele suplimentare sunt necesare doar dacă lipsește ceva din kit; în acest caz, tehnicianul le va instala la prețul din magazin. De asemenea, instalăm filtre pe care le-ați folosit deja. Oferim o garanție de 6 luni pentru toate lucrările."
+      "description": "Comandați instalarea filtrelor de la tehnicienii noștri. Dacă ați achiziționat un filtru de la noi, instalarea este gratuită. Instalarea pentru filtre de la terți începe de la 500 de lei (cu condiția ca toate piesele necesare să fie incluse). Singurul lucru care poate modifica prețul este dificultatea de a găuri un orificiu pentru baterie în chiuvetă. Instalarea durează aproximativ o oră. Piesele suplimentare sunt necesare doar dacă lipsește ceva din kit; în acest caz, tehnicianul le va instala la prețul din magazin. De asemenea, instalăm filtre pe care le-ați folosit deja. Oferim o garanție de 6 luni pentru toate lucrările."
     },
     "replacingCartridges": {
       "title": "Înlocuirea cartușelor",
-      "description": "Comandați cartușe de schimb pentru filtrul dumneavoastră, iar noi ne vom ocupa de întregul proces. Un tehnician va sosi, va aduce cartușele corespunzătoare, le va instala și va verifica sistemul pentru scurgeri și performanță. Serviciul începe de la 650 de lei pentru un sistem standard de osmoză inversă în 5 etape sau un filtru cu flux continuu. Dacă sistemul are mai multe etape, prețul poate varia ușor din cauza adăugării de cartușe suplimentare. Serviciul durează aproximativ 30-40 de minute. Oferim service atât pentru sistemele noastre, cât și pentru filtrele achiziționate din alte magazine. Lucrarea tehnicianului nostru este garantată timp de 6 luni."
+      "description": "Comandați cartușe de schimb pentru filtrul dumneavoastră, iar noi ne vom ocupa de întregul proces. Un tehnician va sosi, va aduce cartușele corespunzătoare, le va instala și va verifica sistemul pentru scurgeri și performanță. Serviciul începe de la 540 de lei pentru un sistem standard de osmoză inversă în 5 etape sau un filtru cu flux continuu. Dacă sistemul are mai multe etape, prețul poate varia ușor din cauza adăugării de cartușe suplimentare. Serviciul durează aproximativ 30-40 de minute. Oferim service atât pentru sistemele noastre, cât și pentru filtrele achiziționate din alte magazine. Lucrarea tehnicianului nostru este garantată timp de 6 luni."
     },
     "repairFilters": {
       "title": "Repararea și întreținerea filtrelor",
-      "description": "Programați vizita unui tehnician pentru repararea sau întreținerea filtrelor. Reparăm scurgeri, efectuăm service și reparăm pompa, înlocuim piesele defecte și repunem sistemul în stare de funcționare. Tariful de deplasare al unui tehnician este de 250 de lei (diagnosticare și reparații până la 1 oră). Dacă reparația durează mai mult de o oră, tariful de deplasare este de 400 de lei. Toate piesele și consumabilele necesare se facturează separat, la prețul afișat în magazinul nostru sau pe site-ul nostru web. Timpul mediu de răspuns al unui tehnician este de 30-60 de minute. Pentru piese rare, este posibilă o vizită ulterioară. De asemenea, efectuăm diagnosticarea pompelor, analiza durității apei și inspecții preventive ale sistemului. Toate lucrările beneficiază de o garanție de 6 luni."
+      "description": "Programați vizita unui tehnician pentru repararea sau întreținerea filtrelor. Reparăm scurgeri, efectuăm service și reparăm pompa, înlocuim piesele defecte și repunem sistemul în stare de funcționare. Tariful de deplasare al unui tehnician este de 300 de lei (diagnosticare și reparații până la 1 oră). Dacă reparația durează mai mult de o oră, tariful de deplasare este de 400 de lei. Toate piesele și consumabilele necesare se facturează separat, la prețul afișat în magazinul nostru sau pe site-ul nostru web. Timpul mediu de răspuns al unui tehnician este de 30-60 de minute. Pentru piese rare, este posibilă o vizită ulterioară. De asemenea, efectuăm diagnosticarea pompelor, analiza durității apei și inspecții preventive ale sistemului. Toate lucrările beneficiază de o garanție de 6 luni."
     }
   },
   "Common": {
