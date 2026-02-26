@@ -25,6 +25,10 @@
   padding: 0;
 }
 
+.content {
+  padding: 20px 15px;
+}
+
 .content::before,
 .content::after {
   content: "";
@@ -223,10 +227,6 @@
 }
 
 @media (max-width: $tabletScreen) {
-  .content {
-    padding: 0;
-  }
-
   .grid {
     grid-template-columns: 1fr;
   }

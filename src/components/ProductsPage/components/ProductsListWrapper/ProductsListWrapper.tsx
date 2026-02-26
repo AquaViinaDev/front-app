@@ -215,7 +215,6 @@ const ProductsListWrapper = ({
                 {t("ProductsPageInformation.title")}
               </h1>
             </div>
-
             {/* controls moved to FiltersBlock */}
           </div>
         </div>
