@@ -24,7 +24,7 @@ export async function generateMetadata(props: {
       languages: {
         ru: "https://aquaviina.md/ru/services",
         ro: "https://aquaviina.md/ro/services",
-        "x-default": "https://aquaviina.md/ro/services",
+        "x-default": "https://aquaviina.md/ru/services",
       },
     },
     openGraph: {

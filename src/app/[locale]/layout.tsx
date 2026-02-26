@@ -27,14 +27,14 @@ export async function generateMetadata(props: {
     metadataBase: new URL("https://aquaviina.md"),
     title: {
       default: baseTitle,
-      template: "%s — AquaViina",
+      template: "%s",
     },
     description: baseDescription,
     alternates: {
       languages: {
         ru: "https://aquaviina.md/ru",
         ro: "https://aquaviina.md/ro",
-        "x-default": "https://aquaviina.md/ro",
+        "x-default": "https://aquaviina.md/ru",
       },
     },
     openGraph: {
@@ -48,7 +48,7 @@ export async function generateMetadata(props: {
       images: ["/images/home-image.jpg"],
     },
     verification: {
-      google: "tBQCnfa7dmLgkogvoSqXPCW9uS5NOcI_XTQvEwMC2Cg",
+      google: "uG9xJSgdzZUOz2gm_PeQYQSGqdVHM-tsMdeQQNM7RZw",
       yandex: "cb9ffd70bf88210d",
       other: {
         "msvalidate.01": "F146DA38CA9262959FE12B8B6E56B19B",

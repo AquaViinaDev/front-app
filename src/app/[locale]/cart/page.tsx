@@ -31,7 +31,7 @@ export async function generateMetadata({
       languages: {
         ru: "https://aquaviina.md/ru/cart",
         ro: "https://aquaviina.md/ro/cart",
-        "x-default": "https://aquaviina.md/ro/cart",
+        "x-default": "https://aquaviina.md/ru/cart",
       },
     },
     openGraph: {

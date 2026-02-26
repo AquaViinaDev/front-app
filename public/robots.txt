@@ -3,5 +3,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /cart
 Disallow: /cart/
+Disallow: /*/cart
+Disallow: /*/cart/
 Disallow: /api/
 Sitemap: https://aquaviina.md/sitemap.xml

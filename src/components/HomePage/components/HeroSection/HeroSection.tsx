@@ -40,6 +40,7 @@ const HeroSection = memo(({ onConsultClick }: HeroSectionProps) => {
             </div>
             <h1 className={styles.title}>
               {t("MainSection.title")}
+              {" "}
               <span className={styles.titleAccent}>{t("MainSection.titleAccent")}</span>
             </h1>
             <p className={styles.subtitle}>{t("MainSection.subtitle")}</p>
