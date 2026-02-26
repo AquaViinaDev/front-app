@@ -18,9 +18,11 @@ const ServicesPage = () => {
   const [userName, setUserName] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedService, setSelectedService] = useState<string>("");
-  const [errors, setErrors] = useState<{ name: boolean; phone: boolean }>({
+  const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false);
+  const [errors, setErrors] = useState<{ name: boolean; phone: boolean; privacy: boolean }>({
     name: false,
     phone: false,
+    privacy: false,
   });
 
   const mutationOrder = useMutation({
@@ -31,6 +33,7 @@ const ServicesPage = () => {
       setUserName("");
       setPhoneNumber("");
       setSelectedService("");
+      setIsPrivacyAccepted(false);
       setIsOpenModal(false);
     },
     onError: () => {
@@ -48,10 +51,11 @@ const ServicesPage = () => {
 
     const nameError = !userName?.trim();
     const phoneError = !phoneNumber?.trim() || phoneNumber.length <= 10;
+    const privacyError = !isPrivacyAccepted;
 
-    setErrors({ name: nameError, phone: phoneError });
+    setErrors({ name: nameError, phone: phoneError, privacy: privacyError });
 
-    if (nameError || phoneError || !selectedService) return;
+    if (nameError || phoneError || privacyError || !selectedService) return;
 
     const payload = {
       name: `${userName} - язык (${local})`,
@@ -62,6 +66,9 @@ const ServicesPage = () => {
     mutationOrder.mutate(payload);
     setIsOpenModal(false);
   };
+
+  const isLeadFormValid =
+    Boolean(userName?.trim()) && Boolean(phoneNumber?.trim()) && phoneNumber.length > 10 && isPrivacyAccepted;
 
   return (
     <PageLayout
@@ -114,6 +121,9 @@ const ServicesPage = () => {
           onPhoneChange={setPhoneNumber}
           onSubmit={handleSubmit}
           submitLabel={t("button")}
+          privacyAccepted={isPrivacyAccepted}
+          onPrivacyAcceptedChange={setIsPrivacyAccepted}
+          submitDisabled={!isLeadFormValid || mutationOrder.isPending}
         />
       </Modal>
     </PageLayout>

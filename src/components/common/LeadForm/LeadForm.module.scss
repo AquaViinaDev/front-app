@@ -2,6 +2,34 @@
   margin-bottom: 50px;
 }
 
+.consentLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-top: 2px;
+  accent-color: #2563eb;
+}
+
+.consentText {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #0f172a;
+}
+
+.policyLink {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.error .consentText {
+  color: #b91c1c;
+}
+
 .button {
   margin-top: 24px;
 }

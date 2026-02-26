@@ -12,6 +12,30 @@
   min-width: 220px;
 }
 
+.consentLabel {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-top: 2px;
+  accent-color: #2563eb;
+}
+
+.consentText {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #0f172a;
+}
+
+.policyLink {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
 @media (max-width: $tabletScreen) {
   .form {
     flex-direction: column;

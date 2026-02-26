@@ -20,9 +20,11 @@ const AboutPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [userName, setUserName] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [errors, setErrors] = useState<{ name: boolean; phone: boolean }>({
+  const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false);
+  const [errors, setErrors] = useState<{ name: boolean; phone: boolean; privacy: boolean }>({
     name: false,
     phone: false,
+    privacy: false,
   });
 
   const points = [
@@ -39,6 +41,7 @@ const AboutPage = () => {
       toast.success(tServicePage("successOrder"));
       setUserName("");
       setPhoneNumber("");
+      setIsPrivacyAccepted(false);
     },
     onError: () => {
       toast.error(tServicePage("errorOrder"));
@@ -50,10 +53,11 @@ const AboutPage = () => {
 
     const nameError = !userName?.trim();
     const phoneError = !phoneNumber?.trim() || phoneNumber.length <= 10;
+    const privacyError = !isPrivacyAccepted;
 
-    setErrors({ name: nameError, phone: phoneError });
+    setErrors({ name: nameError, phone: phoneError, privacy: privacyError });
 
-    if (nameError || phoneError) return;
+    if (nameError || phoneError || privacyError) return;
 
     const payload = {
       name: `${userName} - язык (${local})`,
@@ -63,6 +67,9 @@ const AboutPage = () => {
     sendConsultationMutate(payload);
     setIsOpenModal(false);
   };
+
+  const isLeadFormValid =
+    Boolean(userName?.trim()) && Boolean(phoneNumber?.trim()) && phoneNumber.length > 10 && isPrivacyAccepted;
 
   return (
     <PageLayout
@@ -137,6 +144,9 @@ const AboutPage = () => {
           onPhoneChange={setPhoneNumber}
           onSubmit={handleSubmit}
           submitLabel={t("sendButton")}
+          privacyAccepted={isPrivacyAccepted}
+          onPrivacyAcceptedChange={setIsPrivacyAccepted}
+          submitDisabled={!isLeadFormValid}
         />
       </Modal>
     </PageLayout>
