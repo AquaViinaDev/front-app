@@ -3,7 +3,9 @@
 import { useEffect } from "react";
 import { PhoneInput, TextInput } from "@components/common";
 import { useOrder, UserInfo } from "@components/CartPage/CartContext";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
+import Link from "next/link";
+import { RoutesEnum } from "@types";
 
 import styles from "./CartUserInfoBlock.module.scss";
 
@@ -20,8 +22,17 @@ export type CartUserInfoBlockProps = {
 
 const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
   const t = useTranslations();
+  const locale = useLocale();
+  const isRo = locale === "ro";
 
-  const { setUserInfo, userInfo, setDeliveryZone, deliveryZone } = useOrder();
+  const {
+    setUserInfo,
+    userInfo,
+    setDeliveryZone,
+    deliveryZone,
+    isPrivacyAccepted,
+    setIsPrivacyAccepted,
+  } = useOrder();
 
   const handlePhoneInput = (val: string | null) => {
     let v = val ?? "";
@@ -140,6 +151,27 @@ const CartUserInfoBlock = ({ errors, resetKey }: CartUserInfoBlockProps) => {
           onChange={(e) => setUserInfo((prev) => ({ ...prev, description: e.target.value }))}
         />
       </div>
+      <label className={styles.consentLabel}>
+        <input
+          className={styles.checkbox}
+          type="checkbox"
+          checked={isPrivacyAccepted}
+          onChange={(event) => setIsPrivacyAccepted(event.target.checked)}
+        />
+        <span className={styles.consentText}>
+          {isRo
+            ? "Sunt de acord cu prelucrarea datelor personale conform "
+            : "Я согласен(а) с обработкой персональных данных в соответствии с "}
+          <Link
+            className={styles.policyLink}
+            href={`/${locale}${RoutesEnum.PrivacyPolicy}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {isRo ? "Politicii de confidențialitate" : "Политикой конфиденциальности"}
+          </Link>
+        </span>
+      </label>
     </div>
   );
 };

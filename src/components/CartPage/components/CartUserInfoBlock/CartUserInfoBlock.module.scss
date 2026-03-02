@@ -84,6 +84,29 @@
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
+.consentLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-top: 2px;
+  accent-color: #2563eb;
+}
+
+.consentText {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #0f172a;
+}
+
+.policyLink {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
 @media (max-width: $mobileScreen) {
   .userForm, .deliveryInputsWrapper {
     flex-direction: column;

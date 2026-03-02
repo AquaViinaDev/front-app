@@ -19,10 +19,17 @@
   box-shadow: 0 24px 50px rgba(15, 23, 42, 0.18);
 }
 
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 260 / 286;
+  overflow: hidden;
+}
+
 .image {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
+  object-position: var(--image-position, 50% 50%);
 }
 
 .infoBlock {

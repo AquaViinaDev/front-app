@@ -25,6 +25,7 @@ const CartPage = () => {
     totalAmount,
     setProducts,
     deliveryPrice,
+    isPrivacyAccepted,
   } = useOrder();
   type CartFormErrors = Partial<{
     name: string;
@@ -121,6 +122,16 @@ const CartPage = () => {
       toast.error(t("Notification.emptyCart"));
       return;
     }
+
+    if (!isPrivacyAccepted) {
+      toast.error(
+        local === "ro"
+          ? "Acceptați Politica de confidențialitate înainte de cumpărare."
+          : "Примите политику конфиденциальности перед покупкой."
+      );
+      return;
+    }
+
     setIsValidationActive(true);
     const validationResult = buildValidationErrors(userInfo);
     setErrors(validationResult);

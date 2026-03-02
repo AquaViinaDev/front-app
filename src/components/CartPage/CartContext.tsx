@@ -41,6 +41,8 @@ type CartContextType = {
   setDeliveryZone: React.Dispatch<React.SetStateAction<"chisinau" | "moldova">>;
   deliveryPrice: number;
   setDeliveryPrice: React.Dispatch<React.SetStateAction<number>>;
+  isPrivacyAccepted: boolean;
+  setIsPrivacyAccepted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const initialUserInfo: UserInfo = {
@@ -80,8 +82,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [products, setProducts] = useState<CartProduct[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo);
+  const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false);
 
-  const resetUserInfo = () => setUserInfo(initialUserInfo);
+  const resetUserInfo = () => {
+    setUserInfo(initialUserInfo);
+    setIsPrivacyAccepted(false);
+  };
 
   useEffect(() => {
     try {
@@ -139,6 +145,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         setDeliveryZone,
         setDeliveryPrice,
         deliveryPrice,
+        isPrivacyAccepted,
+        setIsPrivacyAccepted,
       }}
     >
       {children}

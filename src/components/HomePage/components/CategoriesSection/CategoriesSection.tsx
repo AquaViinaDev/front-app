@@ -30,7 +30,7 @@ const CategoriesSection = () => {
         <CategoriesList>
           <CategoriesItem
             categoriesData={{
-              image: "/images/cuvshin.png",
+              image: "/images/cuvshin.jpg",
               title: t("items.jug.name"),
               description: t("items.jug.description"),
             }}
@@ -43,7 +43,7 @@ const CategoriesSection = () => {
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
-              image: "/images/protochniy.png",
+              image: "/images/protochniy.jpg",
               title: t("items.flowFilter.name"),
               description: t("items.flowFilter.description"),
             }}
@@ -56,7 +56,7 @@ const CategoriesSection = () => {
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
-              image: "/images/osmos.png",
+              image: "/images/osmos.jpg",
               title: t("items.reverseOsmosis.name"),
               description: t("items.reverseOsmosis.description"),
             }}
@@ -69,9 +69,10 @@ const CategoriesSection = () => {
           </CategoriesItem>
           <CategoriesItem
             categoriesData={{
-              image: "/images/predfilters.png",
+              image: "/images/predfilters.jpg",
               title: t("items.prefilter.name"),
               description: t("items.prefilter.description"),
+              imageObjectPosition: "50% 30%",
             }}
           >
             <CustomLink

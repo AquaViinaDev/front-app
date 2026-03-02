@@ -82,7 +82,12 @@ export const LeadForm = ({
           {isRo
             ? "Sunt de acord cu prelucrarea datelor personale conform "
             : "Я согласен(а) с обработкой персональных данных в соответствии с "}
-          <Link className={styles.policyLink} href={`/${locale}${RoutesEnum.PrivacyPolicy}`}>
+          <Link
+            className={styles.policyLink}
+            href={`/${locale}${RoutesEnum.PrivacyPolicy}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {isRo ? "Politicii de confidențialitate" : "Политикой конфиденциальности"}
           </Link>
         </span>

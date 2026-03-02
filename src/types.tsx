@@ -5,7 +5,7 @@ export enum RoutesEnum {
   Services = "/services",
   Contacts = "/contacts",
   Cart = "/cart",
-  PrivacyPolicy = "/privacy-policy",
+  PrivacyPolicy = "/politica-de-confidentialitate",
 }
 
 export type Locale = "ru" | "ro";

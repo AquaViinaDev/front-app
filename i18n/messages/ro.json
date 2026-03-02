@@ -312,6 +312,62 @@
       "streetRequired": "Indicați strada și numărul casei"
     }
   },
+  "PrivacyPolicyPage": {
+    "title": "POLITICA DE CONFIDENȚIALITATE / PROTECȚIA DATELOR CU CARACTER PERSONAL",
+    "effectiveDateLabel": "Data intrării în vigoare",
+    "effectiveDate": "20 februarie 2026",
+    "sections": {
+      "general": {
+        "title": "DISPOZIȚII GENERALE",
+        "text": "Prezenta Politică de confidențialitate este elaborată în conformitate cu Legea Republicii Moldova privind protecția datelor cu caracter personal nr. 133 din 08.07.2011, Legea nr. 195 din 25.07.2024 (intră în vigoare la 23.08.2026), precum și în conformitate cu prevederile GDPR."
+      },
+      "operator": {
+        "title": "OPERATORUL DATELOR CU CARACTER PERSONAL",
+        "text": "Operator de date cu caracter personal este:\nS.C. Aqua Viina S.R.L.\nIDNO: 1025606005076\nSediu social: MD-2043, str. Teilor 11, ap. 62, mun. Chișinău, Republica Moldova\nAdresa depozitului: mun. Chișinău, str. Meșterul Manole 20, ter. 2, bl. 02\nAdministrator: Certan Eduard\nE-mail: aquaviinamd@gmail.com\nTelefon: +373 67 177 889\nProgram de lucru: Luni-Vineri: 8:00-18:00"
+      },
+      "dataCollected": {
+        "title": "DATELE PE CARE LE COLECTĂM",
+        "text": "Colectăm următoarele date cu caracter personal:\n- Numele și prenumele\n- Numărul de telefon\n- Adresa de e-mail (dacă este indicată)\n- Adresa de livrare/instalare (oraș, stradă, casă, apartament, etaj)\n- Conținutul mesajelor în botul Telegram și e-mail\n- Informații despre preferințele de produse\n- Date tehnice: adresă IP, cookies (Google Analytics, Meta Pixel), tipul browserului"
+      },
+      "processingPurposes": {
+        "title": "SCOPURILE PRELUCRĂRII",
+        "text": "Prelucrăm datele pentru:\n- Procesarea cererilor și comandelor\n- Vânzarea produselor și prestarea serviciilor (livrare, instalare, service)\n- Comunicarea cu clientul (consultații, coordonarea timpului)\n- Emiterea bonurilor fiscale prin aparatul de casă (plată numerar/card la livrare)\n- Service în garanție și post-garanție (reminderi pentru schimbarea cartușelor)\n- Informarea despre promoții și noutăți (doar cu consimțământ)\n- Îmbunătățirea calității site-ului prin analize"
+      },
+      "legalBasis": {
+        "title": "BAZELE LEGALE ALE PRELUCRĂRII",
+        "text": "Prelucrarea se efectuează pe baza:\n- Consimțământului subiectului (pentru comunicări de marketing și cookies analitice)\n- Necesității executării contractului (comandă, livrare, instalare)\n- Intereselor legitime ale operatorului (protecția împotriva fraudei)\n- Obligației legale (evidența contabilă, 5 ani)"
+      },
+      "consentWording": {
+        "title": "FORMULAREA CONSIMȚĂMÂNTULUI",
+        "text": "Prin trimiterea unei cereri pe site sau în botul Telegram, dumneavoastră vă dați consimțământul pentru prelucrarea datelor cu caracter personal conform prezentei Politici.\n\nTextul consimțământului în formular:\n«Apăsând butonul „Trimite\", confirm că am luat cunoștință de Politica de confidențialitate și dau consimțământ pentru prelucrarea datelor mele cu caracter personal (nume și telefon) pentru procesarea cererii, livrarea și instalarea echipamentului.»\n\nPentru comunicări de marketing (checkbox separat):\n«Sunt de acord să primesc informații despre promoții și noutățile companiei.»"
+      },
+      "thirdPartyTransfer": {
+        "title": "TRANSFERUL DATELOR CĂTRE TERȚI",
+        "text": "Transferăm datele doar către:\n- Fan Courier SRL — pentru livrare (nume, telefon, adresă)\n- Specialiști terți — când este necesar (cu contract de confidențialitate)\n- Sisteme de plată — pentru procesarea plății cu cardul prin terminalul de casă (datele cardului nu se păstrează la noi)\n- Autorități de stat — doar în limitele prevăzute de lege (Serviciul Fiscal de Stat)\n\nTransfer transfrontalier: Datele sunt prelucrate de Google LLC (SUA) și Meta Platforms Ireland Ltd. (Irlanda) în cadrul Google Analytics și Meta Pixel."
+      },
+      "retentionPeriods": {
+        "title": "TERMENII DE PĂSTRARE",
+        "text": "- Datele despre comenzi și contabilitate: 5 ani (conform Codului Fiscal)\n- Datele clienților pentru service: pe durata garanției + 1 an\n- Datele pentru marketing: până la retragerea consimțământului, dar nu mai mult de 3 ani\n- Datele tehnice (cookies): de la 1 lună la 2 ani"
+      },
+      "userRights": {
+        "title": "DREPTURILE UTILIZATORULUI",
+        "text": "Aveți dreptul la:\n- Accesul la datele dumneavoastră\n- Rectificarea datelor inexacte\n- Ștergerea datelor („dreptul de a fi uitat\")\n- Restricționarea prelucrării\n- Retragerea consimțământului în orice moment\n- Depunerea unei plângeri la Centrul Național pentru Protecția Datelor cu Caracter Personal (CNPDCP)\n\nPentru exercitarea drepturilor: aquaviinamd@gmail.com sau +373 67 177 889 (termen de răspuns — până la 30 de zile).\n\nCNPDCP: bd. Ștefan cel Mare și Sfânt 124, Chișinău, tel. +373 22 232 802, cnpdp@datepersonale.md"
+      },
+      "securityMeasures": {
+        "title": "MĂSURILE DE SECURITATE",
+        "text": "- Criptarea SSL a transmisiei de date pe site\n- Accesul la date doar pentru angajații autorizați (Administrator și manageri)\n- Confidențialitatea corespondenței în botul Telegram\n- Contracte de confidențialitate cu Fan Courier și instalatori\n- Actualizarea regulată a sistemelor de securitate"
+      },
+      "cookies": {
+        "title": "UTILIZAREA COOKIES",
+        "text": "Utilizăm:\n- Strict necesare — pentru funcționarea formularelor de comandă\n- Analitice — Google Analytics (date anonimizate)\n- De marketing — Meta Pixel (Facebook/Instagram)\n\nLa prima vizită pe site, vedeți un banner cu alegerea categoriilor de cookies."
+      },
+      "policyChanges": {
+        "title": "MODIFICĂRI ALE POLITICII",
+        "text": "Ne rezervăm dreptul de a actualiza Politica. Modificările esențiale sunt aduse la cunoștință prin site sau e-mail cu 7 zile înainte de intrarea în vigoare.\n\nVersiunea actuală: https://aquaviina.md/ro/politica-de-confidentialitate"
+      }
+    },
+    "copyright": "© S.C. Aqua Viina S.R.L., 2026"
+  },
   "ServicePage": {
     "title": "Instalarea filtrelor de apă",
     "button": "Comanda",

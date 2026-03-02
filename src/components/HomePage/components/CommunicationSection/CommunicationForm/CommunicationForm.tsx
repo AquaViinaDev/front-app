@@ -64,7 +64,12 @@ const CommunicationForm = () => {
           {local === "ro"
             ? "Sunt de acord cu prelucrarea datelor personale conform "
             : "Я согласен(а) с обработкой персональных данных в соответствии с "}
-          <Link className={styles.policyLink} href={`/${local}${RoutesEnum.PrivacyPolicy}`}>
+          <Link
+            className={styles.policyLink}
+            href={`/${local}${RoutesEnum.PrivacyPolicy}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {local === "ro" ? "Politicii de confidențialitate" : "Политикой конфиденциальности"}
           </Link>
         </span>

@@ -64,28 +64,6 @@ const HeroSection = memo(({ onConsultClick }: HeroSectionProps) => {
                   <path d="m12 5 7 7-7 7" />
                 </svg>
               </Button>
-              {/* <button
-                className={styles.secondaryButton}
-                type="button"
-                onClick={() => setIsVideoOpen(true)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={styles.playIcon}
-                  aria-hidden="true"
-                >
-                  <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
-                </svg>
-                {t("MainSection.textButtonSecondary")}
-              </button> */}
             </div>
             <div className={styles.features}>
               {features.map((feature) => (

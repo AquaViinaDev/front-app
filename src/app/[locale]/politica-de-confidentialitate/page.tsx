@@ -19,17 +19,17 @@ export async function generateMetadata(props: {
     title,
     description,
     alternates: {
-      canonical: `https://aquaviina.md/${locale}/privacy-policy`,
+      canonical: `https://aquaviina.md/${locale}/politica-de-confidentialitate`,
       languages: {
-        ru: "https://aquaviina.md/ru/privacy-policy",
-        ro: "https://aquaviina.md/ro/privacy-policy",
-        "x-default": "https://aquaviina.md/ru/privacy-policy",
+        ru: "https://aquaviina.md/ru/politica-de-confidentialitate",
+        ro: "https://aquaviina.md/ro/politica-de-confidentialitate",
+        "x-default": "https://aquaviina.md/ru/politica-de-confidentialitate",
       },
     },
     openGraph: {
       title,
       description,
-      url: `https://aquaviina.md/${locale}/privacy-policy`,
+      url: `https://aquaviina.md/${locale}/politica-de-confidentialitate`,
       siteName: "AquaViina",
       type: "website",
     },
