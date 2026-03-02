@@ -87,7 +87,8 @@
       "main": "Главная",
       "products": "Продукция",
       "services": "Услуги",
-      "aboutUs": "О нас"
+      "aboutUs": "О нас",
+      "privacyPolicy": "Политика конфиденциальности"
     },
     "contacts": {
       "title": "Контакты",

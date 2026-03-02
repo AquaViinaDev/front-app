@@ -1,16 +1,10 @@
 "use client";
 
-import "react-phone-input-2/lib/style.css";
-import {
-  default as BasePhoneInput,
-  PhoneInputProps as BasePhoneInputProps,
-} from "react-phone-input-2";
-import { ChangeEvent, memo, useCallback } from "react";
-import { useLocale, useTranslations } from "use-intl";
+import { ChangeEvent, memo, useCallback, useMemo } from "react";
+import classNames from "classnames";
+import { useTranslations } from "use-intl";
 
 import styles from "./PhoneInput.module.scss";
-
-type ModifiedPhoneInputProps = Omit<BasePhoneInputProps, "onChange" | "value">;
 
 export type PhoneInputProps = {
   label?: boolean;
@@ -18,15 +12,46 @@ export type PhoneInputProps = {
   value?: string | null;
   error?: boolean;
   errorMessage?: string;
-} & ModifiedPhoneInputProps;
+  inputClass?: string;
+  name?: string;
+  required?: boolean;
+  autoComplete?: string;
+};
+
+const COUNTRY_CODE = "373";
+const PREFIX = `+${COUNTRY_CODE}`;
+const MAX_LOCAL_DIGITS = 8;
+
+const extractLocalDigits = (value: string) => {
+  const digitsOnly = value.replace(/\D/g, "");
+
+  if (digitsOnly.startsWith(COUNTRY_CODE)) {
+    return digitsOnly.slice(COUNTRY_CODE.length, COUNTRY_CODE.length + MAX_LOCAL_DIGITS);
+  }
+
+  return digitsOnly.slice(0, MAX_LOCAL_DIGITS);
+};
 
 const PhoneInput = memo(
-  ({ label = true, error = false, value, errorMessage, onChange, ...props }: PhoneInputProps) => {
-  const locale = useLocale();
-  const t = useTranslations("Common");
+  ({
+    label = true,
+    error = false,
+    value,
+    errorMessage,
+    onChange,
+    inputClass,
+    name = "phone",
+    required = true,
+    autoComplete = "tel-national",
+  }: PhoneInputProps) => {
+    const t = useTranslations("Common");
+
+    const localDigits = useMemo(() => extractLocalDigits(value ?? ""), [value]);
+
     const wrappedOnChange = useCallback(
-      (value: string, event: ChangeEvent<HTMLInputElement>) => {
-        onChange?.(value || null, event || null);
+      (event: ChangeEvent<HTMLInputElement>) => {
+        const normalizedDigits = extractLocalDigits(event.target.value);
+        onChange?.(`${PREFIX}${normalizedDigits}`, event);
       },
       [onChange]
     );
@@ -34,24 +59,22 @@ const PhoneInput = memo(
     return (
       <div className={styles.root}>
         {label && <label className={styles.label}>{t("phoneLabel")}</label>}
-        <BasePhoneInput
-          country="md"
-          value={value || ""}
-          onChange={wrappedOnChange}
-          inputProps={{
-            name: "phone",
-            required: true,
-          }}
-          dropdownStyle={{
-            maxHeight: "130px",
-            color: "black",
-            textAlign: "left",
-          }}
-          containerClass={styles.container}
-          inputClass={`${styles.input} ${error ? styles.error : ""}`}
-          buttonClass={styles.button}
-          {...props}
-        />
+        <div className={styles.field}>
+          <span className={styles.prefix}>{PREFIX}</span>
+          <input
+            type="tel"
+            name={name}
+            required={required}
+            autoComplete={autoComplete}
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={localDigits}
+            maxLength={MAX_LOCAL_DIGITS}
+            className={classNames(styles.input, inputClass, { [styles.error]: error })}
+            placeholder="XXXXXXXX"
+            onChange={wrappedOnChange}
+          />
+        </div>
         {errorMessage ? <span className={styles.errorMessage}>{errorMessage}</span> : null}
       </div>
     );

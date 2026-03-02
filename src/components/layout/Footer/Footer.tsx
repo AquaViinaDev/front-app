@@ -93,6 +93,16 @@ const Footer = () => {
                 {t("navigation.aboutUs")}
               </Link>
             </li>
+            <li>
+              <Link
+                href={`/${locale}${RoutesEnum.PrivacyPolicy}`}
+                className={styles.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t("navigation.privacyPolicy")}
+              </Link>
+            </li>
           </ul>
         </div>
         <div className={styles.section}>
