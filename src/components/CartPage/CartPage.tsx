@@ -152,6 +152,10 @@ const CartPage = () => {
       : userInfo.phone
           .replace(/[^\d+]/g, "")
           .replace(/^(\d)/, "+$1");
+    const productBaseUrl =
+      typeof window !== "undefined" && window.location?.origin
+        ? window.location.origin
+        : "https://www.aquaviina.md";
 
     const orderData = {
       products: products.map((item) => ({
@@ -159,6 +163,8 @@ const CartPage = () => {
         price: Number(item.price),
         qty: Number(item.qty),
         totalPrice: Number(item.price * item.qty),
+        productId: item.id,
+        productUrl: `${productBaseUrl}/${local}/products/${item.id}`,
       })),
       userInfo: {
         name: userInfo.name,
