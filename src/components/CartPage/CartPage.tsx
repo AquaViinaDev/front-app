@@ -26,6 +26,7 @@ const CartPage = () => {
     setProducts,
     deliveryPrice,
     isPrivacyAccepted,
+    deliveryZone,
   } = useOrder();
   type CartFormErrors = Partial<{
     name: string;
@@ -160,13 +161,19 @@ const CartPage = () => {
         totalPrice: Number(item.price * item.qty),
       })),
       userInfo: {
-        name: `${userInfo.name} - язык (${local})`,
+        name: userInfo.name,
         phone: normalizedPhone,
+        email: null,
         address: fullAddress,
+        region: userInfo.region || null,
+        suburb: userInfo.suburb || null,
+        companyName: null,
+        deliveryZone,
         description: userInfo.description || null,
       },
       totalAmount: Number(totalAmount + deliveryPrice),
       deliveryPrice: deliveryPrice,
+      locale: local,
     };
 
     try {

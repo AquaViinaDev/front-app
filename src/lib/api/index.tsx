@@ -322,7 +322,7 @@ export const sendOrder = async (orderData: unknown, locale?: string) => {
 };
 
 export const sendConsultation = async (
-  consultationData: { name: string; phone: string },
+  consultationData: { name: string; phone: string; locale?: string },
   locale?: string
 ) => {
   const res = await fetch(buildApiUrl("consultations", locale), {
@@ -345,6 +345,7 @@ export const sendServiceOrder = async (
     name: string;
     phone: string;
     orderName: string;
+    locale?: string;
   },
   locale?: string
 ) => {

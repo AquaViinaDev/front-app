@@ -29,7 +29,8 @@ const CommunicationForm = () => {
   }, []);
 
   const consultationMutation = useMutation({
-    mutationFn: (payload: { name: string; phone: string }) => sendConsultation(payload, local),
+    mutationFn: (payload: { name: string; phone: string; locale: string }) =>
+      sendConsultation(payload, local),
     onSuccess: () => {
       toast.success(tServicePage("successOrder"));
       setName("");
@@ -46,9 +47,8 @@ const CommunicationForm = () => {
       className={styles.form}
       onSubmit={(e) => {
         e.preventDefault();
-        const nameWithLang = `${name} - language (${local})`;
         if (!name || !phone || phone.length <= 10 || !isPrivacyAccepted) return;
-        consultationMutation.mutate({ name: nameWithLang, phone });
+        consultationMutation.mutate({ name, phone, locale: local });
       }}
     >
       <TextInput required value={name} onChange={handleNameChange} />

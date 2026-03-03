@@ -26,7 +26,7 @@ const ServicesPage = () => {
   });
 
   const mutationOrder = useMutation({
-    mutationFn: (payload: { name: string; phone: string; orderName: string }) =>
+    mutationFn: (payload: { name: string; phone: string; orderName: string; locale: string }) =>
       sendServiceOrder(payload, local),
     onSuccess: () => {
       toast.success(t("successOrder"));
@@ -58,9 +58,10 @@ const ServicesPage = () => {
     if (nameError || phoneError || privacyError || !selectedService) return;
 
     const payload = {
-      name: `${userName} - язык (${local})`,
+      name: userName,
       phone: phoneNumber,
       orderName: selectedService,
+      locale: local,
     };
 
     mutationOrder.mutate(payload);
