@@ -76,6 +76,8 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
       alternates: {
         canonical: `https://aquaviina.md/${locale}/products/${id}`,
         languages: {
+          "ru-MD": `https://aquaviina.md/ru/products/${id}`,
+          "ro-MD": `https://aquaviina.md/ro/products/${id}`,
           ru: `https://aquaviina.md/ru/products/${id}`,
           ro: `https://aquaviina.md/ro/products/${id}`,
           "x-default": `https://aquaviina.md/ru/products/${id}`,
@@ -113,7 +115,13 @@ const ProductPage = async ({ params }: ProductPageTypeProps) => {
     notFound();
   }
 
-  return <ProductPageClient id={id} locale={locale} />;
+  const product = await getProductById(id, locale);
+
+  if (!product) {
+    notFound();
+  }
+
+  return <ProductPageClient id={id} locale={locale} initialProduct={product} />;
 };
 
 export default ProductPage;

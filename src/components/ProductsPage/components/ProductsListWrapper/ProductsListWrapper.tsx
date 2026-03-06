@@ -22,7 +22,7 @@ type ProductsListWrapperProps = {
   resetPathname?: string | null;
 
   initialProducts: {
-    items: any[];
+    items: unknown[];
     total: number;
     page: number;
     totalPages: number;
@@ -60,7 +60,7 @@ const ProductsListWrapper = ({
   const [range, setRange] = useState<number[]>([0, 0]);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
-  const sortOrderFromQuery = searchParams.get("sortOrder") || "desc";
+  const sortOrderFromQuery = searchParams.get("sortOrder") || "default";
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "default">(
     sortOrderFromQuery as never
   );

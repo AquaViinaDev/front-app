@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "use-intl";
 import { PageLayout } from "@components/layout/PageLayout";
 import Image from "next/image";
 import { Button, CartAmount } from "@components/common";
-import { getProductById, resolveMediaUrl } from "@lib/api";
+import { resolveMediaUrl } from "@lib/api";
 import { mapProductForLocale } from "./utils";
 import styles from "./ProductPage.module.scss";
 import { useOrder } from "@components/CartPage/CartContext";
@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 type ProductPageClientProps = {
   id: string;
   locale: string;
+  initialProduct: Record<string, unknown> | null;
 };
 
 const stringifyJsonLd = (value: unknown) =>
@@ -55,12 +56,29 @@ const isCountryCharacteristicKey = (key: string) => {
   );
 };
 
-const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
+const normalizePriceValue = (value: unknown) => {
+  const numeric = Number(value);
+  if (Number.isFinite(numeric) && numeric >= 0) {
+    return numeric.toFixed(2);
+  }
+
+  if (typeof value === "string") {
+    const cleaned = value.trim().replace(",", ".");
+    const parsed = Number(cleaned);
+    if (Number.isFinite(parsed) && parsed >= 0) {
+      return parsed.toFixed(2);
+    }
+  }
+
+  return "0.00";
+};
+
+const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProps) => {
   const activeLocale = useLocale();
   const t = useTranslations();
   const router = useRouter();
-  const [product, setProduct] = useState<any | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [product, setProduct] = useState<Record<string, unknown> | null>(initialProduct ?? null);
+  const [isLoading, setIsLoading] = useState(!initialProduct);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [cartAmount, setCartAmount] = useState(1);
   const [activeTab, setActiveTab] = useState<"specs" | "description" | "reviews">("specs");
@@ -68,30 +86,10 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
   const { items, addProduct, updateProductQty } = useOrder();
 
   useEffect(() => {
-    let isActive = true;
-    setIsLoading(true);
-    getProductById(id, locale)
-      .then((data) => {
-        if (isActive) {
-          setProduct(data);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to load product:", err);
-        if (isActive) {
-          setProduct(null);
-        }
-      })
-      .finally(() => {
-        if (isActive) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, [id, locale]);
+    setActiveImageIndex(0);
+    setProduct(initialProduct ?? null);
+    setIsLoading(!initialProduct);
+  }, [id, locale, initialProduct]);
 
   const { safeLocalizedProduct, productName, resolvedImage } = useMemo(() => {
     if (!product || typeof product !== "object") {
@@ -225,18 +223,20 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
     }
     return list
       .map((img: unknown) => (typeof img === "string" ? img : null))
-      .filter((img: any): img is string => Boolean(img));
+      .filter((img): img is string => typeof img === "string" && img.trim().length > 0);
   }, [safeLocalizedProduct?.images, resolvedImage]);
 
   const resolvedImages = useMemo(
     () =>
-      imageSources.map((img: any) => {
-        try {
-          return resolveMediaUrl(img);
-        } catch {
-          return img;
-        }
-      }),
+      imageSources
+        .map((img) => {
+          try {
+            return resolveMediaUrl(img);
+          } catch {
+            return img;
+          }
+        })
+        .filter((img: unknown): img is string => typeof img === "string" && img.trim().length > 0),
     [imageSources]
   );
 
@@ -277,6 +277,56 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
     },
   ];
 
+  const deliveryHighlights =
+    locale === "ro"
+      ? [
+          "Livrare în Chișinău și în toată Moldova",
+          "Până la 500 lei în Chișinău: 80 lei, peste: gratuit",
+          "Până la 1000 lei în țară: 100 lei, peste: gratuit",
+        ]
+      : [
+          "Доставка по Кишинёву и по всей Молдове",
+          "До 500 лей по Кишинёву: 80 лей, выше: бесплатно",
+          "До 1000 лей по стране: 100 лей, выше: бесплатно",
+        ];
+
+  const faqItems =
+    locale === "ro"
+      ? [
+          {
+            question: `Este potrivit ${productName || "acest filtru"} pentru apă dură?`,
+            answer:
+              "Da, avem configurații pentru reducerea depunerilor și îmbunătățirea gustului apei.",
+          },
+          {
+            question: "Cât de des se schimbă cartușele?",
+            answer:
+              "Intervalul standard este 3-6 luni, în funcție de consum și calitatea apei la intrare.",
+          },
+          {
+            question: "Se poate comanda instalare?",
+            answer:
+              "Da, oferim montaj și service periodic pentru filtrele cumpărate din AquaViina.",
+          },
+        ]
+      : [
+          {
+            question: `Подходит ли ${productName || "этот фильтр"} для жесткой воды?`,
+            answer:
+              "Да, есть конфигурации для снижения накипи и улучшения вкуса воды.",
+          },
+          {
+            question: "Как часто менять картриджи?",
+            answer:
+              "Стандартный интервал 3-6 месяцев, в зависимости от расхода и качества исходной воды.",
+          },
+          {
+            question: "Можно заказать установку?",
+            answer:
+              "Да, у нас есть установка и регулярное сервисное обслуживание фильтров AquaViina.",
+          },
+        ];
+
   const normalizeBulletList = (value: string) => {
     const cleaned = value.replace(/^✅\\s*/g, "").trim();
     if (!cleaned.includes("•")) return null;
@@ -308,26 +358,77 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
     setShowCounter(Boolean(currentItem));
   }, [currentItem]);
 
+  const canonicalProductUrl = `https://aquaviina.md/${locale}/products/${safeLocalizedProduct?.id ?? id}`;
+  const additionalProperties = orderedCharacteristics
+    .filter(([name, value]) => name.trim().length > 0 && value.trim().length > 0)
+    .slice(0, 30)
+    .map(([name, value]) => ({
+      "@type": "PropertyValue",
+      name,
+      value,
+    }));
+  const schemaPrice = normalizePriceValue(safeLocalizedProduct?.price);
+  const priceValidUntil = new Date(
+    Date.now() + 1000 * 60 * 60 * 24 * 180
+  ).toISOString().slice(0, 10);
+
   const productSchema = safeLocalizedProduct && productName ? {
     "@context": "https://schema.org",
     "@type": "Product",
     name: productName,
-    description: descriptionText,
-    image: resolvedImage ? [resolvedImage] : undefined,
+    description: descriptionText || shortDescription,
+    image: resolvedImages.length > 0 ? resolvedImages : resolvedImage ? [resolvedImage] : undefined,
     brand: brandText ? { "@type": "Brand", name: brandText } : undefined,
     sku,
+    additionalProperty: additionalProperties.length > 0 ? additionalProperties : undefined,
     offers: {
       "@type": "Offer",
+      url: canonicalProductUrl,
       priceCurrency: "MDL",
-      price:
-        typeof safeLocalizedProduct.price === "number" ||
-        typeof safeLocalizedProduct.price === "string"
-          ? safeLocalizedProduct.price
-          : String(safeLocalizedProduct.price ?? ""),
-      availability: safeLocalizedProduct.inStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      url: `https://aquaviina.md/${locale}/products/${safeLocalizedProduct.id}`,
+      price: schemaPrice,
+      priceValidUntil,
+      availability: inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: "AquaViina",
+        url: "https://aquaviina.md",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "MD",
+        },
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: "100.00",
+          currency: "MDL",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 0,
+            maxValue: 1,
+            unitCode: "DAY",
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 3,
+            unitCode: "DAY",
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "MD",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
+      },
     },
   } : null;
 
@@ -354,6 +455,19 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
         item: `https://aquaviina.md/${locale}/products/${safeLocalizedProduct?.id ?? id}`,
       },
     ],
+  } : null;
+
+  const faqSchema = productName ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   } : null;
 
   if (!isLoading && (!safeLocalizedProduct || !productName)) {
@@ -395,6 +509,14 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
           }}
         />
       )}
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: stringifyJsonLd(faqSchema),
+          }}
+        />
+      )}
       {safeLocalizedProduct && (
         <>
           <div className={styles.topBar}>
@@ -430,6 +552,8 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
                   className={styles.image}
                   width={560}
                   height={560}
+                  priority
+                  sizes="(max-width: 980px) 100vw, 50vw"
                   unoptimized={shouldDisableOptimization(activeImage)}
                 />
                 <span className={styles.badgePrimary}>{hitLabel}</span>
@@ -480,7 +604,7 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
               </div>
               {resolvedImages.length > 1 && (
                 <div className={styles.thumbs}>
-                  {resolvedImages.map((img: any, index: number) => (
+                  {resolvedImages.map((img, index: number) => (
                     <button
                       key={`${img}-${index}`}
                       type="button"
@@ -494,6 +618,7 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
                         alt=""
                         width={80}
                         height={80}
+                        sizes="80px"
                         unoptimized={shouldDisableOptimization(img)}
                       />
                     </button>
@@ -569,6 +694,17 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
                     })}
                   </span>
                 )}
+              </div>
+
+              <div className={styles.deliveryBlock}>
+                <h2 className={styles.deliveryTitle}>
+                  {locale === "ro" ? "Livrare în Moldova" : "Доставка по Молдове"}
+                </h2>
+                <ul className={styles.deliveryList}>
+                  {deliveryHighlights.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
 
               {benefitItems.length > 0 && (
@@ -801,6 +937,19 @@ const ProductPageClient = ({ id, locale }: ProductPageClientProps) => {
               </div>
             )}
           </div>
+          <section className={styles.productFaqSection}>
+            <h2 className={styles.productFaqTitle}>
+              {locale === "ro" ? "Întrebări frecvente" : "Частые вопросы"}
+            </h2>
+            <div className={styles.productFaqList}>
+              {faqItems.map((item) => (
+                <details key={item.question} className={styles.productFaqItem}>
+                  <summary className={styles.productFaqQuestion}>{item.question}</summary>
+                  <p className={styles.productFaqAnswer}>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
         </>
       )}
     </PageLayout>

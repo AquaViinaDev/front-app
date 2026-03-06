@@ -1,0 +1,164 @@
+@use "variables" as *;
+@use "media" as *;
+
+.root {
+  margin: 0 auto;
+  max-width: $max-width;
+  padding: 24px 15px 40px;
+  color: #0f172a;
+}
+
+.hero {
+  border: 1px solid #dbe3ef;
+  border-radius: 18px;
+  padding: 24px;
+  background: linear-gradient(145deg, #f8fbff 0%, #edf5ff 100%);
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 4.5vw, 44px);
+  line-height: 1.1;
+}
+
+.lead {
+  margin: 0;
+  max-width: 880px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #1e293b;
+}
+
+.ctaRow {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.ctaPrimary {
+  background-color: #04559b;
+  color: #fff;
+}
+
+.ctaSecondary {
+  background-color: #fff;
+  color: #04559b;
+  border: 1px solid #9ec5ea;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+.sectionTitle {
+  margin: 0 0 12px;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+.sectionText {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.chips {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border-radius: 999px;
+  border: 1px solid #d8e2ef;
+  background: #f8fafc;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card {
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.cardText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.cardLink {
+  margin-top: 10px;
+  display: inline-flex;
+  color: #04559b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.7;
+}
+
+.faq {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.faqItem {
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px 12px;
+}
+
+.faqQuestion {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.faqAnswer {
+  margin: 8px 0 0;
+  line-height: 1.6;
+}
+
+@media (max-width: $tabletScreen) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 18px;
+  }
+}

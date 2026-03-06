@@ -2,7 +2,32 @@ import { MetadataRoute } from "next";
 
 const SITE_URL = "https://aquaviina.md";
 const LOCALES = ["ru", "ro"] as const;
-const STATIC_PATHS = ["", "products", "services", "about"] as const;
+const STATIC_PATHS_BY_LOCALE: Record<(typeof LOCALES)[number], readonly string[]> = {
+	ru: ["", "products", "services", "about", "filtry-dlya-vody-v-moldove"],
+	ro: ["", "products", "services", "about", "filtre-apa-moldova"],
+};
+
+type SitemapProduct = {
+	id?: string;
+	slug?: string;
+	updatedAt?: string;
+};
+
+type SitemapProductsResponse =
+	| SitemapProduct[]
+	| {
+			items?: SitemapProduct[];
+	  };
+
+type FilterItem = {
+	ro?: string;
+	ru?: string;
+};
+
+type FiltersResponse = {
+	brand?: FilterItem[];
+	productType?: FilterItem[];
+};
 
 const normalizeSlug = (value: string) => {
 	const trimmed = value.trim().toLowerCase();
@@ -24,32 +49,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const staticPages: MetadataRoute.Sitemap = [];
 
 	LOCALES.forEach((locale) => {
-		STATIC_PATHS.forEach((path) => {
+		STATIC_PATHS_BY_LOCALE[locale].forEach((path) => {
 			const normalized = path ? `${locale}/${path}` : `${locale}`;
 			staticPages.push({
 				url: `${SITE_URL}/${normalized}`,
 				lastModified: new Date(),
 				changeFrequency: "weekly",
-				priority: path === "" ? 1.0 : 0.8,
+				priority: path === "" ? 1.0 : 0.85,
 			});
 		});
 	});
 
-	const products = await fetch(`${SITE_URL}/api/sitemap-products`, {
+	const products = (await fetch(`${SITE_URL}/api/sitemap-products`, {
 		next: { revalidate: 3600 },
 	})
 		.then((r) => r.json())
-		.catch(() => []);
+		.catch(() => [])) as SitemapProductsResponse;
 
 	const productsData = Array.isArray(products)
 		? products
-		: Array.isArray((products as any)?.items)
-			? (products as any).items
+		: Array.isArray(products?.items)
+			? products.items
 			: [];
 
 	const productPages: MetadataRoute.Sitemap = [];
 
-	productsData.forEach((p: any) => {
+	productsData.forEach((p) => {
 		const slugOrId = p?.slug || p?.id;
 		if (!slugOrId) return;
 
@@ -63,14 +88,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		});
 	});
 
-	const filters = await fetch(`${SITE_URL}/api/filters`, {
+	const filters = (await fetch(`${SITE_URL}/api/filters`, {
 		next: { revalidate: 3600 },
 	})
 		.then((r) => r.json())
-		.catch(() => ({ brand: [], productType: [] }));
+		.catch(() => ({ brand: [], productType: [] }))) as FiltersResponse;
 
 	const brandPages: MetadataRoute.Sitemap = [];
-	(filters.brand ?? []).forEach((item: any) => {
+	(filters.brand ?? []).forEach((item) => {
 		if (!item?.ro) return;
 		const slug = normalizeSlug(item.ro);
 		if (!slug) return;
@@ -85,7 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	});
 
 	const typePages: MetadataRoute.Sitemap = [];
-	(filters.productType ?? []).forEach((item: any) => {
+	(filters.productType ?? []).forEach((item) => {
 		if (!item?.ro) return;
 		const slug = normalizeSlug(item.ro);
 		if (!slug) return;

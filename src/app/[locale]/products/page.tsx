@@ -74,6 +74,8 @@ export async function generateMetadata(props: {
     alternates: {
       canonical: `https://aquaviina.md/${locale}/products`,
       languages: {
+        "ru-MD": "https://aquaviina.md/ru/products",
+        "ro-MD": "https://aquaviina.md/ro/products",
         ru: "https://aquaviina.md/ru/products",
         ro: "https://aquaviina.md/ro/products",
         "x-default": "https://aquaviina.md/ru/products",
@@ -130,7 +132,7 @@ const Products = async (props: PageProps) => {
       query: searchParams.query,
       sortOrder: searchParams.sortOrder ?? "desc",
       page: 1,
-      limit: 100,
+      limit: 16,
     }),
     getFilters(locale),
   ]);

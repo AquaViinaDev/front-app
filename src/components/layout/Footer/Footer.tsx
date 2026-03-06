@@ -12,6 +12,14 @@ const Footer = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
   const currentYear = new Date().getFullYear();
+  const seoLandingHref =
+    locale === "ro"
+      ? "/ro/filtre-apa-moldova"
+      : "/ru/filtry-dlya-vody-v-moldove";
+  const seoLandingLabel =
+    locale === "ro"
+      ? "Filtre de apă Moldova"
+      : "Фильтры для воды в Молдове";
   const [logoClicks, setLogoClicks] = useState(0);
   const [showCreators, setShowCreators] = useState(false);
 
@@ -81,6 +89,11 @@ const Footer = () => {
             <li>
               <Link href={`/${locale}${RoutesEnum.Products}`} className={styles.link}>
                 {t("navigation.products")}
+              </Link>
+            </li>
+            <li>
+              <Link href={seoLandingHref} className={styles.link}>
+                {seoLandingLabel}
               </Link>
             </li>
             <li>

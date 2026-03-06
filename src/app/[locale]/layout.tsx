@@ -32,6 +32,8 @@ export async function generateMetadata(props: {
     description: baseDescription,
     alternates: {
       languages: {
+        "ru-MD": "https://aquaviina.md/ru",
+        "ro-MD": "https://aquaviina.md/ro",
         ru: "https://aquaviina.md/ru",
         ro: "https://aquaviina.md/ro",
         "x-default": "https://aquaviina.md/ru",

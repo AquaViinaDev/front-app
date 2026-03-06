@@ -7,3 +7,5 @@ Disallow: /*/cart
 Disallow: /*/cart/
 Disallow: /api/
 Sitemap: https://aquaviina.md/sitemap.xml
+# Google Merchant feed (locale switch via ?locale=ru|ro)
+# https://aquaviina.md/merchant-feed.xml?locale=ru

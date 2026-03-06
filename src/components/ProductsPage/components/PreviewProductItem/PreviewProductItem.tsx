@@ -70,6 +70,7 @@ const PreviewProductItem = memo(
               alt={title}
               width={320}
               height={240}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
               className={styles.itemImage}
               unoptimized={shouldDisableOptimization}
             />

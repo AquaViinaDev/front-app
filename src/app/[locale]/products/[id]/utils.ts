@@ -1,12 +1,12 @@
-export function mapProductForLocale<T extends Record<string, any>>(
+export function mapProductForLocale<T extends Record<string, unknown>>(
   product: T,
   locale: string
 ): Partial<T> {
   const translatedKeys = ["name", "brand", "description", "type", "characteristics"];
 
   return Object.entries(product).reduce((acc, [key, value]) => {
-    if (translatedKeys.includes(key) && value && typeof value === "object") {
-      const localizedValue = value[locale];
+    if (translatedKeys.includes(key) && value && typeof value === "object" && !Array.isArray(value)) {
+      const localizedValue = (value as Record<string, unknown>)[locale];
 
       if (localizedValue === null || localizedValue === undefined) {
         return acc;
@@ -32,13 +32,13 @@ export function mapProductForLocale<T extends Record<string, any>>(
           return acc;
         }
 
-        (acc as any)[key] = filteredCharacteristics;
+        (acc as Record<string, unknown>)[key] = filteredCharacteristics;
       } else {
-        (acc as any)[key] = localizedValue;
+        (acc as Record<string, unknown>)[key] = localizedValue;
       }
     } else {
       if (value !== null && value !== undefined) {
-        (acc as any)[key] = value;
+        (acc as Record<string, unknown>)[key] = value;
       }
     }
     return acc;

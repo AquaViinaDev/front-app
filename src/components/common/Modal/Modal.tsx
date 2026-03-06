@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useState, KeyboardEvent, memo } from "react";
+import { ReactNode, useEffect, useState, memo } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 
@@ -31,20 +31,20 @@ const Modal = memo(
     }, []);
 
     useEffect(() => {
-      const handleKey = (e: KeyboardEvent) => {
+      const handleKey = (e: globalThis.KeyboardEvent) => {
         if (e.key === "Escape") {
           onClose();
         }
       };
       if (isOpen) {
         document.body.style.overflow = "hidden";
-        window.addEventListener("keydown", handleKey as any);
+        window.addEventListener("keydown", handleKey);
       } else {
         document.body.style.overflow = "";
       }
       return () => {
         document.body.style.overflow = "";
-        window.removeEventListener("keydown", handleKey as any);
+        window.removeEventListener("keydown", handleKey);
       };
     }, [isOpen, onClose]);
 
