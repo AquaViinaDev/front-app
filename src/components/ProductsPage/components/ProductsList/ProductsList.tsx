@@ -17,7 +17,9 @@ export type ProductsListProps = {
 const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
   const locale = useLocale() as Locale;
 
-  if (isLoading || !isFetched) {
+  const hasProducts = Array.isArray(data) && data.length > 0;
+
+  if (!hasProducts && (isLoading || !isFetched)) {
     return (
       <ul className={classNames(styles.root, styles.skeletonList)}>
         {Array.from({ length: 4 }).map((_, index) => (
@@ -31,7 +33,7 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
     );
   }
 
-  if (!data || !data.length) return <p className={styles.noFound}>No products found</p>;
+  if (!hasProducts) return <p className={styles.noFound}>No products found</p>;
 
   return (
     <ul className={styles.root}>

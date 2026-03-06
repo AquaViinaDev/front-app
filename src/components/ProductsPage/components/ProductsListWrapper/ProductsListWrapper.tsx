@@ -45,6 +45,8 @@ const parseMultiFilterParam = (value: string | null | undefined, fallback?: stri
   );
 };
 
+const normalizeQueryString = (queryString: string) => (queryString ? `?${queryString}` : "");
+
 const ProductsListWrapper = ({
                                defaultBrand,
                                defaultType,
@@ -107,8 +109,14 @@ const ProductsListWrapper = ({
         currentParams.delete("query");
       }
 
+      const nextQueryString = currentParams.toString();
+      const currentQueryString = searchParams.toString();
+      if (nextQueryString === currentQueryString) {
+        return;
+      }
+
       router.replace(
-        `${effectiveBasePath}?${currentParams.toString()}`,
+        `${effectiveBasePath}${normalizeQueryString(nextQueryString)}`,
         { scroll: false }
       );
     }, 500);
@@ -126,12 +134,14 @@ const ProductsListWrapper = ({
       currentParams.delete("sortOrder");
     }
 
-    const queryString = currentParams.toString();
+    const nextQueryString = currentParams.toString();
+    const currentQueryString = searchParams.toString();
+    if (nextQueryString === currentQueryString) {
+      return;
+    }
 
     router.replace(
-      queryString
-        ? `${effectiveBasePath}?${queryString}`
-        : effectiveBasePath,
+      `${effectiveBasePath}${normalizeQueryString(nextQueryString)}`,
       { scroll: false }
     );
   }, [sortOrder, effectiveBasePath, router, searchParams]);
