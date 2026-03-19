@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import { PageLayout } from "@components/layout/PageLayout";
 import { ProductsList } from "../ProductsList";
@@ -10,7 +10,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { FiltersResponse } from "@components/FiltersBlock/FitersBlock";
 import { FiltersBlock } from "@components/FiltersBlock";
 import Image from "next/image";
-import {useRouter, useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { RoutesEnum } from "@types";
 
 import styles from "./ProductListWrapper.module.scss";
@@ -61,6 +61,7 @@ const ProductsListWrapper = ({
 
   const [range, setRange] = useState<number[]>([0, 0]);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const sortOrderFromQuery = searchParams.get("sortOrder") || "default";
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "default">(
@@ -161,6 +162,7 @@ const ProductsListWrapper = ({
   const {
     data,
     fetchNextPage,
+    hasNextPage,
     isFetchingNextPage,
     isLoading: isProductsLoading,
     isFetched,
@@ -201,6 +203,31 @@ const ProductsListWrapper = ({
 
   const products = data?.pages.flatMap((page) => page.items) ?? [];
   const totalCount = data?.pages[0]?.total ?? 0;
+
+  useEffect(() => {
+    const node = loadMoreRef.current;
+
+    if (!node || !hasNextPage) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || isFetchingNextPage) {
+          return;
+        }
+
+        void fetchNextPage();
+      },
+      {
+        rootMargin: "400px 0px",
+      }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, products.length]);
 
   return (
     <PageLayout className={styles.pageLayout}>
@@ -253,15 +280,14 @@ const ProductsListWrapper = ({
           />
         </div>
 
-        {products.length < totalCount && (
-          <Button
-            className={styles.loadMoreBtn}
-            buttonType="bigButton"
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-          >
-            {t("ProductsPageInformation.loadMore")}
-          </Button>
+        {hasNextPage && (
+          <div ref={loadMoreRef} className={styles.loadMoreTrigger} aria-hidden="true">
+            <span className={styles.loadMoreStatus}>
+              {isFetchingNextPage
+                ? t("ProductsPageInformation.loadMore")
+                : `${products.length}/${totalCount}`}
+            </span>
+          </div>
         )}
       </div>
 

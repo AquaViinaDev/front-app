@@ -121,8 +121,26 @@
   cursor: pointer;
 }
 
-.loadMoreBtn {
-  margin: 32px auto 0;
+.loadMoreTrigger {
+  width: 100%;
+  min-height: 1px;
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.loadMoreStatus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 @keyframes slideIn {
