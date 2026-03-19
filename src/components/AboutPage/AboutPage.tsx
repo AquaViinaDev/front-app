@@ -2,7 +2,7 @@
 
 import { PageLayout } from "@components/layout/PageLayout";
 import { useLocale, useTranslations } from "use-intl";
-import { Button, LeadForm, Modal } from "@components/common";
+import { Button, CartIcon, LeadForm, Modal } from "@components/common";
 import { FormEvent, useState } from "react";
 import { sendConsultation } from "@lib/api";
 import { useMutation } from "@tanstack/react-query";
@@ -121,7 +121,7 @@ const AboutPage = () => {
               className={styles.statCard}
               as={Link}
               href={`/${local}${RoutesEnum.Products}`}
-              image={"/cart-icon.svg"}
+              icon={<CartIcon />}
               text={t("ShortInfoBlockItem.wideSelection")}
             />
           </div>

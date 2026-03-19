@@ -1,4 +1,4 @@
-import { memo, ElementType, ComponentPropsWithoutRef } from "react";
+import { memo, ElementType, ComponentPropsWithoutRef, ReactNode } from "react";
 import Image from "next/image";
 import classNames from "classnames";
 
@@ -9,7 +9,8 @@ type AsProp<T extends ElementType> = {
 };
 
 export type ShortInfoBlockItemProps<T extends ElementType = "button"> = {
-  image: string;
+  image?: string;
+  icon?: ReactNode;
   text: string;
   className?: string;
 } & AsProp<T> &
@@ -17,6 +18,7 @@ export type ShortInfoBlockItemProps<T extends ElementType = "button"> = {
 
 const ShortInfoBlockItem = <T extends ElementType = "button">({
   image,
+  icon,
   text,
   as,
   className,
@@ -27,7 +29,7 @@ const ShortInfoBlockItem = <T extends ElementType = "button">({
   return (
     <Component className={classNames(styles.root, className)} {...props}>
       <div className={styles.imageWrapper}>
-        <Image src={image} alt={text} width={30} height={30} />
+        {icon ?? (image ? <Image src={image} alt={text} width={30} height={30} /> : null)}
       </div>
       <p className={styles.text}>{text}</p>
     </Component>

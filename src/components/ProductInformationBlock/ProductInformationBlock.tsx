@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Button, CartAmount, Modal } from "@components/common";
+import { Button, CartAmount, CartIcon, Modal } from "@components/common";
 import classNames from "classnames";
 import Image from "next/image";
 import { useLocale, useTranslations } from "use-intl";
@@ -121,6 +121,7 @@ export const ProductInformationBlock = ({
             buttonType={"bigButton"}
             onClick={() => addProduct(productId, cartAmount)}
           >
+            <CartIcon className={styles.cartButtonIcon} />
             {t("ProductsPageInformation.cartButton")}
           </Button>
           <Button disabled={!inStock} buttonType={"bigButton"} onClick={handleQuickPurchase}>

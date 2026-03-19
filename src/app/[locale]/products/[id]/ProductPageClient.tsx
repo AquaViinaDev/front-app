@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import { PageLayout } from "@components/layout/PageLayout";
 import Image from "next/image";
-import { Button, CartAmount } from "@components/common";
+import { Button, CartAmount, CartIcon } from "@components/common";
 import { resolveMediaUrl } from "@lib/api";
 import { mapProductForLocale } from "./utils";
 import styles from "./ProductPage.module.scss";
@@ -83,7 +83,7 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
   const [cartAmount, setCartAmount] = useState(1);
   const [activeTab, setActiveTab] = useState<"specs" | "description" | "reviews">("specs");
   const [showCounter, setShowCounter] = useState(false);
-  const { items, addProduct, updateProductQty } = useOrder();
+  const { items, addProduct, updateProductQty, removeProduct } = useOrder();
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -148,6 +148,10 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
       ? safeLocalizedProduct.type
       : String(safeLocalizedProduct?.type ?? "");
   const currentItem = items.find((i) => i.id === id);
+
+  useEffect(() => {
+    setShowCounter(Boolean(currentItem));
+  }, [currentItem]);
   const characteristicCollator = useMemo(
     () => new Intl.Collator(activeLocale === "ro" ? "ro" : "ru"),
     [activeLocale]
@@ -213,6 +217,37 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
   const hasDiscountPrice = Number.isFinite(parsedOldPrice) && parsedOldPrice > price;
   const oldPrice = hasDiscountPrice ? parsedOldPrice : undefined;
   const discount = oldPrice ? Math.max(oldPrice - price, 0) : undefined;
+
+  const handleAddToCart = () => {
+    addProduct(id, cartAmount);
+    setShowCounter(true);
+  };
+
+  const handleBuyNow = () => {
+    if (!currentItem) {
+      addProduct(id, cartAmount);
+    }
+
+    router.push(`/${locale}/cart`);
+  };
+
+  const handleProductAmountChange = (value: number) => {
+    if (value <= 0) {
+      if (currentItem) {
+        removeProduct(id);
+      }
+      setCartAmount(1);
+      setShowCounter(false);
+      return;
+    }
+
+    if (currentItem) {
+      updateProductQty(id, value);
+      return;
+    }
+
+    setCartAmount(value);
+  };
 
   const imageSources = useMemo(() => {
     const list = Array.isArray(safeLocalizedProduct?.images)
@@ -738,46 +773,31 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
               )}
 
               <div className={styles.actionsRow}>
+                <Button
+                  disabled={!inStock}
+                  buttonType="bigButton"
+                  className={styles.buyNowButton}
+                  onClick={handleBuyNow}
+                >
+                  {t("ProductsPageInformation.buyNowButton")}
+                </Button>
                 {showCounter ? (
                   <CartAmount
                     value={currentItem ? currentItem.qty : cartAmount}
                     size="compact"
+                    minAmount={0}
                     className={styles.cartAmount}
-                    onChange={(value) => {
-                      if (currentItem) {
-                        updateProductQty(id, value);
-                      } else {
-                        setCartAmount(value);
-                      }
-                    }}
+                    onChange={handleProductAmountChange}
                   />
                 ) : (
                   <Button
                     disabled={!inStock}
                     buttonType="bigButton"
-                    onClick={() => {
-                      addProduct(id, cartAmount);
-                      setShowCounter(true);
-                    }}
+                    className={styles.iconButton}
+                    onClick={handleAddToCart}
+                    aria-label={t("ProductsPageInformation.cartButton")}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={styles.cartIcon}
-                      aria-hidden="true"
-                    >
-                      <circle cx="8" cy="21" r="1" />
-                      <circle cx="19" cy="21" r="1" />
-                      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                    </svg>
-                    {t("ProductsPageInformation.cartButton")}
+                    <CartIcon className={styles.cartIcon} />
                   </Button>
                 )}
                 {/* <button className={styles.shareButton} type="button" aria-label="Share">

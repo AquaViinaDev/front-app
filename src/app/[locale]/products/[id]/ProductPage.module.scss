@@ -398,22 +398,40 @@
 }
 
 .actionsRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content max-content;
   align-items: center;
+  justify-content: flex-start;
   gap: 12px;
-  flex-wrap: wrap;
   padding-top: 16px;
 }
 
 .cartAmount {
-  width: 100%;
+  width: auto !important;
+  max-width: none;
+  min-width: 0;
+  justify-self: start;
+}
+
+.iconButton {
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.14);
+  justify-self: start;
+}
+
+.buyNowButton {
+  width: fit-content;
   max-width: 100%;
+  justify-self: start;
 }
 
 .cartIcon {
   width: 18px;
   height: 18px;
-  margin-right: 6px;
+  margin-right: 0;
 }
 
 .shareButton {
@@ -688,8 +706,8 @@
   }
 
   .actionsRow {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: max-content max-content;
+    justify-content: flex-start;
   }
 }
 

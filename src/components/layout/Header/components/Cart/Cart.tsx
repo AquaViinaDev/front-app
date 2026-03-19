@@ -1,13 +1,13 @@
 "use client";
 
 import { RoutesEnum } from "@types";
-import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "use-intl";
 import { useOrder } from "@components/CartPage/CartContext";
 import { memo, useEffect, useState } from "react";
 import { getTotalQty } from "@components/utils";
 import classNames from "classnames";
+import { CartIcon } from "@components/common";
 
 import styles from "./Cart.module.scss";
 
@@ -29,7 +29,7 @@ const Cart = memo(({ className }: CartProps) => {
   return (
     <Link href={`/${locale}${RoutesEnum.Cart}`} className={classNames(className, styles.root)}>
       <div className={styles.iconWrapper}>
-        <Image src={"/cart-icon.svg"} alt="Cart" width={25} height={25} />
+        <CartIcon className={styles.icon} />
         {mounted && totalQty > 0 && (
           <span className={styles.badge}>{totalQty > 99 ? "99+" : totalQty}</span>
         )}

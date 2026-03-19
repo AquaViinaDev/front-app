@@ -72,26 +72,30 @@
 }
 
 .removeBtn {
-  max-width: 9%;
   background-color: rgba(248, 113, 113, 0.12);
   border: none;
-  width: 24px;
-  height: 24px;
+  flex: 0 0 auto;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
   cursor: pointer;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease, background-color 0.2s ease;
-
-  svg {
-    fill: tomato;
-  }
+  color: #ef4444;
 }
 
 .removeBtn:hover {
   transform: scale(1.05);
   background-color: rgba(248, 113, 113, 0.2);
+}
+
+.removeIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 @media (max-width: $tabletScreen) {
@@ -199,8 +203,9 @@
     grid-row: 1;
     align-self: center;
     justify-self: end;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
   }
 
   .itemImage {

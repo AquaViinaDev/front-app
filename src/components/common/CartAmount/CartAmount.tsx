@@ -11,23 +11,31 @@ export type CartAmountProps = {
   onChange: (amount: number) => void;
   className?: string;
   size?: "default" | "compact";
+  minAmount?: number;
 };
 
-const MIN_AMOUNT = 1;
+const DEFAULT_MIN_AMOUNT = 1;
 
-const CartAmount = memo(({ value, onChange, className, size = "default" }: CartAmountProps) => {
+const CartAmount = memo(
+  ({
+    value,
+    onChange,
+    className,
+    size = "default",
+    minAmount = DEFAULT_MIN_AMOUNT,
+  }: CartAmountProps) => {
   const t = useTranslations("Common.cartAmount");
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value.replace(/,/g, "."));
 
     if (!isNaN(newValue)) {
-      onChange(Math.max(MIN_AMOUNT, Math.floor(newValue)));
+      onChange(Math.max(minAmount, Math.floor(newValue)));
     }
   };
 
-  const handleDecrement = () => onChange(Math.max(MIN_AMOUNT, value - 1));
+  const handleDecrement = () => onChange(Math.max(minAmount, value - 1));
   const handleIncrement = () => onChange(value + 1);
-  const isDecreaseDisabled = value <= MIN_AMOUNT;
+  const isDecreaseDisabled = value <= minAmount;
 
   return (
     <div className={classNames(styles.root, styles[size], className)}>
@@ -47,7 +55,7 @@ const CartAmount = memo(({ value, onChange, className, size = "default" }: CartA
         pattern="[0-9]*"
         name="cartAmount"
         value={value}
-        min={MIN_AMOUNT}
+        min={minAmount}
         onChange={handleInputChange}
         aria-label={t("label")}
       />

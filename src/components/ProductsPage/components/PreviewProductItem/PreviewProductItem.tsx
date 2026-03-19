@@ -6,6 +6,7 @@ import { useOrder } from "@components/CartPage/CartContext";
 import classNames from "classnames";
 import { toast } from "react-toastify";
 import { resolveMediaUrl } from "@lib/api";
+import { CartIcon } from "@components/common";
 
 import styles from "./PreviewProductItem.module.scss";
 
@@ -141,17 +142,7 @@ const PreviewProductItem = memo(
                 className={styles.cartButton}
                 onClick={handleAddToCart}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <circle cx="8" cy="21" r="1" stroke="currentColor" strokeWidth="2" />
-                  <circle cx="19" cy="21" r="1" stroke="currentColor" strokeWidth="2" />
-                  <path
-                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L22 6H5.12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <CartIcon width={16} height={16} />
               </button>
             </div>
         </div>

@@ -49,6 +49,12 @@
     contrast(92%);
 }
 
+.imageWrapper :global(svg) {
+  width: 28px;
+  height: 28px;
+  color: #0f7dc2;
+}
+
 .text {
   text-align: center;
   font-size: $font-md;
