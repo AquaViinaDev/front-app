@@ -43,8 +43,13 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.wrapper}>
         <div className={styles.logo}>
-          <Link href={`/${locale}${RoutesEnum.Main}`} onClick={() => setIsOpen(false)}>
-            <Image src={"/logo.svg"} alt="Aqua Viina" width={150} height={50} />
+          <Link
+            href={`/${locale}${RoutesEnum.Main}`}
+            aria-label="Aqua Viina"
+            title="Aqua Viina"
+            onClick={() => setIsOpen(false)}
+          >
+            <Image src={"/logo.svg"} alt="" width={150} height={50} aria-hidden="true" />
           </Link>
         </div>
         <div className={styles.desktopNav}>

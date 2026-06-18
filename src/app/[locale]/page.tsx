@@ -8,14 +8,14 @@ export async function generateMetadata(props: {
 
   const meta = {
     ru: {
-      title: "Фильтр для воды в Молдове — купить в AquaViina",
+      title: "Фильтр для воды в Молдове — купить в Aqua Viina",
       description:
-        "Купить фильтр для воды в Молдове: кувшины, проточные системы и обратный осмос. AquaViina, доставка по Кишинёву и всей Молдове, установка и сервис.",
+        "Купить фильтр для воды в Молдове: кувшины, проточные системы и обратный осмос. Aqua Viina, доставка по Кишинёву и всей Молдове, установка и сервис.",
     },
     ro: {
-      title: "Filtre de apă în Moldova — AquaViina",
+      title: "Filtre de apă în Moldova — Aqua Viina",
       description:
-        "Magazin online AquaViina: filtre de apă, cartușe și sisteme de osmoză inversă. Livrare rapidă în Chișinău și în toată Moldova. Apă curată pentru sănătatea ta!",
+        "Magazin online Aqua Viina: filtre de apă, cartușe și sisteme de osmoză inversă. Livrare rapidă în Chișinău și în toată Moldova. Apă curată pentru sănătatea ta!",
     },
   };
 
@@ -36,7 +36,7 @@ export async function generateMetadata(props: {
       title: current.title,
       description: current.description,
       url: `https://aquaviina.md/${locale}`,
-      siteName: "AquaViina",
+      siteName: "Aqua Viina",
       type: "website",
     },
     twitter: {

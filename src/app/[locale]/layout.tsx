@@ -17,14 +17,18 @@ export async function generateMetadata(props: {
   const isRo = locale === "ro";
 
   const baseTitle = isRo
-    ? "AquaViina — filtre de apă în Moldova"
-    : "AquaViina — фильтры для воды в Молдове";
+    ? "Aqua Viina — filtre de apă în Moldova"
+    : "Aqua Viina — фильтры для воды в Молдове";
   const baseDescription = isRo
-    ? "Filtre de apă, cartușe și osmoză inversă în Moldova. Livrare în Chișinău și în toată țara."
-    : "Фильтры для воды, картриджи и обратный осмос в Молдове. Доставка по Кишиневу и стране.";
+    ? "Aqua Viina: filtre de apă, cartușe și osmoză inversă în Moldova. Livrare în Chișinău și în toată țara."
+    : "Aqua Viina: фильтры для воды, картриджи и обратный осмос в Молдове. Доставка по Кишиневу и стране.";
 
   return {
     metadataBase: new URL("https://aquaviina.md"),
+    applicationName: "Aqua Viina",
+    authors: [{ name: "Aqua Viina", url: "https://aquaviina.md" }],
+    creator: "Aqua Viina",
+    publisher: "Aqua Viina",
     title: {
       default: baseTitle,
       template: "%s",
@@ -41,7 +45,7 @@ export async function generateMetadata(props: {
     },
     openGraph: {
       type: "website",
-      siteName: "AquaViina",
+      siteName: "Aqua Viina",
       images: ["/images/home-image.jpg"],
       locale: isRo ? "ro_MD" : "ru_RU",
     },
@@ -95,12 +99,16 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
-            name: "AquaViina",
+            "@id": "https://aquaviina.md/#business",
+            name: "Aqua Viina",
+            alternateName: "AquaViina",
             description:
               locale === "ro"
                 ? "Filtre de apă, cartușe și sisteme de osmoză inversă în Moldova."
                 : "Фильтры для воды, картриджи и системы обратного осмоса в Молдове.",
             url: "https://aquaviina.md",
+            logo: "https://aquaviina.md/logo.svg",
+            image: "https://aquaviina.md/logo.svg",
             telephone: "+373 67 177 889",
             areaServed: "MD",
             address: {
