@@ -72,7 +72,7 @@ const CategoriesSection = () => {
               image: "/images/predfilters.jpg",
               title: t("items.prefilter.name"),
               description: t("items.prefilter.description"),
-              imageObjectPosition: "50% 30%",
+              imageObjectPosition: "50% 75%",
             }}
           >
             <CustomLink
