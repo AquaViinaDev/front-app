@@ -15,7 +15,7 @@ const META_PIXEL_ID = "1438410677693811";
 
 export default function RootLayout({ children, params }: RootLayoutProps) {
   const locale =
-    params?.locale && SUPPORTED_LANGS.has(params.locale) ? params.locale : "ru";
+    params?.locale && SUPPORTED_LANGS.has(params.locale) ? params.locale : "ro";
 
   return (
     <html lang={locale} suppressHydrationWarning>

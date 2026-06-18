@@ -2,7 +2,7 @@ import { getRequestConfig as nextIntlGetRequestConfig } from "next-intl/server";
 
 const routing = {
   locales: ["ru", "ro"],
-  defaultLocale: "ru",
+  defaultLocale: "ro",
 };
 
 export default nextIntlGetRequestConfig(async ({ requestLocale }) => {
