@@ -4,6 +4,7 @@ import { CartAmount } from "@components/common";
 import { useOrder } from "@components/CartPage/CartContext";
 import { useLocale, useTranslations } from "use-intl";
 import { resolveMediaUrl } from "@lib/api";
+import { buildProductSlug } from "@lib/seo";
 
 import styles from "./CartProductItem.module.scss";
 
@@ -33,7 +34,7 @@ const CartProductItem = ({ item }: CartProductItemProps) => {
     !!resolvedImage &&
     (!resolvedImage.startsWith("/") || resolvedImage.toLowerCase().includes(".heic"));
 
-  const link = `/products/${id}`;
+  const link = `/products/${buildProductSlug({ id, name }, locale as "ru" | "ro")}`;
   return (
     <div className={styles.root}>
       <Link className={styles.link} href={`/${locale}${link.startsWith("/") ? link : `/${link}`}`}>

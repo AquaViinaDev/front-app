@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         "ro-MD": canonical,
         ru: "https://aquaviina.md/ru/filtry-dlya-vody-v-moldove",
         ro: canonical,
-        "x-default": "https://aquaviina.md/ru/filtry-dlya-vody-v-moldove",
+        "x-default": canonical,
       },
     },
     openGraph: {

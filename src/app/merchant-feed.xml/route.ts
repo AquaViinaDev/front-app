@@ -1,3 +1,5 @@
+import { buildProductPath } from "@lib/seo";
+
 const SITE_URL = "https://aquaviina.md";
 const API_URL = `${SITE_URL}/api/products`;
 
@@ -125,7 +127,7 @@ const buildItem = (product: RawProduct, locale: Locale) => {
   const price = normalizePrice(product.price);
   const availability = product.inStock ? "in stock" : "out of stock";
   const imageLink = resolveImage(product.images?.[0]);
-  const link = `${SITE_URL}/${locale}/products/${encodeURIComponent(id)}`;
+  const link = `${SITE_URL}${buildProductPath({ id, name: product.name }, locale)}`;
 
   return `<item>
   <g:id>${escapeXml(`${locale}-${id}`)}</g:id>

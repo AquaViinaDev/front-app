@@ -65,7 +65,7 @@ export async function generateMetadata(props: {
       languages: {
         ru: `https://aquaviina.md/ru/brands/${canonicalBrand}`,
         ro: `https://aquaviina.md/ro/brands/${canonicalBrand}`,
-        "x-default": `https://aquaviina.md/ru/brands/${canonicalBrand}`,
+        "x-default": `https://aquaviina.md/ro/brands/${canonicalBrand}`,
       },
     },
     openGraph: {

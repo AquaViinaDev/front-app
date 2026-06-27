@@ -23,7 +23,7 @@ export async function generateMetadata(props: {
       languages: {
         ru: "https://aquaviina.md/ru/politica-de-confidentialitate",
         ro: "https://aquaviina.md/ro/politica-de-confidentialitate",
-        "x-default": "https://aquaviina.md/ru/politica-de-confidentialitate",
+        "x-default": "https://aquaviina.md/ro/politica-de-confidentialitate",
       },
     },
     openGraph: {

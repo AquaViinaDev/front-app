@@ -6,6 +6,7 @@ import { PageLayout } from "@components/layout/PageLayout";
 import Image from "next/image";
 import { Button, CartAmount, CartIcon } from "@components/common";
 import { resolveMediaUrl } from "@lib/api";
+import { buildProductPath } from "@lib/seo";
 import { mapProductForLocale } from "./utils";
 import styles from "./ProductPage.module.scss";
 import { useOrder } from "@components/CartPage/CartContext";
@@ -393,7 +394,16 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
     setShowCounter(Boolean(currentItem));
   }, [currentItem]);
 
-  const canonicalProductUrl = `https://aquaviina.md/${locale}/products/${safeLocalizedProduct?.id ?? id}`;
+  const canonicalProductPath = safeLocalizedProduct
+    ? buildProductPath(
+        {
+          id: String(safeLocalizedProduct.id ?? id),
+          name: typeof safeLocalizedProduct.name === "string" ? safeLocalizedProduct.name : productName,
+        },
+        locale as "ru" | "ro"
+      )
+    : `/${locale}/products/${id}`;
+  const canonicalProductUrl = `https://aquaviina.md${canonicalProductPath}`;
   const additionalProperties = orderedCharacteristics
     .filter(([name, value]) => name.trim().length > 0 && value.trim().length > 0)
     .slice(0, 30)
@@ -487,7 +497,7 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
         "@type": "ListItem",
         position: 3,
         name: productName,
-        item: `https://aquaviina.md/${locale}/products/${safeLocalizedProduct?.id ?? id}`,
+        item: canonicalProductUrl,
       },
     ],
   } : null;

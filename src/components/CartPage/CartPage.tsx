@@ -7,6 +7,7 @@ import { CartItem, useOrder, UserInfo } from "@components/CartPage/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductItemType } from "./components/CartProductItem/CartProductItem";
 import { getCartProducts, sendOrder } from "@lib/api";
+import { buildProductPath } from "@lib/seo";
 import { toast } from "react-toastify";
 import { useLocale, useTranslations } from "use-intl";
 
@@ -164,7 +165,7 @@ const CartPage = () => {
         qty: Number(item.qty),
         totalPrice: Number(item.price * item.qty),
         productId: item.id,
-        productUrl: `${productBaseUrl}/${local}/products/${item.id}`,
+        productUrl: `${productBaseUrl}${buildProductPath(item, local as "ru" | "ro")}`,
       })),
       userInfo: {
         name: userInfo.name,

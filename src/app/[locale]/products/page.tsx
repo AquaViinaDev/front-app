@@ -78,7 +78,7 @@ export async function generateMetadata(props: {
         "ro-MD": "https://aquaviina.md/ro/products",
         ru: "https://aquaviina.md/ru/products",
         ro: "https://aquaviina.md/ro/products",
-        "x-default": "https://aquaviina.md/ru/products",
+        "x-default": "https://aquaviina.md/ro/products",
       },
     },
     openGraph: {

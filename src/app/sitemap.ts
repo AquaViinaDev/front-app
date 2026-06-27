@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { buildProductPath, normalizeSeoSlug } from "@lib/seo";
 
 const SITE_URL = "https://aquaviina.md";
 const LOCALES = ["ru", "ro"] as const;
@@ -11,12 +12,14 @@ type SitemapProduct = {
 	id?: string;
 	slug?: string;
 	updatedAt?: string;
+	name?: string | { ru?: string; ro?: string };
 };
 
 type SitemapProductsResponse =
 	| SitemapProduct[]
 	| {
 			items?: SitemapProduct[];
+			totalPages?: number;
 	  };
 
 type FilterItem = {
@@ -29,20 +32,34 @@ type FiltersResponse = {
 	productType?: FilterItem[];
 };
 
-const normalizeSlug = (value: string) => {
-	const trimmed = value.trim().toLowerCase();
-	const normalized = trimmed
-		.replace(/ă/g, "a")
-		.replace(/â/g, "a")
-		.replace(/î/g, "i")
-		.replace(/ș/g, "s")
-		.replace(/ş/g, "s")
-		.replace(/ț/g, "t")
-		.replace(/ţ/g, "t");
-	return normalized
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-+|-+$/g, "")
-		.replace(/--+/g, "-");
+const fetchProductsForSitemap = async () => {
+	const productsResponse = (await fetch(`${SITE_URL}/api/products?page=1&limit=200`, {
+		next: { revalidate: 3600 },
+	})
+		.then((r) => (r.ok ? r.json() : null))
+		.catch(() => null)) as SitemapProductsResponse | null;
+
+	const productsData = Array.isArray(productsResponse)
+		? productsResponse
+		: Array.isArray(productsResponse?.items)
+			? productsResponse.items
+			: [];
+
+	if (productsData.length > 0) {
+		return productsData;
+	}
+
+	const fallbackResponse = (await fetch(`${SITE_URL}/api/sitemap-products`, {
+		next: { revalidate: 3600 },
+	})
+		.then((r) => (r.ok ? r.json() : []))
+		.catch(() => [])) as SitemapProductsResponse;
+
+	return Array.isArray(fallbackResponse)
+		? fallbackResponse
+		: Array.isArray(fallbackResponse?.items)
+			? fallbackResponse.items
+			: [];
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -53,24 +70,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			const normalized = path ? `${locale}/${path}` : `${locale}`;
 			staticPages.push({
 				url: `${SITE_URL}/${normalized}`,
-				lastModified: new Date(),
 				changeFrequency: "weekly",
 				priority: path === "" ? 1.0 : 0.85,
 			});
 		});
 	});
 
-	const products = (await fetch(`${SITE_URL}/api/sitemap-products`, {
-		next: { revalidate: 3600 },
-	})
-		.then((r) => r.json())
-		.catch(() => [])) as SitemapProductsResponse;
-
-	const productsData = Array.isArray(products)
-		? products
-		: Array.isArray(products?.items)
-			? products.items
-			: [];
+	const productsData = await fetchProductsForSitemap();
 
 	const productPages: MetadataRoute.Sitemap = [];
 
@@ -79,9 +85,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		if (!slugOrId) return;
 
 		LOCALES.forEach((locale) => {
+			const lastModified = p.updatedAt ? new Date(p.updatedAt) : undefined;
 			productPages.push({
-				url: `${SITE_URL}/${locale}/products/${slugOrId}`,
-				lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
+				url: `${SITE_URL}${buildProductPath({ id: slugOrId, name: p.name }, locale)}`,
+				...(lastModified && !Number.isNaN(lastModified.getTime()) ? { lastModified } : {}),
 				changeFrequency: "monthly",
 				priority: 0.8,
 			});
@@ -97,12 +104,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const brandPages: MetadataRoute.Sitemap = [];
 	(filters.brand ?? []).forEach((item) => {
 		if (!item?.ro) return;
-		const slug = normalizeSlug(item.ro);
+		const slug = normalizeSeoSlug(item.ro);
 		if (!slug) return;
 		LOCALES.forEach((locale) => {
 			brandPages.push({
 				url: `${SITE_URL}/${locale}/brands/${slug}`,
-				lastModified: new Date(),
 				changeFrequency: "weekly",
 				priority: 0.7,
 			});
@@ -112,12 +118,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const typePages: MetadataRoute.Sitemap = [];
 	(filters.productType ?? []).forEach((item) => {
 		if (!item?.ro) return;
-		const slug = normalizeSlug(item.ro);
+		const slug = normalizeSeoSlug(item.ro);
 		if (!slug) return;
 		LOCALES.forEach((locale) => {
 			typePages.push({
 				url: `${SITE_URL}/${locale}/types/${slug}`,
-				lastModified: new Date(),
 				changeFrequency: "weekly",
 				priority: 0.7,
 			});

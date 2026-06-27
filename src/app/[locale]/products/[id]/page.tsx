@@ -1,6 +1,7 @@
 import { getProductById, resolveMediaUrl } from "@lib/api";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { buildProductPath, getProductLookupId } from "@lib/seo";
 import ProductPageClient from "./ProductPageClient";
 import { mapProductForLocale } from "./utils";
 
@@ -14,6 +15,7 @@ export type ProductPageTypeProps = {
 export async function generateMetadata({ params }: ProductPageTypeProps): Promise<Metadata> {
   try {
     const { id, locale } = await params;
+    const lookupId = getProductLookupId(id);
 
     if (!id || !locale) {
       console.error("Product metadata missing params", { params });
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
       };
     }
 
-    const product = await getProductById(id, locale);
+    const product = await getProductById(lookupId, locale);
 
     if (!product) {
       return {
@@ -42,6 +44,10 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
     }
 
   const isRo = locale === "ro";
+  const canonicalPath = buildProductPath(
+    { id: String(product.id ?? lookupId), name: product.name as never },
+    locale as "ru" | "ro"
+  );
   const title = isRo
     ? `${localizedProduct.name} — filtru de apă AquaViina`
     : `${localizedProduct.name} — фильтр для воды AquaViina`;
@@ -74,19 +80,19 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
       title,
       description,
       alternates: {
-        canonical: `https://aquaviina.md/${locale}/products/${id}`,
+        canonical: `https://aquaviina.md${canonicalPath}`,
         languages: {
-          "ru-MD": `https://aquaviina.md/ru/products/${id}`,
-          "ro-MD": `https://aquaviina.md/ro/products/${id}`,
-          ru: `https://aquaviina.md/ru/products/${id}`,
-          ro: `https://aquaviina.md/ro/products/${id}`,
-          "x-default": `https://aquaviina.md/ru/products/${id}`,
+          "ru-MD": `https://aquaviina.md${buildProductPath({ id: String(product.id ?? lookupId), name: product.name as never }, "ru")}`,
+          "ro-MD": `https://aquaviina.md${buildProductPath({ id: String(product.id ?? lookupId), name: product.name as never }, "ro")}`,
+          ru: `https://aquaviina.md${buildProductPath({ id: String(product.id ?? lookupId), name: product.name as never }, "ru")}`,
+          ro: `https://aquaviina.md${buildProductPath({ id: String(product.id ?? lookupId), name: product.name as never }, "ro")}`,
+          "x-default": `https://aquaviina.md${buildProductPath({ id: String(product.id ?? lookupId), name: product.name as never }, "ro")}`,
         },
       },
       openGraph: {
         title,
         description,
-        url: `https://aquaviina.md/${locale}/products/${id}`,
+        url: `https://aquaviina.md${canonicalPath}`,
         siteName: "AquaViina",
         type: "website",
         images: resolvedImage ? [resolvedImage] : undefined,
@@ -109,19 +115,28 @@ export async function generateMetadata({ params }: ProductPageTypeProps): Promis
 
 const ProductPage = async ({ params }: ProductPageTypeProps) => {
   const { id, locale } = await params;
+  const lookupId = getProductLookupId(id);
 
   if (!id || !locale) {
     console.error("Product page missing params", { params });
     notFound();
   }
 
-  const product = await getProductById(id, locale);
+  const product = await getProductById(lookupId, locale);
 
   if (!product) {
     notFound();
   }
 
-  return <ProductPageClient id={id} locale={locale} initialProduct={product} />;
+  const canonicalPath = buildProductPath(
+    { id: String(product.id ?? lookupId), name: product.name as never },
+    locale as "ru" | "ro"
+  );
+  if (`/${locale}/products/${id}` !== canonicalPath) {
+    permanentRedirect(canonicalPath);
+  }
+
+  return <ProductPageClient id={lookupId} locale={locale} initialProduct={product} />;
 };
 
 export default ProductPage;

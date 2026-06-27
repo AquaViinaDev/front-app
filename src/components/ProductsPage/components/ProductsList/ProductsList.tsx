@@ -3,6 +3,7 @@
 import classNames from "classnames";
 import { PreviewProductItem } from "../PreviewProductItem";
 import { Locale, Product } from "@types";
+import { buildProductSlug } from "@lib/seo";
 import { useLocale } from "use-intl";
 import { Skeleton } from "@components/common";
 
@@ -48,7 +49,7 @@ const ProductsList = ({ data, isLoading, isFetched }: ProductsListProps) => {
           price={product.price}
           oldPrice={product.oldPrice}
           isInStock={product.inStock}
-          link={`/products/${product.id}`}
+          link={`/products/${buildProductSlug(product, locale)}`}
         />
       ))}
     </ul>
