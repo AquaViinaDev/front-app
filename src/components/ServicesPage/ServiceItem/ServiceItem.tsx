@@ -1,6 +1,7 @@
 import { memo, useState } from "react";
 import { Button } from "@components/common";
 import { useTranslations } from "use-intl";
+import classNames from "classnames";
 
 import styles from "./SecviceItem.module.scss";
 
@@ -117,7 +118,14 @@ const ServiceItem = memo(
             className={expanded ? styles.descriptionExpanded : styles.descriptionCollapsed}
           >
             {paragraphs.map((paragraph, index) => (
-              <p key={index} className={styles.descriptionText}>
+              <p
+                key={index}
+                className={classNames(styles.descriptionText, {
+                  [styles.descriptionPriceBlock]:
+                    paragraph.startsWith("Стоимость услуг") ||
+                    paragraph.startsWith("Tarife servicii"),
+                })}
+              >
                 {paragraph}
               </p>
             ))}

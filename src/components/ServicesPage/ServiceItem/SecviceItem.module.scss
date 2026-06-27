@@ -67,7 +67,7 @@
 }
 
 .descriptionExpanded {
-  max-height: 420px;
+  max-height: none;
   opacity: 1;
 }
 
@@ -78,6 +78,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  white-space: pre-line;
 }
 
 .descriptionCollapsed .descriptionText {
@@ -86,6 +87,10 @@
 
 .descriptionExpanded .descriptionText {
   -webkit-line-clamp: unset;
+}
+
+.descriptionPriceBlock {
+  margin-top: 1.5em;
 }
 
 .readMore {
