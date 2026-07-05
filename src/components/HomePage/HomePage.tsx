@@ -18,7 +18,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.root}>
-      <HeroSection onConsultClick={() => router.push(`/${locale}${RoutesEnum.Products}`)} />ru/products
+      <HeroSection onConsultClick={() => router.push(`/${locale}${RoutesEnum.Products}`)} />
       <CategoriesSection />
       <WorkStepperSection />
       <CommunicationSection />
