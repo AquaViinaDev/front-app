@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageHero from "@components/wf/PageHero";
 import OrderForm from "@components/wf/OrderForm";
+import ReplacementCalc from "@components/wf/ReplacementCalc";
 import { pageMeta } from "@components/wf/seo";
 import { PHONE, PHONE_HREF } from "@components/wf/content";
 import wf from "@components/wf/wf.module.scss";
@@ -40,6 +41,7 @@ const T = {
       "Через полгода напоминаем о следующей замене.",
     ],
     formTitle: "Заказать замену картриджей",
+    calcCta: "Узнать цену замены",
     formText: "Оставьте имя и телефон — перезвоним и подберём картриджи под вашу систему.",
     order: "Заявка: замена картриджей",
     other: "Не нашли свою систему?",
@@ -62,6 +64,7 @@ const T = {
       "Peste șase luni îți amintim de următoarea înlocuire.",
     ],
     formTitle: "Comandă înlocuirea cartușelor",
+    calcCta: "Află prețul înlocuirii",
     formText: "Lasă numele și telefonul — te sunăm și alegem cartușele pentru sistemul tău.",
     order: "Cerere: înlocuirea cartușelor",
     other: "Nu ți-ai găsit sistemul?",
@@ -91,14 +94,20 @@ const Page = async ({ params }: { params: Promise<{ locale: "ru" | "ro" }> }) =>
     <>
       <PageHero eyebrow={t.eyebrow} title={t.title} text={t.text}>
         <div className={wf.actions}>
-          <a className={`${wf.btn} ${wf.btnAccent}`} href="#order">
-            {t.formTitle}
+          <a className={`${wf.btn} ${wf.btnAccent}`} href="#podbor-zameny">
+            {t.calcCta}
           </a>
           <a className={`${wf.btn} ${wf.btnGhost}`} href={PHONE_HREF}>
             {PHONE}
           </a>
         </div>
       </PageHero>
+
+      <section className={`${wf.section} ${wf.sectionSoft}`} id="podbor-zameny">
+        <div className={wf.container}>
+          <ReplacementCalc />
+        </div>
+      </section>
 
       <section className={wf.section}>
         <div className={`${wf.container} ${wf.prose}`}>

@@ -340,6 +340,25 @@ export const sendConsultation = async (
   return res.json();
 };
 
+// Заявка «Замена картриджей — подбор» с фото фильтра (multipart → /service-orders/replacement)
+export const sendReplacementOrder = async (form: FormData, locale?: string) => {
+  const res = await fetch(buildApiUrl("service-orders/replacement", locale), {
+    method: "POST",
+    body: form,
+  });
+
+  if (!res.ok) {
+    let message = "Failed to send replacement order";
+    try {
+      const data = await res.json();
+      if (data?.message) message = Array.isArray(data.message) ? data.message.join(", ") : String(data.message);
+    } catch {}
+    throw new Error(message);
+  }
+
+  return res.json();
+};
+
 export const sendServiceOrder = async (
   orderData: {
     name: string;
