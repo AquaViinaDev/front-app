@@ -1,0 +1,344 @@
+@use "variables" as *;
+@use "media" as *;
+
+// Главная в новом виде (по образцу filterpmr.md)
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  padding: 72px 24px 80px;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(14, 165, 233, 0.16), transparent 45%),
+    linear-gradient(180deg, var(--wf-hero-50) 0%, #fff 100%);
+
+  @media (max-width: $tabletScreen) {
+    padding: 36px 16px 48px;
+  }
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 48px;
+
+  @media (max-width: $tabletScreen) {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.heroTitle {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--wf-hero-950);
+  font-size: clamp(34px, 4.15vw, 54px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+.heroAccent {
+  color: var(--wf-hero-600);
+}
+
+.heroText {
+  max-width: 640px;
+  margin: 22px 0 0;
+  color: #475569;
+  font-size: 18px;
+  line-height: 1.6;
+
+  @media (max-width: $tabletScreen) {
+    font-size: 16px;
+  }
+}
+
+.heroBullets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 22px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: 30px;
+    color: var(--wf-ink);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--wf-hero-100);
+    color: var(--wf-hero-600);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  @media (max-width: $mobileScreen + 100) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.heroMedia {
+  position: relative;
+}
+
+.heroImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3.4;
+  object-fit: cover;
+  border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(8, 47, 73, 0.18);
+}
+
+.heroCall {
+  position: absolute;
+  left: -24px;
+  bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--wf-shadow);
+  color: var(--wf-ink);
+  text-decoration: none;
+
+  span {
+    color: var(--wf-muted);
+    font-size: 13px;
+  }
+
+  strong {
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  @media (max-width: $tabletScreen) {
+    left: 12px;
+    bottom: 12px;
+  }
+}
+
+.podborCard {
+  border-color: var(--wf-accent);
+  background: linear-gradient(180deg, #fff7f0 0%, #fff 100%);
+}
+
+.tag {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--wf-primary-soft);
+  color: var(--wf-primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.service {
+  padding: 88px 24px;
+  background: linear-gradient(135deg, var(--wf-hero-950) 0%, #0c4a6e 100%);
+  color: #fff;
+
+  @media (max-width: $tabletScreen) {
+    padding: 56px 16px;
+  }
+}
+
+.serviceInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+
+  @media (max-width: $tabletScreen) {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.serviceEyebrow {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.serviceTitle {
+  margin: 14px 0 0;
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.serviceText {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.btnLight {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: #fff;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.serviceList {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  strong {
+    font-size: 17px;
+  }
+
+  span {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 260px;
+  padding: 28px 32px;
+  border: 1px solid var(--wf-line);
+  border-radius: var(--wf-radius);
+  background: #fff;
+  box-shadow: var(--wf-shadow);
+  color: var(--wf-ink);
+  text-decoration: none;
+
+  strong {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  span {
+    color: var(--wf-muted);
+    font-size: 14px;
+  }
+
+  &:hover {
+    border-color: var(--wf-primary);
+  }
+
+  @media (max-width: $mobileScreen) {
+    min-width: 100%;
+  }
+}
+
+.reviewsStub {
+  min-height: 120px;
+  border-radius: var(--wf-radius);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--wf-surface-soft),
+    var(--wf-surface-soft) 12px,
+    #fff 12px,
+    #fff 24px
+  );
+}
+
+.cta {
+  padding: 80px 24px;
+  background: linear-gradient(135deg, var(--wf-primary) 0%, var(--wf-primary-dark) 100%);
+  color: #fff;
+
+  @media (max-width: $tabletScreen) {
+    padding: 52px 16px;
+  }
+}
+
+.ctaInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+
+  @media (max-width: $tabletScreen) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.ctaTitle {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.ctaText {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.ctaPhone {
+  display: inline-block;
+  margin-top: 18px;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.ctaForm {
+  padding: 26px;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--wf-ink);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.18);
+}

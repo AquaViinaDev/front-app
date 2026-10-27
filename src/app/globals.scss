@@ -34,3 +34,47 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* ── Новый вид (по образцу filterpmr.md), 28.10.2026 ── */
+:root {
+  --wf-primary: #0879e8;
+  --wf-primary-dark: #0564c4;
+  --wf-primary-soft: #eaf5ff;
+  --wf-accent: #ff7a1a;
+  --wf-accent-dark: #e96305;
+  --wf-ink: #10243e;
+  --wf-muted: #617187;
+  --wf-line: #dce7f1;
+  --wf-surface: #ffffff;
+  --wf-surface-soft: #f5f9fd;
+  --wf-hero-950: #082f49;
+  --wf-hero-600: #0284c7;
+  --wf-hero-100: #e0f2fe;
+  --wf-hero-50: #f0f9ff;
+  --wf-footer: #0a1d3a;
+  --wf-radius: 18px;
+  --wf-shadow: 0 10px 30px rgba(16, 36, 62, 0.08);
+}
+
+body {
+  background-color: var(--wf-surface-soft);
+}
+
+/* Пометка «уточнить у Эдуарда» — видна только на копии, ищется по data-ask */
+[data-ask] {
+  outline: 2px dashed #f59e0b;
+  outline-offset: 4px;
+  position: relative;
+}
+[data-ask]::after {
+  content: "❓ " attr(data-ask);
+  display: block;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+}

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { HomePage } from "@components/HomePage";
+import { FAQ } from "@components/wf/content";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -10,7 +11,7 @@ export async function generateMetadata(props: {
     ru: {
       title: "Фильтр для воды в Молдове — купить в Aqua Viina",
       description:
-        "Купить фильтр для воды в Молдове: кувшины, проточные системы и обратный осмос. Aqua Viina, доставка по Кишинёву и всей Молдове, установка и сервис.",
+        "Купить фильтр для воды в Молдове: обратный осмос, проточные и магистральные фильтры, картриджи. Aqua Viina, доставка по Кишинёву и всей Молдове, установка и сервис.",
     },
     ro: {
       title: "Filtre de apă în Moldova — Aqua Viina",
@@ -48,70 +49,17 @@ export async function generateMetadata(props: {
 }
 
 const Home = async ({ params }: { params: Promise<{ locale: "ru" | "ro" }> }) => {
-  const faq = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Какие фильтры для воды вы продаете?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "В нашем каталоге есть кувшины, проточные фильтры, обратный осмос и сменные картриджи.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Есть ли доставка по Молдове?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Да, доставляем по Кишинёву и по всей Молдове.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Помогаете с установкой фильтров?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Да, выполняем установку и обслуживание фильтров для воды.",
-        },
-      },
-    ],
-  };
-
-  const faqRo = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Ce tipuri de filtre de apă vindeți?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "În catalog găsiți căni filtrante, filtre de debit, osmoză inversă și cartușe.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Livrați în toată Moldova?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Da, livrăm în Chișinău și în toată Moldova.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Oferiți instalare pentru filtre?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Da, oferim instalare și service pentru filtrele de apă.",
-        },
-      },
-    ],
-  };
-
   const { locale } = await params;
-  const schema = locale === "ro" ? faqRo : faq;
+  // Разметка FAQ = видимые вопросы на главной (components/wf/content.ts)
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ[locale === "ro" ? "ro" : "ru"].map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
 
   return (
     <>

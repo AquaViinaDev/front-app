@@ -1,0 +1,42 @@
+# Сборка нового вида (дизайн по filterpmr.md) — ТОЛЬКО для тестовой копии test.aquaviina.md (28.10.2026).
+# Ветка redesign-filterpmr → образ ghcr.io/aquaviinadev/front-app:test-redesign-<коммит> и test-redesign-latest.
+# Боевые образы из этой ветки не собираются.
+name: image-redesign
+
+on:
+  push:
+    branches: [redesign-filterpmr]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: short sha
+        run: echo "SHA=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://test.aquaviina.md/api
+            API_INTERNAL_URL=http://server:3000
+            NEXT_PUBLIC_MEDIA_URL=https://test.aquaviina.md
+            NEXT_PUBLIC_DEFAULT_LOCALE=ru
+          tags: |
+            ghcr.io/aquaviinadev/front-app:test-redesign-${{ env.SHA }}
+            ghcr.io/aquaviinadev/front-app:test-redesign-latest
+          cache-from: type=gha,scope=test
+          cache-to: type=gha,mode=max,scope=redesign
