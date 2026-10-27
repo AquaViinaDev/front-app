@@ -138,6 +138,7 @@ const BrandPage = async ({
       />
       <ProductsListWrapper
         defaultBrand={defaultBrand}
+        initialFilters={filters}
         basePathname={basePathname}
         resetPathname={`/${params.locale}/products`}
       />

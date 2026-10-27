@@ -138,6 +138,7 @@ const TypePage = async ({
       />
       <ProductsListWrapper
         defaultType={defaultType}
+        initialFilters={filters}
         basePathname={basePathname}
         resetPathname={`/${params.locale}/products`}
       />
