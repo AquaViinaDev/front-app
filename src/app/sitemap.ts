@@ -1,11 +1,22 @@
 import { MetadataRoute } from "next";
 import { buildProductPath, normalizeSeoSlug } from "@lib/seo";
+import { ARTICLES } from "@components/wf/articles";
 
 const SITE_URL = "https://aquaviina.md";
 const LOCALES = ["ru", "ro"] as const;
+// Страницы нового вида (одинаковый адрес для RU и RO)
+const NEW_PAGES = [
+	"podbor-filtra",
+	"zamena-kartridzhey",
+	"promos",
+	"articles",
+	...ARTICLES.map((article) => `articles/${article.slug}`),
+	"contacts",
+	"garantiya-i-vozvrat",
+];
 const STATIC_PATHS_BY_LOCALE: Record<(typeof LOCALES)[number], readonly string[]> = {
-	ru: ["", "products", "services", "about", "filtry-dlya-vody-v-moldove"],
-	ro: ["", "products", "services", "about", "filtre-apa-moldova"],
+	ru: ["", "products", "services", "about", "filtry-dlya-vody-v-moldove", ...NEW_PAGES],
+	ro: ["", "products", "services", "about", "filtre-apa-moldova", ...NEW_PAGES],
 };
 
 type SitemapProduct = {
