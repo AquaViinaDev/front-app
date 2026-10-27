@@ -41,11 +41,16 @@ const FLOW: Record<FilterType, { colbs: Colbs[]; suggest?: Colbs; tank: boolean 
   unknown: { colbs: [], tank: false },
 };
 
-const KINDS: { key: FilterType; img?: string }[] = [
-  { key: "open", img: "/images/zamena/open.jpg" },
-  { key: "closed", img: "/images/zamena/closed.jpg" },
-  { key: "magistral", img: "/images/zamena/magistral.jpg" },
-  { key: "undersink", img: "/images/zamena/undersink.jpg" },
+// Две фото на карточку: <тип>-1.jpg — основная, <тип>-2.jpg — вторая (система открыта / видны колбы).
+// Компьютер: при наведении основная плавно меняется на вторую. Телефон: сразу видна вторая.
+// Чтобы заменить фото — просто подменить файлы в public/images/zamena/ (те же имена).
+// ⚠️ ВРЕМЕННО: closed-2.jpg — картриджи ASUS из каталога; заменить на фото ASUS с открытой крышкой,
+// когда Эдуард пришлёт (положит в data/site-photos).
+const KINDS: { key: FilterType; img1?: string; img2?: string }[] = [
+  { key: "open", img1: "/images/zamena/open-1.jpg", img2: "/images/zamena/open-2.jpg" },
+  { key: "closed", img1: "/images/zamena/closed-1.jpg", img2: "/images/zamena/closed-2.jpg" },
+  { key: "magistral", img1: "/images/zamena/magistral-1.jpg", img2: "/images/zamena/magistral-2.jpg" },
+  { key: "undersink", img1: "/images/zamena/undersink-1.jpg", img2: "/images/zamena/undersink-2.jpg" },
   { key: "unknown" },
 ];
 
@@ -62,7 +67,15 @@ const T = {
       unknown: ["Не знаю — пришлю фото", "Сфотографируйте фильтр, мы сами определим"],
     } as Record<FilterType, [string, string]>,
     q2: "Сколько всего колб?",
-    q2hint: "Считайте все колбы и цилиндры, включая мембрану. Бак не считайте.",
+    q2steps: [
+      "Откройте крышку или дверцу фильтра.",
+      "Посчитайте все колбы, которые видите.",
+      "Бак не считайте — это большой металлический или пластиковый баллон.",
+      "Нажмите нужное число ниже.",
+    ],
+    q2photo: "Не получается посчитать? Прикрепите фото — посчитаем сами.",
+    q3hint: "Бак — большой металлический или пластиковый баллон рядом с фильтром, обычно стоит отдельно.",
+    q4hint: "Насос — небольшой моторчик с проводом и вилкой в розетку. Нет провода — значит, насоса нет.",
     suggest: "обычно",
     more: "8 и больше",
     q3: "Есть ли бак для воды?",
@@ -103,7 +116,15 @@ const T = {
       unknown: ["Nu știu — trimit o poză", "Fotografiază filtrul, îl identificăm noi"],
     } as Record<FilterType, [string, string]>,
     q2: "Câte carcase are în total?",
-    q2hint: "Numără toate carcasele și cilindrii, inclusiv membrana. Rezervorul nu se numără.",
+    q2steps: [
+      "Deschide capacul sau ușița filtrului.",
+      "Numără toate carcasele pe care le vezi.",
+      "Rezervorul nu se numără — este balonul mare din metal sau plastic.",
+      "Apasă numărul potrivit mai jos.",
+    ],
+    q2photo: "Nu reușești să numeri? Atașează o poză — numărăm noi.",
+    q3hint: "Rezervorul este balonul mare din metal sau plastic de lângă filtru, de obicei stă separat.",
+    q4hint: "Pompa este un motoraș mic cu fir și ștecher în priză. Dacă nu are fir — nu are pompă.",
     suggest: "de obicei",
     more: "8 sau mai multe",
     q3: "Are rezervor pentru apă?",
@@ -286,9 +307,13 @@ const ReplacementCalc = () => {
                     className={styles.kind}
                     onClick={() => setType(kind.key)}
                   >
-                    {kind.img ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={kind.img} alt={t.kinds[kind.key][0]} loading="lazy" />
+                    {kind.img1 ? (
+                      <span className={styles.kindImg}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img className={styles.img1} src={kind.img1} alt={t.kinds[kind.key][0]} loading="lazy" />
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img className={styles.img2} src={kind.img2} alt="" aria-hidden="true" loading="lazy" />
+                      </span>
                     ) : (
                       <span className={styles.kindPhoto}>📷</span>
                     )}
@@ -303,7 +328,11 @@ const ReplacementCalc = () => {
           {current === "colbs" && flow && (
             <>
               <h3 className={styles.question}>{t.q2}</h3>
-              <p className={styles.hint}>{t.q2hint}</p>
+              <ol className={styles.bigSteps}>
+                {t.q2steps.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ol>
               <div className={styles.optionsGrid}>
                 {flow.colbs.map((n) =>
                   option(
@@ -315,12 +344,16 @@ const ReplacementCalc = () => {
                 )}
                 {option(t.dontKnow, () => setColbs("unknown"))}
               </div>
+              <button type="button" className={styles.bigLink} onClick={() => setColbs("unknown")}>
+                📷 {t.q2photo}
+              </button>
             </>
           )}
 
           {current === "tank" && (
             <>
               <h3 className={styles.question}>{t.q3}</h3>
+              <p className={styles.bigHint}>{t.q3hint}</p>
               {yesNo(setTank)}
             </>
           )}
@@ -328,6 +361,7 @@ const ReplacementCalc = () => {
           {current === "pump" && (
             <>
               <h3 className={styles.question}>{t.q4}</h3>
+              <p className={styles.bigHint}>{t.q4hint}</p>
               {yesNo(setPump)}
             </>
           )}
@@ -352,7 +386,7 @@ const ReplacementCalc = () => {
             <form className={formStyles.form} onSubmit={submit}>
               <div className={styles.photos}>
                 <p className={styles.photoTitle}>{t.photo}</p>
-                <p className={styles.hint}>{t.photoHint}</p>
+                <p className={styles.bigHint}>{t.photoHint}</p>
                 <div className={styles.thumbs}>
                   {files.map((file, i) => (
                     <div className={styles.thumb} key={`${file.name}-${i}`}>
