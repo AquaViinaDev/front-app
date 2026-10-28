@@ -11,6 +11,7 @@ import { mapProductForLocale } from "./utils";
 import styles from "./ProductPage.module.scss";
 import { useOrder } from "@components/CartPage/CartContext";
 import { useRouter } from "next/navigation";
+import { track } from "@lib/pixel";
 
 type ProductPageClientProps = {
   id: string;
@@ -123,6 +124,19 @@ const ProductPageClient = ({ id, locale, initialProduct }: ProductPageClientProp
       resolvedImage: image,
     };
   }, [product, locale]);
+
+  const viewedId = product && typeof product === "object" ? String(product.id ?? id) : "";
+  useEffect(() => {
+    if (!viewedId || !productName) return;
+    const price = Number((product as Record<string, unknown> | null)?.price);
+    track("ViewContent", {
+      content_ids: [viewedId],
+      content_type: "product",
+      content_name: productName,
+      ...(price > 0 ? { value: price, currency: "MDL" } : {}),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewedId, productName]);
 
   const shouldDisableOptimization = (src?: string | null) =>
     !!src && (!src.startsWith("/") || src.toLowerCase().includes(".heic"));
