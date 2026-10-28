@@ -360,6 +360,7 @@ export const sendReplacementOrder = async (form: FormData, locale?: string) => {
     } catch {}
     throw new Error(message);
   }
+  track("Lead", { content_category: "replacement" });
 
   return res.json();
 };
