@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import PixelEvents from "@components/common/PixelEvents";
 import "./globals.css";
 import "../globals.scss";
 import Script from "next/script";
@@ -119,6 +120,7 @@ t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,do
             __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1" />`,
           }}
         />
+        <PixelEvents />
         <Providers>
           <div
             data-scroll-behavior="smooth"

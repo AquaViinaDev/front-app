@@ -1,3 +1,5 @@
+import { track } from "@lib/pixel";
+
 const SUPPORTED_LOCALES = ["ru", "ro"] as const;
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
@@ -317,6 +319,8 @@ export const sendOrder = async (orderData: unknown, locale?: string) => {
   if (!res.ok) {
     throw new Error("Failed to send order");
   }
+  const total = Number((orderData as { totalAmount?: unknown })?.totalAmount);
+  track("Lead", { content_category: "order", ...(total > 0 ? { value: total, currency: "MDL" } : {}) });
 
   return res.json();
 };
@@ -336,6 +340,7 @@ export const sendConsultation = async (
   if (!res.ok) {
     throw new Error("Failed to send consultation");
   }
+  track("Lead", { content_category: "consultation" });
 
   return res.json();
 };
@@ -379,6 +384,7 @@ export const sendServiceOrder = async (
   if (!res.ok) {
     throw new Error("Failed to send service order");
   }
+  track("Lead", { content_category: "service", content_name: orderData.orderName });
 
   return res.json();
 };
